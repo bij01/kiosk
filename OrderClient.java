@@ -7,6 +7,7 @@ import javax.swing.border.*;
 class OrderClient extends JFrame {
 	void init(){
 		setPosion(null);
+		test
 	}
 
 	public static void main(String[] args) {
