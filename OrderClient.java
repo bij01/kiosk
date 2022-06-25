@@ -5,7 +5,11 @@ import javax.swing.table.*;
 import javax.swing.border.*;
 
 class OrderClient extends JFrame {
+	void init(){
+		setPosion(null);
+	}
+
 	public static void main(String[] args) {
-		System.out.println("Hello World!");
+		new OrderClient().init();
 	}
 }
