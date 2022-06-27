@@ -22,4 +22,8 @@ class LeftPanel extends JPanel {
 	void test(){
 		System.out.println("µÇ³ª?");
 	}
+
+	void test2(){
+		System.out.println("amg!!!!");
+	}
 }
