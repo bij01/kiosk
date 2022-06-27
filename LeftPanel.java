@@ -13,9 +13,12 @@ class LeftPanel extends JPanel {
 	}
 
 	void init(){
+		
 		setSize(300, oc.HEIGHT);
 		setVisible(true);
 		setLayout(null);
 		setBackground(new Color(70, 70, 70));
+	}
+	void test(){
 	}
 }
