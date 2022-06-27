@@ -20,5 +20,6 @@ class LeftPanel extends JPanel {
 		setBackground(new Color(70, 70, 70));
 	}
 	void test(){
+		System.out.println("µÇ³ª?");
 	}
 }
