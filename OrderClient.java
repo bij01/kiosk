@@ -8,22 +8,25 @@ class OrderClient extends JFrame {
 	final int WIDTH = 1000;
 	final int HEIGHT = 700;
 
+	Container cp;
+	JPanel leftPanel;
+
 	void init(){
-		setTitle("T오더");
+		setTitle("KIOSK");
 		setSize(WIDTH, HEIGHT);
-		setPosition(WIDTH, HEIGHT);
+		setLocationRelativeTo(null);
+		setMain();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	void setPosition(int w_width, int w_height){  //윈도우 중앙으로 정렬
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		int x_position = (gd.getDisplayMode().getWidth()/2);
-		int y_position = (gd.getDisplayMode().getHeight()/2);
-		x_position = x_position - (w_width/2);
-		y_position = y_position - (w_height/2);
-		setBounds(x_position, y_position, w_width, w_height);	
-    }
+	void setMain(){
+		cp = getContentPane();
+		cp.setLayout(null);
+		JPanel leftPanel = new LeftPanel(this);
+		cp.setBackground(new Color(150, 150, 150));
+		cp.add(leftPanel);
+	}
 
 	public static void main(String[] args) {
 		new OrderClient().init();
