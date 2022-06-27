@@ -5,11 +5,11 @@ import javax.swing.table.*;
 import javax.swing.border.*;
 
 class OrderClient extends JFrame {
-	final int WIDTH = 1000;
-	final int HEIGHT = 700;
+	final int WIDTH = 700;
+	final int HEIGHT = 1000;
 
 	Container cp;
-	JPanel leftPanel;
+	JPanel leftPanel, mainPanel;
 
 	void init(){
 		setTitle("KIOSK");
@@ -23,9 +23,11 @@ class OrderClient extends JFrame {
 	void setMain(){
 		cp = getContentPane();
 		cp.setLayout(null);
-		JPanel leftPanel = new LeftPanel(this);
+		leftPanel = new LeftPanel(this);
+		mainPanel = new MainPanel(this);
 		cp.setBackground(new Color(150, 150, 150));
-		cp.add(leftPanel);
+		//cp.add(leftPanel);
+		cp.add(mainPanel);
 	}
 
 	public static void main(String[] args) {
