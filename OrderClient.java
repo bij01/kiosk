@@ -21,7 +21,7 @@ class OrderClient extends JFrame implements ActionListener {
 	public String inout;
 	
 	void testMode(){ // 바로 두번째 화면으로 넘어가기(개발 끝나면 삭제)
-		firstPanel.setVisible(true);
+		firstPanel.setVisible(false);
 		mainPanel.setVisible(true);
 		bottomPanel.setVisible(true);
 	}
