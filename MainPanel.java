@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -11,7 +10,7 @@ import javax.swing.border.*;
 class MainPanel extends JPanel implements Runnable {
 	OrderClient oc;
 	JPanel listPanel, sidePanel, cartPanel;
-	JButton cartBtn;
+	JButton cartBtn, listBtn;
 	JLabel cartLabel1, cartLabel2;
 	
 	MainPanel(OrderClient oc){
@@ -124,7 +123,6 @@ class MainPanel extends JPanel implements Runnable {
 		  }
 		return img;
 	}
-	
 	void setListPanel(){
 		listPanel = new JPanel();
 		listPanel.setBounds(120, 0, 564, 621);
@@ -132,14 +130,26 @@ class MainPanel extends JPanel implements Runnable {
 		listPanel.setLayout(new GridLayout(3, 3, 20, 20));
 		listPanel.setBorder(BorderFactory.createEmptyBorder(20 , 20 , 20 , 20));
 		for (int i=1; i<=9; i++){
-			String text = "menu" + i;
-			JButton btn = new JButton(text);
-			btn.setPreferredSize(new Dimension(200, 100));
-			listPanel.add(btn);
+			String listimagePath = "./src/coffee1_americano.png";
+			BufferedImage bufferedImage = null;
+			try {
+				bufferedImage = ImageIO.read(new File(listimagePath));
+			} catch (Exception e){
+				System.out.println(e);
+			}
+	        Image img = bufferedImage.getScaledInstance(120, 125, Image.SCALE_DEFAULT);
+	        ImageIcon listimage = new ImageIcon(img);
+		
+			String text = "아메리카노";
+			listBtn = new JButton(text, listimage);	
+			listBtn.setBackground(Color.WHITE);
+			listBtn.setFont(new Font("HYPOST",Font.BOLD,15));
+			listBtn.setVerticalTextPosition(listBtn.BOTTOM);  // 텍스트 아래로
+			listBtn.setHorizontalTextPosition(listBtn.CENTER);
+			listPanel.add(listBtn);
 		}
 		add(listPanel);
 	}
-	
 	void setSidePanel(){
 		sidePanel = new JPanel();
 		sidePanel.setBounds(0, 0, 120, 621);
