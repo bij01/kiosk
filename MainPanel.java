@@ -1,4 +1,5 @@
 import java.awt.*;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
@@ -44,15 +45,14 @@ class MainPanel extends JPanel implements Runnable {
 		setVisible(true);
 		setLayout(null);
 		setBackground(new Color(250, 250, 250));
-		Font font = new Font("맑은 고딕", Font.BOLD, 15);
+		Font font = new Font("HYPOST", Font.BOLD, 20);
 	}
 	
 	void addSubLabel(String name, String op1, String op2, String op3, String op4) {
 		cartCount += 1;
 		String labelNo = Integer.toString(cartCount);
 		JLabel subLabel = new JLabel(labelNo);
-		//subLabel.setBounds(0, 0, 684, 180);
-		//subLabel.setPreferredSize(new Dimension(684, 180));
+		subLabel.setFont(font);
 		subLabel.setVisible(true);
 		subLabel.setLayout(null);
 		subLabel.setBackground(new Color(70, 250, 200));
@@ -62,7 +62,7 @@ class MainPanel extends JPanel implements Runnable {
 		imageLabel.setBounds(30, 10, 50, 70);
 		JLabel nameLabel = new JLabel(name);
 		nameLabel.setBounds(90, 10, 230, 70);
-		nameLabel.setFont(font);
+		//nameLabel.setFont(font);
 		nameLabel.setBorder(new EtchedBorder());
 		nameLabel.setOpaque(true);
 		nameLabel.setBackground(new Color(250, 250, 250));
@@ -82,101 +82,14 @@ class MainPanel extends JPanel implements Runnable {
 		optionLabel3.setHorizontalAlignment(JLabel.CENTER);
 		optionLabel4.setHorizontalAlignment(JLabel.CENTER);
 		
-		optionLabel1.setFont(font);
-		optionLabel2.setFont(font);
-		optionLabel3.setFont(font);
-		optionLabel4.setFont(font);
 		
-		optionLabel1.setOpaque(true);
-		optionLabel2.setOpaque(true);
-		optionLabel3.setOpaque(true);
-		optionLabel4.setOpaque(true);
+		
 		
 		optionLabel1.setBackground(new Color(250, 250, 250));
 		optionLabel2.setBackground(new Color(250, 250, 250));
 		optionLabel3.setBackground(new Color(250, 250, 250));
 		optionLabel4.setBackground(new Color(250, 250, 250));
-		/*
-		JLabel countLabel = new JLabel("1");
-		countLabel.setBounds(560, 25, 100, 30);
-		countLabel.setOpaque(true);
-		countLabel.setHorizontalAlignment(JLabel.CENTER);
-		JButton countMinusBtn = new JButton("X");
-		countMinusBtn.addActionListener(e ->{
-			int count = Integer.parseInt(countLabel.getText());
-			count -= 1;
-			String newCount = Integer.toString(count);
-			if (newCount.equals("0")) {
-				JButton selfBtn = (JButton) e.getSource();
-				JLabel selfLabel = (JLabel) selfBtn.getParent().getParent();
-				System.out.println(selfLabel.getText());
-				//System.out.println(selfBtn.getParent());
-				int thisIndex = Integer.parseInt(selfLabel.getText());
-				System.out.println("Label: " + labelMap.get(thisIndex));
-				
-				// 삭제된 라벨의 index 번호가 마지막 번호가 아닐 경우 해당 index 번호 재정리
-				// 1, 2, 3, 4 중 - 2번 삭제 -> 3, 4 -> 2, 3 으로 자리를 옮김
-				
-				if (thisIndex < labelMap.size()) {
-					Vector<JLabel> tempV = new Vector<JLabel>();
-					for (int i=thisIndex + 1; i <= labelMap.size(); i++) {
-						JLabel label = new JLabel();
-						label = labelMap.get(i);
-						label.setText(Integer.toString(i));
-						tempV.add(label);
-						System.out.println(labelMap.get(i));
-					}
-					System.out.println("temp 사이즈: " + tempV.size());
-					int labelMapSize = labelMap.size();
-					for (int i=thisIndex; i <= labelMap.size(); i++) {
-						labelMap.remove(i);
-					}
-					cartSubPanel1.remove(selfLabel);
-					cartSubPanel1.repaint();
-					//i = 2 -> 0, i = 3 -> 1
-					
-					for(int i=thisIndex; i<labelMapSize; i++){
-						System.out.println("thisindex: " + (i-thisIndex) + "i:" + i + ", 라벨맵 사이즈: " + labelMapSize);
-						labelMap.put(i, tempV.get(i - thisIndex));
-						setLabel();
-					}
-					
-					cartSubPanel1.repaint();
-					setLabel();
-					cartSubPanel1.repaint();
-				} else {
-					labelMap.remove(thisIndex);
-					cartSubPanel1.remove(selfLabel);
-					cartSubPanel1.repaint();
-					setLabel();
-					cartSubPanel1.repaint();
-				}
-			} else {
-				countLabel.setText(newCount);
-			}
-		});
 		
-		JButton countPlusBtn = new JButton("+");
-		countPlusBtn.addActionListener(e ->{
-			addSubLabel("티라미수", "HOT", "MEDIUM", "추가안함", "얼음많이");
-		});
-		
-		countMinusBtn.setBounds(0, 0, 30, 30);
-		countPlusBtn.setBounds(70, 0, 30, 30);
-		countLabel.add(countMinusBtn);
-		countLabel.add(countPlusBtn);
-		subLabel.add(countLabel);
-		
-		JButton deleteBtn = new JButton("X");
-		deleteBtn.addActionListener(e ->{
-			labelMap.clear();
-			cartCount = 0;
-			cartSubPanel1.removeAll();
-			cartSubPanel1.repaint();
-		});
-		deleteBtn.setBounds(520, 25, 45, 45);
-		subLabel.add(deleteBtn);
-		*/
 		subLabel.add(imageLabel);
 		subLabel.add(nameLabel);
 		subLabel.add(optionLabel1);
@@ -190,7 +103,6 @@ class MainPanel extends JPanel implements Runnable {
 	}
 	
 	void setLabel() {
-		System.out.println("라벨맵 사이즈: "+labelMap.size());
 		for(int i=1; i<=labelMap.size(); i++){
 			cartSubPanel1.add(labelMap.get(i));
 			cartSubPanel1.repaint();
@@ -245,7 +157,7 @@ class MainPanel extends JPanel implements Runnable {
 		cartPanel.add(cartBtn);
 		
 		cartSubPanel1 = new JPanel();
-		cartSubPanel1.setBounds(0, 35, 684, 661);
+		cartSubPanel1.setBounds(60, 35, 564, 681);
 		cartSubPanel1.setVisible(true);
 		cartSubPanel1.setLayout(new GridLayout(7, 1, 10, 10));
 		cartSubPanel1.setBackground(new Color(70, 70, 200));
@@ -335,7 +247,7 @@ class MainPanel extends JPanel implements Runnable {
 		listScroll.setBounds(120, 0, 564, 621);
 		listScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		listScroll.getVerticalScrollBar().setUnitIncrement(18);
-		listScroll.getVerticalScrollBar().setBackground(new Color(80, 80, 80));
+		listScroll.getVerticalScrollBar().setPreferredSize(new Dimension(15, 0));
 		add(listScroll);
 	}
 	void setOptionPanel() {
