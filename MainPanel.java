@@ -81,8 +81,52 @@ class MainPanel extends JPanel implements Runnable {
 		JLabel imageLabel = new JLabel("");
 		imageLabel.setIcon(new ImageIcon(coffee1));
 		imageLabel.setBounds(30, 10, 50, 70);
+		JLabel nameLabel = new JLabel("에그 베이컨 과카몰리 샌드위치");
+		nameLabel.setBounds(90, 10, 230, 70);
+		nameLabel.setFont(font);
+		nameLabel.setBorder(new EtchedBorder());
+		nameLabel.setOpaque(true);
+		nameLabel.setBackground(new Color(250, 250, 250));
+		
+		JLabel optionLabel1 = new JLabel("HOT");
+		JLabel optionLabel2 = new JLabel("MEDIUM");
+		JLabel optionLabel3 = new JLabel("추가안함");
+		JLabel optionLabel4 = new JLabel("얼음많이");
+		
+		optionLabel1.setBounds(230+100, 10, 80, 30);
+		optionLabel2.setBounds(330+90, 10, 80, 30);
+		optionLabel3.setBounds(90, 10, 80, 30);
+		optionLabel4.setBounds(90, 10, 80, 30);
+		
+		optionLabel1.setHorizontalAlignment(JLabel.CENTER);
+		optionLabel2.setHorizontalAlignment(JLabel.CENTER);
+		optionLabel3.setHorizontalAlignment(JLabel.CENTER);
+		optionLabel4.setHorizontalAlignment(JLabel.CENTER);
+		
+		optionLabel1.setFont(font);
+		optionLabel2.setFont(font);
+		optionLabel3.setFont(font);
+		optionLabel4.setFont(font);
+		
+		optionLabel1.setOpaque(true);
+		optionLabel2.setOpaque(true);
+		optionLabel3.setOpaque(true);
+		optionLabel4.setOpaque(true);
+		
+		optionLabel1.setBackground(new Color(250, 250, 250));
+		optionLabel2.setBackground(new Color(250, 250, 250));
+		optionLabel3.setBackground(new Color(250, 250, 250));
+		optionLabel4.setBackground(new Color(250, 250, 250));
+		
 		cartSubPanel1.add(imageLabel);
+		cartSubPanel1.add(nameLabel);
+		cartSubPanel1.add(optionLabel1);
+		cartSubPanel1.add(optionLabel2);
+		cartSubPanel1.add(optionLabel3);
+		cartSubPanel1.add(optionLabel4);
+	
 		cartPanel.add(cartSubPanel1);
+		//
 		
 		JPanel cartSubPanel2 = new JPanel();
 		cartSubPanel2.setBounds(0, 750, 684, 35);
