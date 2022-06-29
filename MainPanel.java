@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Iterator;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -9,9 +11,13 @@ import javax.swing.border.*;
 
 class MainPanel extends JPanel implements Runnable {
 	OrderClient oc;
-	JPanel listPanel, sidePanel, cartPanel;
+	JPanel listPanel, sidePanel, cartPanel, optionPanel;
+	JPanel cartSubPanel1, cartSubPanel2;
 	JButton cartBtn, listBtn;
 	JLabel cartLabel1, cartLabel2;
+	Font font;
+	Image coffee1 = returnImg("src/coffee1.png", 50, 60);
+	
 	
 	MainPanel(OrderClient oc){
 		this.oc = oc;
@@ -19,6 +25,17 @@ class MainPanel extends JPanel implements Runnable {
 		setCartPanel();
 		setListPanel();
 		setSidePanel();
+		setOptionPanel();
+		testMode();
+	}
+	
+	void testMode() {
+		listPanel.setVisible(false);
+		sidePanel.setVisible(false);
+		cartPanel.setVisible(false);
+		cartSubPanel1.setVisible(false);
+		cartSubPanel2.setVisible(false);
+		optionPanel.setVisible(true);
 	}
 	
 	void init() {
@@ -26,13 +43,70 @@ class MainPanel extends JPanel implements Runnable {
 		setVisible(true);
 		setLayout(null);
 		setBackground(new Color(250, 250, 250));
+		Font font = new Font("맑은 고딕", Font.BOLD, 15);
+	}
+	
+	void addSubLabel(String name, String op1, String op2, String op3, String op4) {
+		JLabel subLabel = new JLabel();
+		subLabel.setBounds(0, 0, 684, 150);
+		subLabel.setVisible(true);
+		subLabel.setLayout(null);
+		subLabel.setBackground(new Color(70, 250, 200));
+		
+		JLabel imageLabel = new JLabel("");
+		imageLabel.setIcon(new ImageIcon(coffee1));
+		imageLabel.setBounds(30, 10, 50, 70);
+		JLabel nameLabel = new JLabel(name);
+		nameLabel.setBounds(90, 10, 230, 70);
+		nameLabel.setFont(font);
+		nameLabel.setBorder(new EtchedBorder());
+		nameLabel.setOpaque(true);
+		nameLabel.setBackground(new Color(250, 250, 250));
+		
+		JLabel optionLabel1 = new JLabel(op1);
+		JLabel optionLabel2 = new JLabel(op2);
+		JLabel optionLabel3 = new JLabel(op3);
+		JLabel optionLabel4 = new JLabel(op4);
+		
+		optionLabel1.setBounds(330, 10, 80, 30);
+		optionLabel2.setBounds(420, 10, 80, 30);
+		optionLabel3.setBounds(330, 50, 80, 30);
+		optionLabel4.setBounds(420, 50, 80, 30);
+		
+		optionLabel1.setHorizontalAlignment(JLabel.CENTER);
+		optionLabel2.setHorizontalAlignment(JLabel.CENTER);
+		optionLabel3.setHorizontalAlignment(JLabel.CENTER);
+		optionLabel4.setHorizontalAlignment(JLabel.CENTER);
+		
+		optionLabel1.setFont(font);
+		optionLabel2.setFont(font);
+		optionLabel3.setFont(font);
+		optionLabel4.setFont(font);
+		
+		optionLabel1.setOpaque(true);
+		optionLabel2.setOpaque(true);
+		optionLabel3.setOpaque(true);
+		optionLabel4.setOpaque(true);
+		
+		optionLabel1.setBackground(new Color(250, 250, 250));
+		optionLabel2.setBackground(new Color(250, 250, 250));
+		optionLabel3.setBackground(new Color(250, 250, 250));
+		optionLabel4.setBackground(new Color(250, 250, 250));
+		
+		subLabel.add(imageLabel);
+		subLabel.add(nameLabel);
+		subLabel.add(optionLabel1);
+		subLabel.add(optionLabel2);
+		subLabel.add(optionLabel3);
+		subLabel.add(optionLabel4);
+		
+		cartSubPanel1.add(subLabel);
 	}
 	
 	void setCartPanel(){
 		Image imgDown = returnImg("src/down.png", 20, 20);
 		Image imgUp = returnImg("src/up.png", 20, 20);
-		Image coffee1 = returnImg("src/coffee1.png", 50, 60);
-		Font font = new Font("맑은 고딕", Font.BOLD, 15);
+		
 		
 		cartPanel = new JPanel();
 		cartPanel.setBounds(0, 621, 684, 160);
@@ -71,63 +145,19 @@ class MainPanel extends JPanel implements Runnable {
 		cartPanel.add(cartLabel2);
 		cartPanel.add(cartBtn);
 		
-		JPanel cartSubPanel1 = new JPanel();
+		cartSubPanel1 = new JPanel();
 		cartSubPanel1.setBounds(0, 35, 684, 661);
 		cartSubPanel1.setVisible(true);
-		cartSubPanel1.setLayout(null);
+		cartSubPanel1.setLayout(new GridLayout(7, 1, 10, 10));
 		cartSubPanel1.setBackground(new Color(70, 70, 200));
-		// 상품이 선택된 갯수만큼 추가 -> 다른 메소드로 빼야함
-		JLabel imageLabel = new JLabel("");
-		imageLabel.setIcon(new ImageIcon(coffee1));
-		imageLabel.setBounds(30, 10, 50, 70);
-		JLabel nameLabel = new JLabel("에그 베이컨 과카몰리 샌드위치");
-		nameLabel.setBounds(90, 10, 230, 70);
-		nameLabel.setFont(font);
-		nameLabel.setBorder(new EtchedBorder());
-		nameLabel.setOpaque(true);
-		nameLabel.setBackground(new Color(250, 250, 250));
 		
-		JLabel optionLabel1 = new JLabel("HOT");
-		JLabel optionLabel2 = new JLabel("MEDIUM");
-		JLabel optionLabel3 = new JLabel("추가안함");
-		JLabel optionLabel4 = new JLabel("얼음많이");
-		
-		optionLabel1.setBounds(230+100, 10, 80, 30);
-		optionLabel2.setBounds(330+90, 10, 80, 30);
-		optionLabel3.setBounds(90, 10, 80, 30);
-		optionLabel4.setBounds(90, 10, 80, 30);
-		
-		optionLabel1.setHorizontalAlignment(JLabel.CENTER);
-		optionLabel2.setHorizontalAlignment(JLabel.CENTER);
-		optionLabel3.setHorizontalAlignment(JLabel.CENTER);
-		optionLabel4.setHorizontalAlignment(JLabel.CENTER);
-		
-		optionLabel1.setFont(font);
-		optionLabel2.setFont(font);
-		optionLabel3.setFont(font);
-		optionLabel4.setFont(font);
-		
-		optionLabel1.setOpaque(true);
-		optionLabel2.setOpaque(true);
-		optionLabel3.setOpaque(true);
-		optionLabel4.setOpaque(true);
-		
-		optionLabel1.setBackground(new Color(250, 250, 250));
-		optionLabel2.setBackground(new Color(250, 250, 250));
-		optionLabel3.setBackground(new Color(250, 250, 250));
-		optionLabel4.setBackground(new Color(250, 250, 250));
-		
-		cartSubPanel1.add(imageLabel);
-		cartSubPanel1.add(nameLabel);
-		cartSubPanel1.add(optionLabel1);
-		cartSubPanel1.add(optionLabel2);
-		cartSubPanel1.add(optionLabel3);
-		cartSubPanel1.add(optionLabel4);
-	
+		// 상품이 선택된 갯수만큼 추가
+		addSubLabel("에그 베이컨 과카몰리 샌드위치", "HOT", "MEDIUM", "추가안함", "얼음많이");
+		addSubLabel("아메리카노", "HOT", "MEDIUM", "추가안함", "얼음많이");
+		// 추가 END
 		cartPanel.add(cartSubPanel1);
-		//
 		
-		JPanel cartSubPanel2 = new JPanel();
+		cartSubPanel2 = new JPanel();
 		cartSubPanel2.setBounds(0, 750, 684, 35);
 		cartSubPanel2.setVisible(true);
 		cartSubPanel2.setLayout(null);
@@ -167,6 +197,7 @@ class MainPanel extends JPanel implements Runnable {
 		  }
 		return img;
 	}
+	
 	void setListPanel(){
 		listPanel = new JPanel();
 		listPanel.setBounds(120, 0, 564, 621);
@@ -174,15 +205,7 @@ class MainPanel extends JPanel implements Runnable {
 		listPanel.setLayout(new GridLayout(3, 3, 20, 20));
 		listPanel.setBorder(BorderFactory.createEmptyBorder(20 , 20 , 20 , 20));
 		for (int i=1; i<=9; i++){
-			String listimagePath = "./src/coffee1_americano.png";
-			BufferedImage bufferedImage = null;
-			try {
-				bufferedImage = ImageIO.read(new File(listimagePath));
-			} catch (Exception e){
-				System.out.println(e);
-			}
-	        Image img = bufferedImage.getScaledInstance(120, 125, Image.SCALE_DEFAULT);
-	        ImageIcon listimage = new ImageIcon(img);
+	        ImageIcon listimage = new ImageIcon(returnImg("./src/coffee1_americano.png", 120, 125));
 		
 			String text = "아메리카노";
 			listBtn = new JButton(text, listimage);	
@@ -194,6 +217,18 @@ class MainPanel extends JPanel implements Runnable {
 		}
 		add(listPanel);
 	}
+	void setOptionPanel() {
+		optionPanel = new JPanel();
+		optionPanel.setBounds(0, 0, 684, 860);
+		optionPanel.setVisible(false);
+		optionPanel.setLayout(null);
+		optionPanel.setBackground(new Color(50, 50, 50));
+		//옵션 패널 
+		
+		//
+		add(optionPanel);
+	}
+	
 	void setSidePanel(){
 		sidePanel = new JPanel();
 		sidePanel.setBounds(0, 0, 120, 621);
