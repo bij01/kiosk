@@ -24,7 +24,6 @@ public class OrderServerImpl implements OrderServer {
 	void init() {
 		connectDB();
 		//selectProducts();
-<<<<<<< HEAD
 		//selectProduct(2, 111);
 		//System.out.println(productsVector);
 		//System.out.println(productVector);
@@ -35,12 +34,6 @@ public class OrderServerImpl implements OrderServer {
 		//selectOrder();
 		//insertProduct(127,"자바칩프라프치노");
 		//deleteProduct(127,"자바칩프라프치노");
-=======
-		//selectProduct(33);
-		//insertCart();
-		selectCart();
-		//selectOrder();
->>>>>>> bb3d17f45cd6d9c311439654e115944a9104b10d
 	}
 	//DB와의 연결
 	void connectDB() {
