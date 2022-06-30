@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.io.*;
 
@@ -29,6 +30,8 @@ public class OrderServerImpl implements OrderServer {
 		//selectCart();
 		//insertOrder();
 		//selectOrder();
+		//returnFileInfo(111);
+		//System.out.println(returnFileInfo(111)[0] + "." + returnFileInfo(111)[1]);
 	}
 	//DB와의 연결
 	void connectDB() {
@@ -228,8 +231,7 @@ public class OrderServerImpl implements OrderServer {
 					System.out.println("범위 초과");
 				}
 				// 장바구니번호(주문상세번호) 입력받아서 이걸 기준으로 장바구니 테이블에서 상품번호, 옵션번호1~5를 받아오기
-				
-				
+				String sql = "select ";
 				// 장바구니 번호에 있는 상품번호를 기준으로 상품테이블에서 가격데이터(PSAL) 가져오기
 				
 				// orderNoFinal + 주문상세번호,  제대로 완성 됐을때 insert문 실행
@@ -261,12 +263,29 @@ public class OrderServerImpl implements OrderServer {
 		}
 	}
 	
-	String[] returnFileInfo(String pno) {
-		String[] fileInfo = new String[2];
+	//이미지를 불러와서 배열에 담아서 이미지를 집어넣기 위한 메서드
+	String[] returnFileInfo(int pno) {
+		sql = "select FPATH, FEXT from FILES where pno=?";
+		ResultSet rs = null;
+		String [] fileInfo = new String[2];
+		try {
+			pstmt1 = con.prepareStatement(sql);
+			pstmt1.setInt(1, pno);
+			rs = pstmt1.executeQuery();
+
+			while(rs.next()) {			
+				fileInfo[0] = rs.getString(1);
+				fileInfo[1] = rs.getString(2);
+				//System.out.println(fileInfo[0] + ", " + fileInfo[1]);
+			}
+			return fileInfo; 
+		}catch(SQLException se) {
+			System.out.println(se);
+		}
 		
-		
-		return fileInfo; 
+		return fileInfo;
 	}
+	
 
 	public static void main(String[] args) {
 		OrderServerImpl os = new OrderServerImpl();
