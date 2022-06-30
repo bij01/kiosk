@@ -1,5 +1,6 @@
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
@@ -9,30 +10,39 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.border.*;
 
-class MainPanel extends JPanel implements Runnable {
+class MainPanel extends JPanel implements Runnable, ActionListener  {
 	OrderClient oc;
+	OrderServerImpl os;
 	JPanel listPanel, sidePanel, cartPanel, optionPanel;
 	JPanel cartSubPanel1, cartSubPanel2;
 	JButton cartBtn, listBtn, optionBtn1, optionBtn2, optionBtn3, optionBtn4
 	, optionBtn5, optionBtn6, optionBtn7, optionBtn8, optionBtn9, cartDropBtn;
 	JLabel cartLabel1, cartLabel2, orderLabel2, orderLabel4;
+	JLabel optionimageLabel1, optionimageLabel2, optionimageLabel3, optionimageLabel4;
 	Font font;
 	Image coffee1 = returnImg("src/coffee1.png", 50, 60);
 	JScrollPane listScroll;
 	HashMap<Integer, JLabel> labelMap = new HashMap<Integer, JLabel>();
+	String pname, pno, cop1, cop2, cop3, cop4, cop5;
 	int cartCount = 0;
 	
 	MainPanel(OrderClient oc){
 		this.oc = oc;
 		init();
+		setOrderServer();
 		setCartPanel();
 		setListPanel();
 		setSidePanel();
 		setOptionPanel();
 		//testMode();
 	}
+	
+	void setOrderServer() {
+		os = new OrderServerImpl();
+		os.connectDB();
+	}
 
-	void testMode() {
+	void onOptionPanel() {
 		listPanel.setVisible(false);
 		sidePanel.setVisible(false);
 		cartPanel.setVisible(false);
@@ -40,6 +50,18 @@ class MainPanel extends JPanel implements Runnable {
 		cartSubPanel2.setVisible(false);
 		listScroll.setVisible(false);
 		optionPanel.setVisible(true);
+		oc.mainBtn2.setText("확인");
+	}
+	
+	void offOptionPanel() {
+		listPanel.setVisible(true);
+		sidePanel.setVisible(true);
+		cartPanel.setVisible(true);
+		cartSubPanel1.setVisible(true);
+		cartSubPanel2.setVisible(true);
+		listScroll.setVisible(true);
+		optionPanel.setVisible(false);
+		oc.mainBtn2.setText("주문하기");
 	}
 
 	void init() {
@@ -121,7 +143,6 @@ class MainPanel extends JPanel implements Runnable {
 			cartPanel.repaint();
 			oc.repaint();
 		}
-
 	}
 
 	void setCartPanel() {
@@ -225,14 +246,6 @@ class MainPanel extends JPanel implements Runnable {
 		cartSubPanel2.add(orderLabel4);
 		cartSubPanel2.add(cartDropBtn);
 		
-		
-		JButton testBtn = new JButton("get");
-		testBtn.setBounds(480, 1, 50, 28);
-		testBtn.addActionListener(e ->{
-			
-		});
-		cartSubPanel2.add(testBtn);
-		
 		add(cartSubPanel2);
 		add(cartPanel);
 	}
@@ -263,13 +276,22 @@ class MainPanel extends JPanel implements Runnable {
 		
 		listPanel.setLayout(new GridLayout(0, 3, 20, 20));
 		listPanel.setBorder(BorderFactory.createEmptyBorder(20 , 20 , 20 , 20));
-		for (int i=1; i<=19; i++){
+		
+		os.selectProduct(1, 11);
+		
+		for (int i=0; i<os.productsVector.size(); i++){
+			Vector productList = os.productsVector.get(i);
 	        ImageIcon listimage = new ImageIcon(returnImg("./src/coffee1_americano.png", 120, 125));
-
-			String text = "아메리카노";
-			listBtn = new JButton(text, listimage);
+	        
+			String name = (String)productList.get(1);
+			pno = Integer.toString((Integer)productList.get(0));
+			JLabel pnoLabel = new JLabel(pno);
+			pnoLabel.setVisible(false);
+			listBtn = new JButton(name, listimage);
+			listBtn.setLayout(null);
+			listBtn.setPreferredSize(new Dimension(100, 150));
 			listBtn.setBackground(Color.WHITE);
-			listBtn.setFont(new Font("HYPOST", Font.BOLD, 15));
+			listBtn.setFont(new Font("HYPOST", Font.BOLD, 12));
 			listBtn.setVerticalTextPosition(listBtn.BOTTOM); // 텍스트 아래로
 			listBtn.setHorizontalTextPosition(listBtn.CENTER);
 			listBtn.addActionListener(e ->{
@@ -279,12 +301,14 @@ class MainPanel extends JPanel implements Runnable {
 					    "안내메시지",
 					    JOptionPane.WARNING_MESSAGE);
 				} else {
-					addSubLabel("에이드", "HOT", "MEDIUM", "추가안함", "얼음많이");
-					int curNum = Integer.parseInt(orderLabel2.getText());
-					curNum+=1;
-					orderLabel2.setText(Integer.toString(curNum));
+					JButton selfBtn = (JButton)e.getSource();
+					JLabel selfLabel = (JLabel)selfBtn.getComponent(0);
+					pname = selfBtn.getText();
+					pno = selfLabel.getText();
+					onOptionPanel();
 				}
 			});
+			listBtn.add(pnoLabel);
 			listPanel.add(listBtn);
 		}
 		listScroll = new JScrollPane(listPanel);
@@ -297,7 +321,7 @@ class MainPanel extends JPanel implements Runnable {
 
 	void setOptionPanel() {
 		optionPanel = new JPanel();
-		optionPanel.setBounds(0, 0, 684, 860);
+		optionPanel.setBounds(0, 0, 684, 781);
 		optionPanel.setVisible(false);
 		optionPanel.setLayout(null);
 		optionPanel.setBackground(new Color(50, 50, 50));
@@ -363,31 +387,31 @@ class MainPanel extends JPanel implements Runnable {
 		Image img = bufferedImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 		ImageIcon optionimage1 = new ImageIcon(img);
 
-		JLabel optionimageLabel1 = new JLabel(optionimage1);
+		optionimageLabel1 = new JLabel(optionimage1);
 		optionimageLabel1.setBounds(80, 650, 110, 50);
 		optionimageLabel1.setText("ICE");
 		optionimageLabel1.setVisible(true);
 		optionimageLabel1.setForeground(Color.WHITE);
-		optionimageLabel1.setFont(new Font("굴림", Font.BOLD, 30));
+		optionimageLabel1.setFont(new Font("굴림", Font.BOLD, 25));
 		// optionimageLabel1.setBorder(new MatteBorder(5,5,5,5, Color.WHITE));
 		optionimageLabel1.setHorizontalAlignment(AbstractButton.LEFT);
 		optionimageLabel1.setHorizontalTextPosition(AbstractButton.RIGHT);
 		optionPanel.add(optionimageLabel1);
 
-		JLabel optionimageLabel2 = new JLabel(optionimage1);
+		optionimageLabel2 = new JLabel(optionimage1);
 		optionPanel.add(optionimageLabel2);
-		optionimageLabel2.setBounds(185, 650, 180, 50);
+		optionimageLabel2.setBounds(180, 650, 180, 50);
 		optionimageLabel2.setText("MEDIUM");
 		optionimageLabel2.setVisible(true);
 		optionimageLabel2.setForeground(Color.WHITE);
-		optionimageLabel2.setFont(new Font("굴림", Font.BOLD, 30));
+		optionimageLabel2.setFont(new Font("굴림", Font.BOLD, 25));
 		// optionimageLabel2.setBorder(new MatteBorder(5,5,5,5, Color.WHITE));
 		optionimageLabel2.setHorizontalAlignment(AbstractButton.LEFT);
 		optionimageLabel2.setHorizontalTextPosition(AbstractButton.RIGHT);
 		optionPanel.add(optionimageLabel2);
 
-		JLabel optionimageLabel3 = new JLabel(optionimage1);
-		optionimageLabel3.setBounds(360, 650, 145, 50);
+		optionimageLabel3 = new JLabel(optionimage1);
+		optionimageLabel3.setBounds(335, 650, 145, 50);
 		optionimageLabel3.setText("샷추가");
 		optionimageLabel3.setVisible(true);
 		optionimageLabel3.setForeground(Color.WHITE);
@@ -397,7 +421,7 @@ class MainPanel extends JPanel implements Runnable {
 		optionimageLabel3.setHorizontalTextPosition(AbstractButton.RIGHT);
 		optionPanel.add(optionimageLabel3);
 
-		JLabel optionimageLabel4 = new JLabel(optionimage1);
+		optionimageLabel4 = new JLabel(optionimage1);
 		optionimageLabel4.setBounds(480, 650, 165, 50);
 		optionimageLabel4.setText("얼음많이");
 		optionimageLabel4.setVisible(true);
@@ -417,6 +441,7 @@ class MainPanel extends JPanel implements Runnable {
 		optionBtn1.setFont(new Font("HYPOST", Font.BOLD, 28));
 		optionBtn1.setBackground(new Color(51, 25, 0));
 		optionBtn1.setBounds(100, 100, 200, 50);
+
 		optionBtn2 = new JButton("HOT");
 		optionBtn2.setForeground(Color.WHITE);
 		optionBtn2.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -474,6 +499,16 @@ class MainPanel extends JPanel implements Runnable {
 		optionBtn9.setFont(new Font("HYPOST", Font.BOLD, 28));
 		optionBtn9.setBackground(new Color(51, 25, 0));
 		optionBtn9.setBounds(460, 490, 150, 50);
+		
+		optionBtn1.addActionListener(this);
+		optionBtn2.addActionListener(this);
+		optionBtn3.addActionListener(this);
+		optionBtn4.addActionListener(this);
+		optionBtn5.addActionListener(this);
+		optionBtn6.addActionListener(this);
+		optionBtn7.addActionListener(this);
+		optionBtn8.addActionListener(this);
+		optionBtn9.addActionListener(this);
 
 		JSeparator topSolidline = new JSeparator();
 		topSolidline.setBounds(60, 12, 560, 560);
@@ -497,7 +532,6 @@ class MainPanel extends JPanel implements Runnable {
 		optionPanel.add(optionBtn9);
 
 		add(optionPanel);
-
 	}
 
 	void setSidePanel() {
@@ -517,7 +551,23 @@ class MainPanel extends JPanel implements Runnable {
 		sidePanel.add(menuBtn3);
 		add(sidePanel);
 	}
-
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton selfBtn = (JButton)e.getSource();
+		String text = selfBtn.getText();
+		System.out.println(text);
+		if (text.equals("ICE")) optionimageLabel1.setText("ICE");
+		else if (text.equals("HOT")) optionimageLabel1.setText("HOT");
+		else if (text.equals("MEDIUM")) optionimageLabel2.setText("MEDIUM");
+		else if (text.equals("LARGE")) optionimageLabel2.setText("LARGE");
+		else if (text.equals("샷추가")) optionimageLabel3.setText("샷추가");
+		else if (text.equals("추가안함")) optionimageLabel3.setText("추가안함");
+		else if (text.equals("얼음조금")) optionimageLabel4.setText("얼음조금");
+		else if (text.equals("얼음많이")) optionimageLabel4.setText("얼음많이");
+		else if (text.equals("선택안함")) optionimageLabel4.setText("선택안함");
+	}
+	
 	@Override
 	public void run() {
 		int i = 621;
