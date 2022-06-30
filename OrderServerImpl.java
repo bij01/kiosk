@@ -19,8 +19,8 @@ public class OrderServerImpl implements OrderServer {
 		//selectProducts();
 		//selectProduct(33);
 		//insertCart();
-		//selectCart();
-		selectOrder();
+		selectCart();
+		//selectOrder();
 	}
 	//DB와의 연결
 	void connectDB() {
