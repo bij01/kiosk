@@ -357,7 +357,13 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		os.selectProduct(1, cno);
 		for (int i=0; i<os.productsVector.size(); i++){
 			Vector productList = os.productsVector.get(i);
-	        ImageIcon listimage = new ImageIcon(returnImg("./src/coffee1_americano.png", 120, 125));
+			String path[] = os.returnFileInfo((Integer)productList.get(0));
+			ImageIcon listimage = new ImageIcon(returnImg("./src/noimage.png", 120, 125));
+	        try {
+	        	listimage = new ImageIcon(returnImg("./src/img/" + path[0] + "." + path[1], 120, 125));
+	        } catch (NullPointerException npe) {
+	        	
+	        }
 	        
 			String name = (String)productList.get(1);
 			pno = Integer.toString((Integer)productList.get(0));
