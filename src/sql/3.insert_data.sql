@@ -1,6 +1,7 @@
 --회원 데이터 추가
 
-insert into MEMBER values('coffe25', 'coffe234', MEMBER_SEQ.nextval,'카페인','010-4252-3906', 80000); 
+insert into MEMBER values('coffe25', 'coffe234', MEMBER_SEQ.nextval,'카페인','010-4252-3906', 80000);
+insert into MEMBER values('kiosk', 'kiosk1', MEMBER_SEQ.nextval, '키오스크', '010-5252-5252', 0);
 insert into MEMBER values('abc123', 'a1234', MEMBER_SEQ.nextval,'김하나','010-2225-2225', 3000);
 insert into MEMBER values('rorex11', 'popo14', MEMBER_SEQ.nextval,'강루리','010-2341-2525', 11000);
 insert into MEMBER values('apsl776', 'rod4545', MEMBER_SEQ.nextval,'머머리','010-2512-9989', 8700);
@@ -74,6 +75,7 @@ insert into PRODUCT values(336, '에그 베이컨 과카몰리 샌드위치', 4500, 1, 33);
 insert into PRODUCT values(337, '마카롱', 2200, 1, 33);
 insert into PRODUCT values(338, '초코티라미수', 3900, 1, 33);
 insert into PRODUCT values(339, '수플레', 3900, 1, 33);
+insert into PRODUCT values(340, '초콜릿브라우니',  4200, 1, 33);
 
 --11 매장 12 포장 
 --21 아이스 22 핫
