@@ -26,7 +26,7 @@ class OrderClient extends JFrame implements ActionListener {
 		bottomPanel.setVisible(true);
 	}
 	void init(){
-		setTitle("KIOSK");
+		setTitle("아싸커피");
 		setSize(WIDTH, HEIGHT);
 		setLocationRelativeTo(null);
 		cp = getContentPane();
