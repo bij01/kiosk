@@ -14,7 +14,7 @@ public class OrderServerImpl implements OrderServer {
 	static final String PWD="java123";
 	Connection con;
 	PreparedStatement pstmt1, pstmt2, pstmt3, pstmt4; //select=1 insert=2 update=3 delete=4
-	Statement stmt;
+	Statement stmt, stmt1;
 	String sql = "";
 	
 	Vector<Vector> cartVector1 = new Vector<Vector>();
@@ -23,10 +23,10 @@ public class OrderServerImpl implements OrderServer {
 	
 	void init() {
 		connectDB();
-		//insertProduct(127,"자바칩프라프치노", 6600, 1, 11);
+		//insertProduct(128,"자바칩프라프치노1", 6600, 1, 11);
 		//selectProduct(1, 11);
 		//deleteProduct(127);
-		//insertCart(1,113, 11, 21, 32, 42, 53);
+		insertCart(1,113, 11, 21, 32, 42, 53);
 		//selectCart();
 		//insertOrder();
 		//selectOrder();
@@ -129,7 +129,7 @@ public class OrderServerImpl implements OrderServer {
 	@Override 
 	// 장바구니번호, 기본은 kiosk, 상품번호, 옵션1(매장, 포장), 옵션2(아이스, 핫), 옵션3(미디움 / 라지), 옵션4(샷추가 / 추가안함), 옵션5(얼음 많이 / 얼음 조금/ 추가안함)
 	public void insertCart(int CDNO , int PNO, int COP1, int COP2, int COP3, int COP4, int COP5) {
-		sql = "insert into CART values(?,kiosk,?,?,?,?,?,?)";
+		sql = "insert into CART values(?, 'kiosk', ?, ?, ?, ?, ?, ?)";
 		try {
 			pstmt2 = con.prepareStatement(sql);
 			pstmt2.setInt(1, CDNO);
@@ -217,7 +217,7 @@ public class OrderServerImpl implements OrderServer {
 					System.out.println("범위 초과");
 				}
 				// 장바구니번호(주문상세번호) 입력받아서 이걸 기준으로 장바구니 테이블에서 상품번호, 옵션번호1~5를 받아오기
-				String sql = "select ";
+				String sql = "select PNO, COP1, COP2, COP3, COP4, COP5 from CART where CDNO=?";
 				// 장바구니 번호에 있는 상품번호를 기준으로 상품테이블에서 가격데이터(PSAL) 가져오기
 				
 				// orderNoFinal + 주문상세번호,  제대로 완성 됐을때 insert문 실행
