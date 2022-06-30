@@ -126,7 +126,7 @@ public class OrderServerImpl implements OrderServer {
 	@Override 
 	// 장바구니번호, 기본은 kiosk, 상품번호, 옵션1(매장, 포장), 옵션2(아이스, 핫), 옵션3(미디움 / 라지), 옵션4(샷추가 / 추가안함), 옵션5(얼음 많이 / 얼음 조금/ 추가안함)
 	public void insertCart(int CDNO , int PNO, int COP1, int COP2, int COP3, int COP4, int COP5) {
-		sql = "insert into CART values(?,kiosk,?,?,?,?,?,?)";
+		sql = "insert into CART values(?,'coffe25',?,?,?,?,?,?)";
 		try {
 			pstmt2 = con.prepareStatement(sql);
 			pstmt2.setInt(1, CDNO);
@@ -147,6 +147,21 @@ public class OrderServerImpl implements OrderServer {
 		}catch(SQLException se) {
 			System.out.println("insert실패:"+se);
 		}
+	}
+	
+	void deleteCart() {
+		sql = "delete from CART";
+		try {
+			pstmt2 = con.prepareStatement(sql);
+			int i = pstmt2.executeUpdate();
+			if(i>0) {
+				System.out.println("삭제 성공");
+				con.commit();
+			}else {
+				System.out.println("삭제 실패");
+				con.rollback();
+			}
+		}catch(SQLException se) {}
 	}
 	
 	@Override
@@ -172,8 +187,7 @@ public class OrderServerImpl implements OrderServer {
 				cartVector2.add(rs.getInt(6));
 				cartVector2.add(rs.getInt(7));
 				cartVector2.add(rs.getInt(8));
-				cartVector1.add(cartVector2);
-				
+				cartVector1.add(cartVector2);			
 			}
 			
 		}catch(SQLException se) {

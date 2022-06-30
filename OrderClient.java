@@ -16,6 +16,7 @@ class OrderClient extends JFrame implements ActionListener {
 	final int HEIGHT = 1000;
 	
 	MainPanel mainPanel;
+	OptionPanel op;
 
 	Container cp;
 	JPanel firstPanel, topPanel, bottomPanel;
@@ -34,14 +35,20 @@ class OrderClient extends JFrame implements ActionListener {
 		cp = getContentPane();
 		cp.setLayout(null);
 		setFirstPanel();
+		addOptionMember();
 		setTopPanel();
 		setBottomPanel();
 		setMainPanel();
-		//testMode();
+		testMode();
 		setVisible(true);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
+	
+	void addOptionMember() {
+		op = new OptionPanel();
+	}
+	
 	void setFirstPanel() {
 		firstPanel = new JPanel();
 		firstPanel.setBounds(0, 0, 684, 961);
@@ -128,6 +135,14 @@ class OrderClient extends JFrame implements ActionListener {
 		cp.add(bottomPanel);
 	}
 
+	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(new FlatLightLaf());
+		} catch (UnsupportedLookAndFeelException e) {
+		}
+		new OrderClient().init();
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton Btn = (JButton) e.getSource();
@@ -138,26 +153,18 @@ class OrderClient extends JFrame implements ActionListener {
 			mainPanel.setVisible(true);
 			bottomPanel.setVisible(true);
 		} else if (btnText.equals("확인")){
-			mainPanel.cop2 = mainPanel.optionimageLabel1.getText();
-			mainPanel.cop3 = mainPanel.optionimageLabel2.getText();
-			mainPanel.cop4 = mainPanel.optionimageLabel3.getText();
-			mainPanel.cop5 = mainPanel.optionimageLabel4.getText();
+			mainPanel.cop2 = op.optionimageLabel1.getText();
+			mainPanel.cop3 = op.optionimageLabel2.getText();
+			mainPanel.cop4 = op.optionimageLabel3.getText();
+			mainPanel.cop5 = op.optionimageLabel4.getText();
 			System.out.print(mainPanel.cop1+"\t");
 			System.out.print(mainPanel.cop2+"\t");
 			System.out.print(mainPanel.cop3+"\t");
 			System.out.print(mainPanel.cop4+"\t");
 			System.out.print(mainPanel.cop5+"\t");
 			mainPanel.offOptionPanel();
-			mainPanel.addSubLabel(mainPanel.pname, mainPanel.cop2, mainPanel.cop3, mainPanel.cop4, mainPanel.cop5);
+			mainPanel.addProductOnCart(mainPanel.pname, mainPanel.cop2, mainPanel.cop3, mainPanel.cop4, mainPanel.cop5);
 		}
-	}
-
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(new FlatLightLaf());
-		} catch (UnsupportedLookAndFeelException e) {
-		}
-		new OrderClient().init();
 	}
 
 }
