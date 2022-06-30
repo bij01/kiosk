@@ -14,11 +14,12 @@ class OrderClient extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 7610854644979608019L;
 	final int WIDTH = 700;
 	final int HEIGHT = 1000;
+	
+	MainPanel mainPanel;
 
 	Container cp;
-	JPanel firstPanel, topPanel, mainPanel, bottomPanel;
+	JPanel firstPanel, topPanel, bottomPanel;
 	JButton inBtn, outBtn, mainBtn1, mainBtn2;
-	public String inout;
 	
 	void testMode(){ // 바로 두번째 화면으로 넘어가기(개발 끝나면 삭제)
 		firstPanel.setVisible(false);
@@ -99,10 +100,11 @@ class OrderClient extends JFrame implements ActionListener {
 		bottomPanel.setLayout(null);
 		mainBtn1 = new JButton("처음으로");
 		mainBtn2 = new JButton("주문하기");
-		mainBtn1.setFont(new Font("HYPOST", Font.BOLD, 28));
+		mainBtn1.setFont(new Font("HYPOST", Font.BOLD, 20));
+		mainBtn2.setFont(new Font("HYPOST", Font.BOLD, 20));
 		mainBtn1.setBounds(172, 15, 120, 50);
 		mainBtn2.setBounds(372, 15, 120, 50);
-		
+		mainBtn2.addActionListener(this);
 		
 		bottomPanel.add(mainBtn1);
 		bottomPanel.add(mainBtn2);
@@ -111,11 +113,28 @@ class OrderClient extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton Btn = (JButton) e.getSource();
-		inout = Btn.getText().trim();
-		System.out.println(inout);
-		firstPanel.setVisible(false);
-		mainPanel.setVisible(true);
-		bottomPanel.setVisible(true);
+		String btnText = Btn.getText();
+		if (btnText.equals("매장") || btnText.equals("포장")) {
+			mainPanel.cop1 = Btn.getText().trim();
+			firstPanel.setVisible(false);
+			mainPanel.setVisible(true);
+			bottomPanel.setVisible(true);
+		} else if (btnText.equals("확인")){
+			mainPanel.cop2 = mainPanel.optionimageLabel1.getText();
+			mainPanel.cop3 = mainPanel.optionimageLabel2.getText();
+			mainPanel.cop4 = mainPanel.optionimageLabel3.getText();
+			mainPanel.cop5 = mainPanel.optionimageLabel4.getText();
+			System.out.print(mainPanel.cop1+"\t");
+			System.out.print(mainPanel.cop2+"\t");
+			System.out.print(mainPanel.cop3+"\t");
+			System.out.print(mainPanel.cop4+"\t");
+			System.out.print(mainPanel.cop5+"\t");
+			mainPanel.offOptionPanel();
+			mainPanel.addSubLabel(mainPanel.pname, mainPanel.cop2, mainPanel.cop3, mainPanel.cop4, mainPanel.cop5);
+			int curNum = Integer.parseInt(mainPanel.orderLabel2.getText());
+			curNum+=1;
+			mainPanel.orderLabel2.setText(Integer.toString(curNum));
+		}
 	}
 	public static void main(String[] args) {
 		try {

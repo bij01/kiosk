@@ -27,7 +27,7 @@ public class OrderServerImpl implements OrderServer {
 		//selectProduct(2, 111);
 		//System.out.println(productsVector);
 		//System.out.println(productVector);
-		insertCart("heart1", 113);
+		//insertCart("heart1", 113);
 		//selectCart();
 		//System.out.println(cartVector1);
 		//insertOrder();
