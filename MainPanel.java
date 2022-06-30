@@ -396,25 +396,84 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 	
 	void setSidePanel() {
 		sidePanel = new JPanel();
-		sidePanel.setBounds(0, 0, 120, 621);
+		sidePanel.setBounds(0, -20, 120, 621);
 		sidePanel.setVisible(true);
 		sidePanel.setLayout(null);
-		sidePanel.setBackground(new Color(70, 70, 70));
-		JButton menuBtn1 = new JButton("커피");
-		JButton menuBtn2 = new JButton("음료");
-		JButton menuBtn3 = new JButton("디저트");
-		menuBtn1.setBounds(10, 20, 100, 50);
-		menuBtn2.setBounds(10, 100, 100, 50);
-		menuBtn3.setBounds(10, 180, 100, 50);
+		sidePanel.setBackground(new Color(30, 30, 30));
+	
+	
+		JLabel menuLetterLabel = new JLabel(" | 메뉴");
+		menuLetterLabel.setBounds(10, 300, 100, 50);
+		menuLetterLabel.setForeground(Color.WHITE);
+		menuLetterLabel.setFont(new Font("HYPOST", Font.BOLD, 20));
+		sidePanel.add(menuLetterLabel);
 
+		
+		String sideimagePath = "./src/mainBut1.png";
+		BufferedImage bufferedImage = null;
+		try {
+			bufferedImage = ImageIO.read(new File(sideimagePath));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		Image img = bufferedImage.getScaledInstance(120, 60, Image.SCALE_DEFAULT);
+		ImageIcon sidemenuimg1 = new ImageIcon(img);
+	//메뉴종류-커피,버튼
+	
+		JLabel menuLabel1 = new JLabel(sidemenuimg1);
+		menuLabel1.setBounds(10, 20, 100, 50);
+		JLabel menuLabel2 = new JLabel(sidemenuimg1);
+		menuLabel2.setBounds(10, 100, 100, 50);
+		JLabel menuLabel3 = new JLabel(sidemenuimg1);
+		menuLabel3.setBounds(10, 180, 100, 50);
+	
+		
+		JButton menuBtn1 = new JButton("커피");
+		menuBtn1.setFont(new Font("HYPOST", Font.BOLD, 20));
+		menuBtn1.setForeground(Color.WHITE);
+		menuBtn1.setBounds(15, -3, 100, 50);
+		menuBtn1.setBorderPainted(false);
+		menuBtn1.setContentAreaFilled(true);
+		menuBtn1.setFocusPainted(false);
+		menuBtn1.setBackground(new Color(255,0,0,0));
+		menuBtn1.setOpaque(false);
+		menuLabel1.add(menuBtn1);
+	
+
+		JButton menuBtn2 = new JButton("음료");
+		menuBtn2.setFont(new Font("HYPOST", Font.BOLD, 20));
+		menuBtn2.setForeground(Color.WHITE);
+		menuBtn2.setBounds(15, 77, 100, 50);
+		menuBtn2.setBorderPainted(false);
+		menuBtn2.setContentAreaFilled(true);
+		menuBtn2.setFocusPainted(false);
+		menuBtn2.setBackground(new Color(255,0,0,0));
+		menuBtn2.setOpaque(false);
+		menuLabel2.add(menuBtn2);
+		
+		
+		JButton menuBtn3 = new JButton("디저트");
+		menuBtn3.setFont(new Font("HYPOST", Font.BOLD, 20));
+		menuBtn3.setForeground(Color.WHITE);
+		menuBtn3.setBounds(15,157, 100, 50);
+		menuBtn3.setBorderPainted(false);
+		menuBtn3.setContentAreaFilled(true);
+		menuBtn3.setFocusPainted(false);
+		menuBtn3.setBackground(new Color(255,0,0,0));
+		menuBtn3.setOpaque(false);
+		menuLabel3.add(menuBtn3);
+
+	
 		menuBtn1.addActionListener(new ChangeList());
 		menuBtn2.addActionListener(new ChangeList());
 		menuBtn3.addActionListener(new ChangeList());
 
-		sidePanel.add(menuBtn1);
+		sidePanel.add(menuLabel1);
 		sidePanel.add(menuBtn2);
 		sidePanel.add(menuBtn3);
 		add(sidePanel);
+			
+		
 	}
 	
 	
