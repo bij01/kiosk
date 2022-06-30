@@ -76,7 +76,9 @@ class OrderClient extends JFrame implements ActionListener {
 		bgimageLabel.add(inBtn);
 		bgimageLabel.add(outBtn);	
 		firstPanel.add(bgimageLabel);
-		cp.add(firstPanel);					
+		cp.add(firstPanel);	
+	
+		
 	}
 	void setMainPanel(){
 		mainPanel = new MainPanel(this);
