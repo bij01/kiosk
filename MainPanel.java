@@ -29,7 +29,7 @@ class MainPanel extends JPanel implements Runnable {
 		setListPanel();
 		setSidePanel();
 		setOptionPanel();
-		testMode();
+		//testMode();
 	}
 
 	void testMode() {
