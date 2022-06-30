@@ -16,8 +16,8 @@ class OrderClient extends JFrame implements ActionListener {
 	final int HEIGHT = 1000;
 
 	Container cp;
-	JPanel firstPanel, mainPanel, bottomPanel;
-	JButton inBtn, outBtn;
+	JPanel firstPanel, topPanel, mainPanel, bottomPanel;
+	JButton inBtn, outBtn, mainBtn1, mainBtn2;
 	public String inout;
 	
 	void testMode(){ // 바로 두번째 화면으로 넘어가기(개발 끝나면 삭제)
@@ -32,6 +32,7 @@ class OrderClient extends JFrame implements ActionListener {
 		cp = getContentPane();
 		cp.setLayout(null);
 		setFirstPanel();
+		setTopPanel();
 		setBottomPanel();
 		setMainPanel();
 		testMode();
@@ -76,9 +77,13 @@ class OrderClient extends JFrame implements ActionListener {
 		bgimageLabel.add(inBtn);
 		bgimageLabel.add(outBtn);	
 		firstPanel.add(bgimageLabel);
-		cp.add(firstPanel);	
-	
-		
+		cp.add(firstPanel);
+	}
+	void setTopPanel() {
+		topPanel = new JPanel();
+		topPanel.setBounds(0, 0, 684, 100);
+		topPanel.setBackground(new Color(255, 255, 255));
+		cp.add(topPanel);
 	}
 	void setMainPanel(){
 		mainPanel = new MainPanel(this);
@@ -91,6 +96,16 @@ class OrderClient extends JFrame implements ActionListener {
 		bottomPanel.setBounds(0, 881, 684, 80);
 		bottomPanel.setVisible(false);
 		bottomPanel.setBackground(new Color(50, 70, 70));
+		bottomPanel.setLayout(null);
+		mainBtn1 = new JButton("처음으로");
+		mainBtn2 = new JButton("주문하기");
+		mainBtn1.setFont(new Font("HYPOST", Font.BOLD, 28));
+		mainBtn1.setBounds(172, 15, 120, 50);
+		mainBtn2.setBounds(372, 15, 120, 50);
+		
+		
+		bottomPanel.add(mainBtn1);
+		bottomPanel.add(mainBtn2);
 		cp.add(bottomPanel);
 	}
 	@Override
