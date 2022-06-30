@@ -1,20 +1,18 @@
 public interface OrderServer {
 	
-	void selectProducts(); // 상품 테이블 조회 C
+	void selectProduct(int mode, int no); //상품 테이블에서 카테고리별로 조회 C
 	
-	void selectProduct(int category); //상품 테이블에서 카테고리별로 조회 C
+	void insertCart(String MID, int PNO); //심득서씨가 카라멜 마끼야또를 장바구니에 담았다.
 	
-	void insertCart(); //장바구니 테이블에 데이터 넣기
-	
-	void selectCart(); //장바구니 테이블 조회
+	void selectCart(); //현재 장바구니 테이블 조회
 	
 	void insertOrder(); //주문 테이블에 데이터 넣기
 	
 	void selectOrder(); //주문테이블 조회
 	
-	void insertProduct(); //상품 테이블에 상품 추가하기
+	void insertProduct(int PNO, String PNAME); //새로운 상품 자바칩 프라프치노를 추가하기
 	
-	void deleteProduct(); //상품 테이블에 상품 삭제하기
+	void deleteProduct(int PNO, String PNAME); //추가시킨 자바칩프라프치노에 문제가있어 삭제
 	
 	void insertMember(); // 신규 회원가입
 	
