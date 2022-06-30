@@ -124,7 +124,7 @@ class OrderClient extends JFrame implements ActionListener {
 		mainPanel.setVisible(false);
 		cp.setBackground(new Color(150, 150, 150));
 		cp.add(mainPanel);
-	}
+	}	
 
 	void setBottomPanel() {
 		bottomPanel = new JPanel();
