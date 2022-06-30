@@ -5,8 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
-
-import javax.sql.RowSetInternal;
+import java.io.*;
 
 public class OrderServerImpl implements OrderServer {
 	static final String URL="jdbc:oracle:thin:@localhost:1521:JAVA";
@@ -23,17 +22,13 @@ public class OrderServerImpl implements OrderServer {
 	
 	void init() {
 		connectDB();
-		//selectProducts();
-		//selectProduct(2, 111);
-		//System.out.println(productsVector);
-		//System.out.println(productVector);
-		insertCart("heart1", 113);
+		//insertProduct(127,"자바칩프라프치노", 6600, 1, 11);
+		//selectProduct(1, 11);
+		//deleteProduct(127);
+		//insertCart(1,113, 11, 21, 32, 42, 53);
 		//selectCart();
-		//System.out.println(cartVector1);
 		//insertOrder();
 		//selectOrder();
-		//insertProduct(127,"자바칩프라프치노");
-		//deleteProduct(127,"자바칩프라프치노");
 	}
 	//DB와의 연결
 	void connectDB() {
@@ -53,8 +48,31 @@ public class OrderServerImpl implements OrderServer {
 		}
 	}
 	
+	// 상품번호, 상품명, 상품 가격, 판매 상태, 카테고리번호
+	public void insertProduct(int PNO, String PNAME, int PSAL, int PSTATE, int CNO) {
+		sql = "insert into PRODUCT values(?, ?, ?, ?, ?)";
+		try {
+			pstmt2 = con.prepareStatement(sql);
+			pstmt2.setInt(1,PNO);
+			pstmt2.setString(2, PNAME);
+			pstmt2.setInt(3, PSAL);
+			pstmt2.setInt(4, PSTATE);
+			pstmt2.setInt(5, CNO);
+			int i = pstmt2.executeUpdate();
+			if(i>0) {
+				System.out.println("상품 추가 완료");
+				con.commit();
+			}else {
+				System.out.println("상품 추가 실패");
+				con.rollback();
+			}
+		}catch(SQLException se) {
+			System.out.println("insert 실패: "+ se);
+		}
+	}
+	
 	@Override
-	//String SQL1= "select * from PRODUCT where CNO="+category+"";
+	//mode == 1 이면 카테고리별 상품을 조회, mode != 1 단일 상품 조회
 	public void selectProduct(int mode, int no) {
 		if(mode == 1) {
 			sql = "select * from PRODUCT where CNO="+no+" order by PNO";
@@ -84,21 +102,40 @@ public class OrderServerImpl implements OrderServer {
 					productVector.add(rs.getInt(5));
 				}
 			}
-			//con.commit();
 		}catch(SQLException se) {
 			System.out.println("상품을 찾을 수 없습니다." + se);
 		}
 	}
-
-
-	@Override 
-	public void insertCart(String MID, int PNO) {
-		// 장바구니번호, 유저ID, 상품번호, 옵션1(매장, 포장), 옵션2(아이스, 핫), 옵션3(), 옵션4, 옵션5
-		sql = "insert into CART values(CART_SEQ.nextval,?,?,12,21,32,42,53)";
+	
+	public void deleteProduct(int PNO) { //추가시킨 자바칩프라프치노에 문제가있어 삭제
+		sql = "delete from PRODUCT where PNO=?";
 		try {
 			pstmt2 = con.prepareStatement(sql);
-			pstmt2.setString(1,MID);
+			pstmt2.setInt(1, PNO);
+			int i = pstmt2.executeUpdate();
+			if(i>0) {
+				System.out.println("삭제 성공");
+				con.commit();
+			}else {
+				System.out.println("삭제 실패");
+				con.rollback();
+			}
+		}catch(SQLException se) {}
+	}
+
+	@Override 
+	// 장바구니번호, 기본은 kiosk, 상품번호, 옵션1(매장, 포장), 옵션2(아이스, 핫), 옵션3(미디움 / 라지), 옵션4(샷추가 / 추가안함), 옵션5(얼음 많이 / 얼음 조금/ 추가안함)
+	public void insertCart(int CDNO , int PNO, int COP1, int COP2, int COP3, int COP4, int COP5) {
+		sql = "insert into CART values(?,kiosk,?,?,?,?,?,?)";
+		try {
+			pstmt2 = con.prepareStatement(sql);
+			pstmt2.setInt(1, CDNO);
 			pstmt2.setInt(2, PNO);
+			pstmt2.setInt(3, COP1);
+			pstmt2.setInt(4, COP2);
+			pstmt2.setInt(5, COP3);
+			pstmt2.setInt(6, COP4);
+			pstmt2.setInt(7, COP5);
 			int i = pstmt2.executeUpdate();
 			if(i>0) {
 				System.out.println("추가 성공");
@@ -113,6 +150,7 @@ public class OrderServerImpl implements OrderServer {
 	}
 	
 	@Override
+	//장바구니번호, 기본은 kiosk, 상품번호, 옵션1(매장, 포장), 옵션2(아이스, 핫), 옵션3(미디움 / 라지), 옵션4(샷추가 / 추가안함), 옵션5(얼음 많이 / 얼음 조금/ 추가안함)
 	public void selectCart() { //장바구니 테이블 조회
 		sql = "select * from CART order by CDNO";
 		ResultSet rs = null;
@@ -144,13 +182,55 @@ public class OrderServerImpl implements OrderServer {
 	}
 	
 	@Override
-	public void insertOrder() { //주문 테이블에 데이터 넣기
-		sql = "insert into Order valuse(to_cahr(SYSDATE, 'YYMMDD'))";
+	// 주문번호(자동생성), 회원ID(자동입력), 장바구니번호(상품번호, 옵션번호 1~5), 주문시간, 주문상태
+	public void insertOrder(String cdno) { //주문 테이블에 데이터 넣기
+		sql = "select to_char(SYSDATE, 'YYMMDD'), ORDERS_SEQ.nextval from dual";
+		ResultSet rs = null;
+		String date;
+		String orderNoFinal;
+		try {
+			pstmt1 = con.prepareStatement(sql);
+			rs = pstmt1.executeQuery();
+			while(rs.next()) {
+				date = rs.getString(1);
+				String orderNo = rs.getString(2);
+				System.out.println(date + ", " + orderNo + "order길이: " + orderNo.length());
+				if(orderNo.length() == 1) {
+					orderNo = "00" + orderNo;
+				} else if (orderNo.length() == 2) {
+					orderNo = "0" + orderNo;
+				}else if (orderNo.length() == 3) {
+					orderNo = "" + orderNo;
+				} else {
+					System.out.println("범위 초과");
+				}
+				System.out.println(date + "-" + orderNo);
+				if (cdno.length() == 1) {
+					orderNoFinal = date + "-" + orderNo + "-0" + cdno;
+					System.out.println(orderNoFinal);
+				}else if (cdno.length() == 2){
+					orderNoFinal = date + "-" + orderNo + "-" + cdno;
+				}else {
+					System.out.println("범위 초과");
+				}
+				// 장바구니번호(주문상세번호) 입력받아서 이걸 기준으로 장바구니 테이블에서 상품번호, 옵션번호1~5를 받아오기
+				
+				
+				// 장바구니 번호에 있는 상품번호를 기준으로 상품테이블에서 가격데이터(PSAL) 가져오기
+				
+				// orderNoFinal + 주문상세번호,  제대로 완성 됐을때 insert문 실행
+				String sql2 = "insert into ORDERS values(?,);";
+			}
+		}catch(SQLException se) {
+			System.out.println("상품을 찾을 수 없습니다." + se);
+		}
+		
+		
 	}
 
 	@Override
 	public void selectOrder() { //주문테이블 조회
-		sql = "select * from ORDERS";
+		sql = "select * from ORDERS order by ONO";
 		ResultSet rs = null;
 		try {
 			pstmt1 = con.prepareStatement(sql);
@@ -166,65 +246,13 @@ public class OrderServerImpl implements OrderServer {
 			System.out.println("상품을 찾을 수 없습니다." + se);
 		}
 	}
-
-	public void selectOrder1() { //주문테이블에서 주문번호별로 조회
-		
-	}
 	
-	public void insertProduct(int PNO, String PNAME) {//상품 테이블에 상품 추가하기
-		sql = "insert into PRODUCT values(?, ?, 6600, 1, 11)";
-		try {
-			pstmt2 = con.prepareStatement(sql);
-			pstmt2.setInt(1,PNO);
-			pstmt2.setString(2, PNAME);
-			int i = pstmt2.executeUpdate();
-			if(i>0) {
-				System.out.println("상품 추가 완료");	
-			}else {
-				System.out.println("상품 추가 실패");
-			}
-		}catch(SQLException se) {
-			System.out.println("insert 실패: "+ se);
-		}
-	}
-	
-	public void deleteProduct(int PNO, String PNAME) { //추가시킨 자바칩프라프치노에 문제가있어 삭제
-		sql = "delete ";
+	String[] returnFileInfo(String pno) {
+		String[] fileInfo = new String[2];
 		
-	}
-	
-	public void insertMember() { // 신규 회원가입
 		
+		return fileInfo; 
 	}
-	
-	public void deleteMember() { //회원탈퇴
-		
-	}
-	
-	public void updateProduct() { //메뉴의 가격을 변경
-		
-	}
-	
-	public void updateCart() { // 기존에 담은 장바구니에서 옵션을 변경
-		
-	}
-	
-	public void deleteCart() { // 장바구니에서 선택했던 메뉴를 삭제
-		
-	}
-	
-	public void updateProduct1() { //판매중이던 메뉴 중 하나를 솔드아웃으로 바꾸기
-		
-	}
-	
-	public void insertCart1() { //장바구니 테이블에서 주문을 추가하면 초기화 될 메소드
-		
-	}
-
-	public void insertOrder1() { //주문 테이블에 데이터가 들어오면 장바구니를 초기화 시키기
-		
-	}
-	
 
 	public static void main(String[] args) {
 		OrderServerImpl os = new OrderServerImpl();
