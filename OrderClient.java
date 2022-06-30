@@ -1,14 +1,14 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
+
 import javax.swing.border.*;
+import com.formdev.flatlaf.*;
 
 class OrderClient extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 7610854644979608019L;
@@ -103,6 +103,11 @@ class OrderClient extends JFrame implements ActionListener {
 		bottomPanel.setVisible(true);
 	}
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(
+				new FlatLightLaf());
+		} catch (UnsupportedLookAndFeelException e) {
+		}
 		new OrderClient().init();
 	}
 
