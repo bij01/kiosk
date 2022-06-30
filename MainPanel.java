@@ -13,25 +13,16 @@ class MainPanel extends JPanel implements Runnable {
 	OrderClient oc;
 	JPanel listPanel, sidePanel, cartPanel, optionPanel;
 	JPanel cartSubPanel1, cartSubPanel2;
-<<<<<<< HEAD
-	JButton cartBtn, listBtn, optionBtn1, optionBtn2, optionBtn3, optionBtn4, optionBtn5, optionBtn6, optionBtn7,
-			optionBtn8, optionBtn9;
-	JLabel cartLabel1, cartLabel2;
-	Font font;
-	Image coffee1 = returnImg("src/coffee1.png", 50, 60);
-
-	MainPanel(OrderClient oc) {
-=======
-	JScrollPane listScroll;
-	JButton cartBtn, listBtn;
+	JButton cartBtn, listBtn, optionBtn1, optionBtn2, optionBtn3, optionBtn4
+	, optionBtn5, optionBtn6, optionBtn7, optionBtn8, optionBtn9, cartDropBtn;
 	JLabel cartLabel1, cartLabel2, orderLabel2, orderLabel4;
 	Font font;
 	Image coffee1 = returnImg("src/coffee1.png", 50, 60);
+	JScrollPane listScroll;
 	HashMap<Integer, JLabel> labelMap = new HashMap<Integer, JLabel>();
 	int cartCount = 0;
 	
 	MainPanel(OrderClient oc){
->>>>>>> bfbdfebdddfb49f6cd87aeab1ae2278e71a63aec
 		this.oc = oc;
 		init();
 		setCartPanel();
@@ -47,6 +38,7 @@ class MainPanel extends JPanel implements Runnable {
 		cartPanel.setVisible(false);
 		cartSubPanel1.setVisible(false);
 		cartSubPanel2.setVisible(false);
+		listScroll.setVisible(false);
 		optionPanel.setVisible(true);
 	}
 
@@ -55,14 +47,13 @@ class MainPanel extends JPanel implements Runnable {
 		setVisible(true);
 		setLayout(null);
 		setBackground(new Color(250, 250, 250));
-		Font font = new Font("HYPOST", Font.BOLD, 20);
+		Font font = new Font("HYPOST",Font.BOLD,15);
 	}
 
 	void addSubLabel(String name, String op1, String op2, String op3, String op4) {
 		cartCount += 1;
 		String labelNo = Integer.toString(cartCount);
 		JLabel subLabel = new JLabel(labelNo);
-		subLabel.setFont(font);
 		subLabel.setVisible(true);
 		subLabel.setLayout(null);
 		subLabel.setBackground(new Color(70, 250, 200));
@@ -72,7 +63,7 @@ class MainPanel extends JPanel implements Runnable {
 		imageLabel.setBounds(30, 10, 50, 70);
 		JLabel nameLabel = new JLabel(name);
 		nameLabel.setBounds(90, 10, 230, 70);
-		//nameLabel.setFont(font);
+		nameLabel.setFont(font);
 		nameLabel.setBorder(new EtchedBorder());
 		nameLabel.setOpaque(true);
 		nameLabel.setBackground(new Color(250, 250, 250));
@@ -91,7 +82,6 @@ class MainPanel extends JPanel implements Runnable {
 		optionLabel2.setHorizontalAlignment(JLabel.CENTER);
 		optionLabel3.setHorizontalAlignment(JLabel.CENTER);
 		optionLabel4.setHorizontalAlignment(JLabel.CENTER);
-<<<<<<< HEAD
 
 		optionLabel1.setFont(font);
 		optionLabel2.setFont(font);
@@ -103,12 +93,6 @@ class MainPanel extends JPanel implements Runnable {
 		optionLabel3.setOpaque(true);
 		optionLabel4.setOpaque(true);
 
-=======
-		
-		
-		
-		
->>>>>>> bfbdfebdddfb49f6cd87aeab1ae2278e71a63aec
 		optionLabel1.setBackground(new Color(250, 250, 250));
 		optionLabel2.setBackground(new Color(250, 250, 250));
 		optionLabel3.setBackground(new Color(250, 250, 250));
@@ -120,10 +104,8 @@ class MainPanel extends JPanel implements Runnable {
 		subLabel.add(optionLabel2);
 		subLabel.add(optionLabel3);
 		subLabel.add(optionLabel4);
-<<<<<<< HEAD
 
 		cartSubPanel1.add(subLabel);
-=======
 		
 		labelMap.put(cartCount, subLabel);
 		
@@ -139,37 +121,30 @@ class MainPanel extends JPanel implements Runnable {
 			cartPanel.repaint();
 			oc.repaint();
 		}
->>>>>>> bfbdfebdddfb49f6cd87aeab1ae2278e71a63aec
+
 	}
 
 	void setCartPanel() {
 		Image imgDown = returnImg("src/down.png", 20, 20);
 		Image imgUp = returnImg("src/up.png", 20, 20);
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> bfbdfebdddfb49f6cd87aeab1ae2278e71a63aec
 		cartPanel = new JPanel();
 		cartPanel.setBounds(0, 621, 684, 160);
 		cartPanel.setVisible(true);
 		cartPanel.setLayout(null);
 		cartPanel.setBackground(new Color(70, 200, 70));
-		cartLabel1 = new JLabel("최근선택상품");
-		cartLabel1.setFont(font);
-		cartLabel2 = new JLabel("내역 자세히보기");
-		cartLabel2.setFont(font);
+		cartLabel1 = new JLabel("장바구니");
+		cartLabel1.setFont(new Font("HYPOST",Font.PLAIN,12));
+		cartLabel2 = new JLabel("자세히보기");
+		cartLabel2.setFont(new Font("HYPOST",Font.PLAIN,12));
 		cartBtn = new JButton();
 		cartBtn.addActionListener(e -> {
 			if (cartPanel.getSize().equals(new Dimension(684, 160))) {
 				Thread th = new Thread(this);
 				th.start();
-<<<<<<< HEAD
 				cartBtn.setIcon(new ImageIcon(imgDown));
-=======
 			    cartBtn.setIcon(new ImageIcon(imgDown));
 			    listScroll.setVisible(false);
->>>>>>> bfbdfebdddfb49f6cd87aeab1ae2278e71a63aec
 				listPanel.setVisible(false);
 				sidePanel.setVisible(false);
 				repaint();
@@ -183,6 +158,13 @@ class MainPanel extends JPanel implements Runnable {
 				oc.repaint();
 			}
 		});
+		
+	    cartBtn.setIcon(new ImageIcon(imgUp));
+	    cartBtn.setHorizontalAlignment(SwingConstants.CENTER);
+	    cartLabel1.setBounds(10, 0, 100, 35);
+	    cartLabel2.setBounds(560, 0, 75, 35);
+	    cartLabel2.setOpaque(true);
+	    cartBtn.setBounds(634, 5, 25, 25);
 
 		cartBtn.setIcon(new ImageIcon(imgUp));
 		cartBtn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -217,18 +199,40 @@ class MainPanel extends JPanel implements Runnable {
 		orderLabel2 = new JLabel("0");
 		JLabel orderLabel3 = new JLabel("주문금액:");
 		orderLabel4 = new JLabel("0");
+		cartDropBtn = new JButton("장바구니 비우기");
+		cartDropBtn.addActionListener(e ->{
+			labelMap.clear();
+			cartCount = 0;
+			orderLabel2.setText("0");
+			cartSubPanel1.removeAll();
+			cartSubPanel1.repaint();
+			oc.repaint();
+		});
 		orderLabel1.setBounds(10, 0, 100, 30);
 		orderLabel2.setBounds(110, 0, 100, 30);
 		orderLabel3.setBounds(220, 0, 100, 30);
 		orderLabel4.setBounds(330, 0, 100, 30);
+		cartDropBtn.setBounds(530, 1, 120, 28);
+		
 		orderLabel1.setFont(font);
 		orderLabel2.setFont(font);
 		orderLabel3.setFont(font);
 		orderLabel4.setFont(font);
+		
 		cartSubPanel2.add(orderLabel1);
 		cartSubPanel2.add(orderLabel2);
 		cartSubPanel2.add(orderLabel3);
 		cartSubPanel2.add(orderLabel4);
+		cartSubPanel2.add(cartDropBtn);
+		
+		
+		JButton testBtn = new JButton("get");
+		testBtn.setBounds(480, 1, 50, 28);
+		testBtn.addActionListener(e ->{
+			
+		});
+		cartSubPanel2.add(testBtn);
+		
 		add(cartSubPanel2);
 		add(cartPanel);
 	}
@@ -254,19 +258,14 @@ class MainPanel extends JPanel implements Runnable {
 		//listPanel.setBounds(120, 0, 564, 621);
 		listPanel.setBounds(120, 0, 464, 521);
 		listPanel.setVisible(true);
-<<<<<<< HEAD
 		listPanel.setLayout(new GridLayout(3, 3, 20, 20));
 		listPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-		for (int i = 1; i <= 9; i++) {
-			ImageIcon listimage = new ImageIcon(returnImg("./src/coffee1_americano.png", 120, 125));
-
-=======
+		
 		listPanel.setLayout(new GridLayout(0, 3, 20, 20));
 		listPanel.setBorder(BorderFactory.createEmptyBorder(20 , 20 , 20 , 20));
 		for (int i=1; i<=19; i++){
 	        ImageIcon listimage = new ImageIcon(returnImg("./src/coffee1_americano.png", 120, 125));
-		
->>>>>>> bfbdfebdddfb49f6cd87aeab1ae2278e71a63aec
+
 			String text = "아메리카노";
 			listBtn = new JButton(text, listimage);
 			listBtn.setBackground(Color.WHITE);
@@ -274,9 +273,9 @@ class MainPanel extends JPanel implements Runnable {
 			listBtn.setVerticalTextPosition(listBtn.BOTTOM); // 텍스트 아래로
 			listBtn.setHorizontalTextPosition(listBtn.CENTER);
 			listBtn.addActionListener(e ->{
-				if (cartCount == 10) {
+				if (cartCount == 7) {
 					JOptionPane.showMessageDialog(null, 
-					    "장바구니에는 최대 10개의 상품만 담을 수 있습니다.",
+					    "장바구니에는 최대 7개의 상품만 담을 수 있습니다.",
 					    "안내메시지",
 					    JOptionPane.WARNING_MESSAGE);
 				} else {
@@ -297,7 +296,6 @@ class MainPanel extends JPanel implements Runnable {
 	}
 
 	void setOptionPanel() {
-
 		optionPanel = new JPanel();
 		optionPanel.setBounds(0, 0, 684, 860);
 		optionPanel.setVisible(false);
