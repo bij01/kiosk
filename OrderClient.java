@@ -82,7 +82,20 @@ class OrderClient extends JFrame implements ActionListener {
 	void setTopPanel() {
 		topPanel = new JPanel();
 		topPanel.setBounds(0, 0, 684, 100);
-		topPanel.setBackground(new Color(255, 255, 255));
+		topPanel.setBackground(new Color(0, 0, 0));
+		String topimagePath = "./src/mainTitle5.png";
+		BufferedImage bufferedImage = null;
+		try {
+			bufferedImage = ImageIO.read(new File(topimagePath));
+		} catch (Exception e){
+			System.out.println(e);
+		}
+        Image img = bufferedImage.getScaledInstance(400, 100, Image.SCALE_DEFAULT);
+		ImageIcon maintitleImage = new ImageIcon(img);
+		JLabel mainTitleLabel = new JLabel(maintitleImage);
+		mainTitleLabel.setBounds(0,-15,500,100); 
+		mainTitleLabel.setBounds(-50,0,500,100);
+		topPanel.add(mainTitleLabel);
 		cp.add(topPanel);
 	}
 	void setMainPanel(){
