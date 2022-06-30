@@ -67,7 +67,7 @@ public class OrderServerImpl implements OrderServer {
 			pstmt1 = con.prepareStatement(sql);
 			rs = pstmt1.executeQuery();
 			while(rs.next()) {
-				System.out.println(rs.getInt(1)+ " "+ rs.getString(2) + " " + rs.getInt(3) +"원 " + rs.getInt(4) +" "+ rs.getInt(5));
+				//System.out.println(rs.getInt(1)+ " "+ rs.getString(2) + " " + rs.getInt(3) +"원 " + rs.getInt(4) +" "+ rs.getInt(5));
 				if(mode == 1) {
 					productV = new Vector<Object>();
 					productV.add(rs.getInt(1));

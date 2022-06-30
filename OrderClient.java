@@ -149,9 +149,6 @@ class OrderClient extends JFrame implements ActionListener {
 			System.out.print(mainPanel.cop5+"\t");
 			mainPanel.offOptionPanel();
 			mainPanel.addSubLabel(mainPanel.pname, mainPanel.cop2, mainPanel.cop3, mainPanel.cop4, mainPanel.cop5);
-			int curNum = Integer.parseInt(mainPanel.orderLabel2.getText());
-			curNum+=1;
-			mainPanel.orderLabel2.setText(Integer.toString(curNum));
 		}
 	}
 
