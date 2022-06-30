@@ -26,7 +26,7 @@ public class OrderServerImpl implements OrderServer {
 		//insertProduct(128,"자바칩프라프치노1", 6600, 1, 11);
 		//selectProduct(1, 11);
 		//deleteProduct(127);
-		insertCart(1,113, 11, 21, 32, 42, 53);
+		//insertCart(1,113, 11, 21, 32, 42, 53);
 		//selectCart();
 		//insertOrder();
 		//selectOrder();
@@ -129,11 +129,7 @@ public class OrderServerImpl implements OrderServer {
 	@Override 
 	// 장바구니번호, 기본은 kiosk, 상품번호, 옵션1(매장, 포장), 옵션2(아이스, 핫), 옵션3(미디움 / 라지), 옵션4(샷추가 / 추가안함), 옵션5(얼음 많이 / 얼음 조금/ 추가안함)
 	public void insertCart(int CDNO , int PNO, int COP1, int COP2, int COP3, int COP4, int COP5) {
-<<<<<<< HEAD
 		sql = "insert into CART values(?, 'kiosk', ?, ?, ?, ?, ?, ?)";
-=======
-		sql = "insert into CART values(?,'coffe25',?,?,?,?,?,?)";
->>>>>>> c8d6c16afed8f77a1f389c6398e67aaf29e626cc
 		try {
 			pstmt2 = con.prepareStatement(sql);
 			pstmt2.setInt(1, CDNO);
@@ -235,11 +231,23 @@ public class OrderServerImpl implements OrderServer {
 					System.out.println("범위 초과");
 				}
 				// 장바구니번호(주문상세번호) 입력받아서 이걸 기준으로 장바구니 테이블에서 상품번호, 옵션번호1~5를 받아오기
-				String sql = "select PNO, COP1, COP2, COP3, COP4, COP5 from CART where CDNO=?";
+				String sql1 = "select PNO, COP1, COP2, COP3, COP4, COP5 from CART where CDNO=?";
+				ResultSet rss = null;
+				String data;
+				try {
+					pstmt1 = con.prepareStatement(sql1);
+					pstmt1.setString(1, cdno);
+					rss = pstmt1.executeQuery();
+					while(rss.next()) {
+						System.out.println("tset");
+					}
+				}catch(SQLException se) {}
+				
 				// 장바구니 번호에 있는 상품번호를 기준으로 상품테이블에서 가격데이터(PSAL) 가져오기
+				String sql2 = "select ";
 				
 				// orderNoFinal + 주문상세번호,  제대로 완성 됐을때 insert문 실행
-				String sql2 = "insert into ORDERS values(?,);";
+				String sql3 = "insert into ORDERS values(?,'kiosk',?,?,SYSDATE,?,?,?,?,?,?,?);";
 			}
 		}catch(SQLException se) {
 			System.out.println("상품을 찾을 수 없습니다." + se);
@@ -289,11 +297,26 @@ public class OrderServerImpl implements OrderServer {
 		
 		return fileInfo;
 	}
+	void user(int cdno) {
+	String sql1 = "select PNO, COP1, COP2, COP3, COP4, COP5 from CART where CDNO=?";
+	ResultSet rss = null;
+	String data;
+	try {
+		pstmt1 = con.prepareStatement(sql1);
+		pstmt1.setInt(1, cdno);
+		rss = pstmt1.executeQuery();
+		while(rss.next()) {
+			System.out.println(rss.getInt(1) +" " +  rss.getInt(2) +" " + rss.getInt(3) + " " +
+		rss.getInt(4) + " " +rss.getInt(5) +" " + rss.getInt(6));
+		}
+	}catch(SQLException se) {}
+	}
 	
 
 	public static void main(String[] args) {
 		OrderServerImpl os = new OrderServerImpl();
 		os.init();
+		os.user(1);
 	}
 
 }
