@@ -2,7 +2,7 @@ package com.team2.kiosk;
 
 public interface OrderServer {
 	
-	void selectProduct(int mode, int no); //상품 데이터를 조회
+	void selectProduct(int mode, int cno); //상품 데이터를 조회
 	
 	void insertProduct(int PNO, String PNAME, int PSAL, int PSTATE, int CNO); //새로운 상품 자바칩 프라프치노를 추가하기
 	

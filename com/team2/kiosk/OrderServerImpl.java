@@ -37,7 +37,7 @@ public class OrderServerImpl implements OrderServer {
 		//returnFileInfo(111);
 		//insertMember("strong1", "power123", "김근육", "010-3333-6666", 0);
 		//selectMember(2,"010-4252-3906");
-		updateOSTATE(3, "220701-011");
+		//updateOSTATE(3, "220701-011");
 	}
 	//DB와의 연결
 	void connectDB() {
@@ -88,11 +88,11 @@ public class OrderServerImpl implements OrderServer {
 	
 	@Override
 	//mode == 1 이면 카테고리별 상품을 조회, mode != 1 단일 상품 조회
-	public void selectProduct(int mode, int no) {
+	public void selectProduct(int mode, int cno) {
 		if(mode == 1) {
-			sql = "select * from PRODUCT where CNO="+no+" order by PNO";
+			sql = "select * from PRODUCT where CNO="+cno+" order by PNO";
 		} else {
-			sql = "select * from PRODUCT where PNO="+no+"";
+			sql = "select * from PRODUCT where PNO="+cno+"";
 		}
 		ResultSet rs = null;
 		Vector<Object> productV = null;
@@ -216,7 +216,6 @@ public class OrderServerImpl implements OrderServer {
 		try {
 			pstmt1 = con.prepareStatement(sql);
 			rs = pstmt1.executeQuery();
-			
 			while(rs.next()) {
 				cartVector2 = new Vector<Object>();
 				System.out.println(rs.getInt(1)+" "+ rs.getString(2)+" "+ rs.getInt(3)
