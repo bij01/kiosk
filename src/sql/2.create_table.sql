@@ -32,7 +32,7 @@ create table CATEGORY(
 create table PRODUCT(
 	PNO number,
 	PNAME varchar2(50) NOT null,
-	PSAL number(5) Not null,
+	PPRICE number(5) Not null,
 	PSTATE number(1) DEFAULT 1 not null, -- 1은 판매중 2는 솔드아웃
 	CNO number(3) not null,
 	constraint PRODUCT_PK primary key(PNO),

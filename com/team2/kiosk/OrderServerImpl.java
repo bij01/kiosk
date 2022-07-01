@@ -31,7 +31,7 @@ public class OrderServerImpl implements OrderServer {
 	
 	void init() {
 		connectDB();
-		returnSameOrderNumCount("220701-024");
+		//returnSameOrderNumCount("220701-024");
 		//insertProduct(128,"자바칩프라프치노1", 6600, 1, 11);
 		//selectProduct(1, 11);
 		//deleteProduct(127);
@@ -62,6 +62,31 @@ public class OrderServerImpl implements OrderServer {
 			System.out.println("연결 실패: "+ se);
 		}
 	}
+	int returnPriceSum(String ono) {
+		sql = "select sum(psal) from product where pno in "
+				+ "(select pno from orders where ono like ?)";
+		ResultSet rs = null;
+		int sum = 0;
+		try {
+			pstmt1 = con.prepareStatement(sql);
+			pstmt1.setString(1, "%"+ono+"%");
+			rs = pstmt1.executeQuery();
+			
+			while(rs.next()) {
+				sum = rs.getInt(1);
+				//System.out.println(sum);
+			}
+		}catch(SQLException se) {
+			System.out.println("select 실패: "+ se);
+		}finally {
+			try {
+				if (pstmt1!=null) pstmt1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return sum;
+	}
 	
 	int returnSameOrderNumCount(String ono) {
 		sql = "select count(ONO) from orders where ONO like ?";
@@ -74,7 +99,7 @@ public class OrderServerImpl implements OrderServer {
 			
 			while(rs.next()) {
 				count = rs.getInt(1);
-				System.out.println(count);
+				//System.out.println(count);
 			}
 		}catch(SQLException se) {
 			System.out.println("select 실패: "+ se);
@@ -130,7 +155,6 @@ public class OrderServerImpl implements OrderServer {
 		Vector<Object> productV = null;
 		try {
 			pstmt1 = con.prepareStatement(sql);
-			System.out.println(pstmt1);
 			rs = pstmt1.executeQuery();
 			while(rs.next()) {
 				//System.out.println(rs.getInt(1)+ " "+ rs.getString(2) + " " + rs.getInt(3) +"원 " + rs.getInt(4) +" "+ rs.getInt(5));
@@ -173,7 +197,7 @@ public class OrderServerImpl implements OrderServer {
 				System.out.println("삭제 성공");
 				con.commit();
 			}else {
-				System.out.println("삭제 실패");
+				//System.out.println("삭제 실패");
 				con.rollback();
 			}
 		}catch(SQLException se) {
@@ -227,7 +251,7 @@ public class OrderServerImpl implements OrderServer {
 				System.out.println("삭제 성공");
 				con.commit();
 			}else {
-				System.out.println("삭제 실패");
+				//System.out.println("삭제 실패");
 				con.rollback();
 			}
 		}catch(SQLException se) {
@@ -445,13 +469,6 @@ public class OrderServerImpl implements OrderServer {
 			rs = pstmt1.executeQuery();
 			while(rs.next()) {
 				orderSet = new Vector<Object>();
-				/*
-				System.out.println(rs.getString(1)+" "+ rs.getString(2)+" "+ rs.getInt(3)
-				+" "+ rs.getInt(4)+" "+ rs.getString(5)+" "+ rs.getInt(6)+" "+ rs.getInt(7)
-				+"원 "+ rs.getInt(8)+" "+ rs.getInt(9)+" "+ rs.getInt(10)+" "+ rs.getInt(11)
-				+" "+ rs.getInt(12));
-				*/
-				
 				orderSet.add(rs.getString(1));
 				orderSet.add(rs.getString(2));
 				orderSet.add(rs.getInt(3));

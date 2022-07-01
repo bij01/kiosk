@@ -16,6 +16,7 @@ class StaffPanel extends JPanel {
 	OrderServerImpl os;
 	MainPanel mp;
 	OrderClient oc;
+	LinkedHashSet<Vector> listSet = new LinkedHashSet<Vector>(); //주문리스트
 	
 	JPanel listPanel, detailPanel;
 
@@ -24,13 +25,8 @@ class StaffPanel extends JPanel {
 		init();
 		setListPanel();
 		setDetailPanel();
-<<<<<<< HEAD
-		//onListPanel();
-		onDetailPanel();
-=======
 		onListPanel();
 		//onDetailPanel();
->>>>>>> 2e258faac1d6dfdc4ca96c371312f63b4509f9ca
 	}
 
 	void init() {
@@ -93,16 +89,27 @@ class StaffPanel extends JPanel {
 		v1.add("SYSDATE");
 		
 		os.selectOrder();
-
-		for (Vector<Object> vector:os.ordersSet) {
+		Vector orderV = null;
+		for (Vector<Object> vector: os.ordersSet) {
+			orderV = new Vector();
 			String orderNo = (String)vector.get(0);
-			orderNo = orderNo.substring(0, 10);
 			int pno = (Integer)vector.get(2);
 			os.selectProduct(2, pno);
+			// 상품 이름
 			String pname = os.productVector.get(1).toString();
+			// 같은 주문번호로 주문된게 몇개인지 확인
 			int count = os.returnSameOrderNumCount(orderNo);
-			System.out.println(count);
+			String countS = Integer.toString(count);
+			// 같은 주문번호로 기준 합계금액 확인
+			int priceSum = os.returnPriceSum(orderNo);
+			String priceSumS = Integer.toString(priceSum);
+			//System.out.println("주문번호: "+ orderNo +", 주문합계: " + count + ", 금액: " + priceSum);
+			orderV.add(orderNo);
+			orderV.add(countS);
+			orderV.add(priceSumS);
+			System.out.println("추가: " + orderV);
 		}
+
 
 		
 		//System.out.println(os.ordersSet);

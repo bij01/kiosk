@@ -148,9 +148,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		subLabel.setOpaque(true);
 		subLabel.setBackground(new Color(255, 255, 255));
 		subLabel.setBorder(BorderFactory.createEtchedBorder());
-		System.out.println(pno);
 		String path[] = os.returnFileInfo(Integer.parseInt(pno));
-		System.out.println(path[0]);
 		ImageIcon listimage = new ImageIcon(returnImg("./src/noimage.png", 50, 55));
         try {
         	listimage = new ImageIcon(returnImg("./src/img/" + path[0] + "." + path[1], 70, 70));
