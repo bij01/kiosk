@@ -13,17 +13,24 @@ import javax.swing.table.*;
 import javax.swing.border.*;
 
 class StaffPanel extends JPanel {
+	OrderServerImpl os;
+	MainPanel mp;
+	OrderClient oc;
+	
 	JPanel listPanel, detailPanel;
 
-	StaffPanel() {
+	StaffPanel(MainPanel mp) {
+		this.mp = mp;
 		init();
 		setListPanel();
 		setDetailPanel();
-		onListPanel();
-		// onDetailPanel();
+		//onListPanel();
+		onDetailPanel();
 	}
 
 	void init() {
+		this.os = mp.os;
+		this.oc = mp.oc;
 		setBounds(0, 0, 684, 785);
 		setVisible(false);
 		setLayout(null);
@@ -88,56 +95,22 @@ class StaffPanel extends JPanel {
 		v1.add("아메리카노 외 3잔");
 		v1.add("15000원");
 		v1.add("SYSDATE");
-		Vector<Object> v2 = new Vector<Object>();
-		v2.add(2);
-		v2.add("결제완료");
-		v2.add("카페라떼 외 2잔");
-		v2.add("7200원");
-		v2.add("SYSDATE");
-		Vector<Object> v3 = new Vector<Object>();
-		v3.add(1);
-		v3.add("대기중");
-		v3.add("아메리카노 외 3잔");
-		v3.add("15000원");
-		v3.add("SYSDATE");
-		Vector<Object> v4 = new Vector<Object>();
-		v4.add(2);
-		v4.add("결제완료");
-		v4.add("카페라떼 외 2잔");
-		v4.add("7200원");
-		v4.add("SYSDATE");
-		Vector<Object> v5 = new Vector<Object>();
-		v5.add(1);
-		v5.add("대기중");
-		v5.add("아메리카노 외 3잔");
-		v5.add("15000원");
-		v5.add("SYSDATE");
-		Vector<Object> v6 = new Vector<Object>();
-		v6.add(2);
-		v6.add("결제완료");
-		v6.add("카페라떼 외 2잔");
-		v6.add("7200원");
-		v6.add("SYSDATE");
-		Vector<Object> v7 = new Vector<Object>();
-		v7.add(1);
-		v7.add("대기중");
-		v7.add("아메리카노 외 3잔");
-		v7.add("15000원");
-		v7.add("SYSDATE");
-		Vector<Object> v8 = new Vector<Object>();
-		v8.add(2);
-		v8.add("결제완료");
-		v8.add("카페라떼 외 2잔");
-		v8.add("7200원");
-		v8.add("SYSDATE");
-		rowData.add(v1);
-		rowData.add(v2);
-		rowData.add(v3);
-		rowData.add(v4);
-		rowData.add(v5);
-		rowData.add(v6);
-		rowData.add(v7);
-		rowData.add(v8);
+		
+		os.selectOrder();
+
+		for (Vector<Object> vector:os.ordersSet) {
+			String orderNo = (String)vector.get(0);
+			orderNo = orderNo.substring(0, 10);
+			int pno = (Integer)vector.get(2);
+			os.selectProduct(2, pno);
+			String pname = os.productVector.get(1).toString();
+			int count = os.returnSameOrderNumCount(orderNo);
+			System.out.println(count);
+		}
+
+		
+		//System.out.println(os.ordersSet);
+		
 		JTable table = new JTable(rowData, columnNames);
 		table.setPreferredScrollableViewportSize(new Dimension(680, 300));
 		table.setFillsViewportHeight(true);

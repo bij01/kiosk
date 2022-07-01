@@ -43,7 +43,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		setSidePanel();
 		setOptionPanel();
 		setStaffPanel();
-		//onStaffPanel();
+		onStaffPanel();
 		cop1 = "매장";
 		//testMode();
 		os.deleteCart();
@@ -60,7 +60,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 	}
 	
 	void setStaffPanel() {
-		staffPanel = new StaffPanel();
+		staffPanel = new StaffPanel(this);
 		add(staffPanel);
 	}
 	
