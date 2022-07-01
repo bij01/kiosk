@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Vector;
 import java.io.*;
 
@@ -26,7 +26,7 @@ public class OrderServerImpl implements OrderServer {
 	Vector<Vector> memberVector1 = new Vector<Vector>(); //회원 이름으로 조회
 	Vector<Object> memberVector2 = new Vector<Object>(); // 회원 핸드폰 번호로 조회
 	
-	HashSet<Vector> ordersSet = new HashSet<Vector>();
+	LinkedHashSet<Vector> ordersSet = new LinkedHashSet<Vector>();
 	
 	
 	void init() {
@@ -115,13 +115,13 @@ public class OrderServerImpl implements OrderServer {
 	
 	
 	// 상품번호, 상품명, 상품 가격, 판매 상태, 카테고리번호
-	public void insertProduct(int PNO, String PNAME, int PSAL, int PSTATE, int CNO) {
+	public void insertProduct(int PNO, String PNAME, int PPRICE, int PSTATE, int CNO) {
 		sql = "insert into PRODUCT values(?, ?, ?, ?, ?)";
 		try {
 			pstmt2 = con.prepareStatement(sql);
 			pstmt2.setInt(1,PNO);
 			pstmt2.setString(2, PNAME);
-			pstmt2.setInt(3, PSAL);
+			pstmt2.setInt(3, PPRICE);
 			pstmt2.setInt(4, PSTATE);
 			pstmt2.setInt(5, CNO);
 			int i = pstmt2.executeUpdate();
@@ -357,6 +357,7 @@ public class OrderServerImpl implements OrderServer {
 		}
 		ResultSet rs = null;
 		String date;
+		String date2;
 		String finalOrderNo = null;
 		try {
 			pstmt1 = con.prepareStatement(sql);
@@ -375,6 +376,7 @@ public class OrderServerImpl implements OrderServer {
 					System.out.println("범위 초과");
 				}
 				//System.out.println(date + "-" + orderNo);
+				date2 = date + "-" + orderNo;
 				String cdnoS = Integer.toString(cdno);
 				if (cdnoS.length() == 1) {
 					finalOrderNo = date + "-" + orderNo + "-0" + cdnoS;
@@ -386,6 +388,7 @@ public class OrderServerImpl implements OrderServer {
 				}else {
 					System.out.println("범위 초과");
 				}
+				return date2;
 			}
 		}catch(SQLException se) {
 			System.out.println("상품을 찾을 수 없습니다." + se);
@@ -402,7 +405,7 @@ public class OrderServerImpl implements OrderServer {
 	}
 	
 	int returnPrice(int pno) {
-		String sql = "select PSAL from PRODUCT where PNO=?"; //PSAL -> PPRICE로 변경하기
+		String sql = "select PPRICE from PRODUCT where PNO=?"; 
 		ResultSet rs = null;
 		int price = 0;
 		try {
@@ -456,12 +459,10 @@ public class OrderServerImpl implements OrderServer {
 		}
 		return options;
 	}
-	
-	
 
 	@Override
 	public void selectOrder() { //주문테이블 조회
-		sql = "select * from ORDERS order by ONO";
+		sql = "select * from ORDERS order by ONO desc";
 		ResultSet rs = null;
 		Vector<Object> orderSet;
 		try {
@@ -494,7 +495,7 @@ public class OrderServerImpl implements OrderServer {
 			}
 		}
 	}
-	
+
 	
 	//이미지를 불러와서 배열에 담아서 이미지를 집어넣기 위한 메서드
 	String[] returnFileInfo(int pno) {
@@ -596,18 +597,19 @@ public class OrderServerImpl implements OrderServer {
 		
 	}
 	// 1 = 주문대기 2=결제완료 3= 결제 취소
-	void updateOSTATE(int ostate, String odno) {
-		sql = "update ORDERS set OSTATE =? where ONO=?";
+	void updateOSTATE(int ostate, String ono) {
+		sql = "update ORDERS set OSTATE =? where ONO LIKE ? ";
 		try {
 			pstmt2 = con.prepareStatement(sql);
 			pstmt2.setInt(1, ostate);
-			pstmt2.setString(2, odno);
+			pstmt2.setString(2, ""+ono+"%");
 			int i =pstmt2.executeUpdate();
+			System.out.println("test");
 			if(i>0) {
-				System.out.println("추가 성공");
+				System.out.println("변경 성공");
 				con.commit();
 			}else {
-				System.out.println("추가 실패");
+				System.out.println("변경 실패");
 				con.rollback();
 			}
 		}catch(SQLException se) {

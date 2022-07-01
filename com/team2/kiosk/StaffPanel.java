@@ -3,6 +3,8 @@ package com.team2.kiosk;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
@@ -12,13 +14,15 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.border.*;
 
-class StaffPanel extends JPanel {
+class StaffPanel extends JPanel implements ActionListener, MouseListener {
 	OrderServerImpl os;
 	MainPanel mp;
 	OrderClient oc;
 	LinkedHashSet<Vector> listSet = new LinkedHashSet<Vector>(); //주문리스트
 	
 	JPanel listPanel, detailPanel;
+	JTable table1, table2;
+	String orderNumber, totalPrice;
 
 	StaffPanel(MainPanel mp) {
 		this.mp = mp;
@@ -90,13 +94,18 @@ class StaffPanel extends JPanel {
 		
 		os.selectOrder();
 		Vector orderV = null;
+		String pname = "";
 		for (Vector<Object> vector: os.ordersSet) {
 			orderV = new Vector();
 			String orderNo = (String)vector.get(0);
-			int pno = (Integer)vector.get(2);
-			os.selectProduct(2, pno);
-			// 상품 이름
-			String pname = os.productVector.get(1).toString();
+			
+			if(orderNo.endsWith("1")){
+				int pno = (Integer)vector.get(2);
+				os.selectProduct(2, pno);
+				// 상품 이름
+				pname = os.productVector.get(1).toString();
+			}
+			orderNo = orderNo.substring(0, 10);
 			// 같은 주문번호로 주문된게 몇개인지 확인
 			int count = os.returnSameOrderNumCount(orderNo);
 			String countS = Integer.toString(count);
@@ -104,21 +113,57 @@ class StaffPanel extends JPanel {
 			int priceSum = os.returnPriceSum(orderNo);
 			String priceSumS = Integer.toString(priceSum);
 			//System.out.println("주문번호: "+ orderNo +", 주문합계: " + count + ", 금액: " + priceSum);
+			
+			//orderV.add(countS);
+			String orderState = null;
+			// 주문번호, 주문상태
 			orderV.add(orderNo);
-			orderV.add(countS);
-			orderV.add(priceSumS);
-			System.out.println("추가: " + orderV);
+			if(vector.get(5).equals(1)) {
+				orderState = "주문대기";
+			} else if(vector.get(5).equals(2)) {
+				orderState = "결제완료";
+			} else if(vector.get(5).equals(3)) {
+				orderState = "결제취소";
+			}
+			orderV.add(orderState);
+			// 대표메뉴
+			if (countS.equals("1")){
+				orderV.add(pname);
+			} else {
+				String num = Integer.toString(count-1);
+				orderV.add(pname + " 외 " + num + "개");
+			}
+			// 가격
+			orderV.add(priceSum + "원");
+			// 주문시간
+			orderV.add(vector.get(4));
+			
+			listSet.add(orderV);
 		}
 
-
-		
+		for(Vector v:listSet) {
+			//System.out.println(v);
+			rowData.add(v);
+		}
+			
 		//System.out.println(os.ordersSet);
 		
-		JTable table = new JTable(rowData, columnNames);
-		table.setPreferredScrollableViewportSize(new Dimension(680, 300));
-		table.setFillsViewportHeight(true);
-		table.setBackground(Color.WHITE);
-		JScrollPane sp = new JScrollPane(table);
+		table1 = new JTable(rowData, columnNames);
+		table1.setPreferredScrollableViewportSize(new Dimension(680, 300));
+		table1.setFillsViewportHeight(true);
+		table1.setBackground(Color.WHITE);
+		table1.getColumnModel().getColumn(1).setPreferredWidth(20);
+		table1.getColumnModel().getColumn(3).setPreferredWidth(30);
+		table1.getColumnModel().getColumn(4).setPreferredWidth(100);
+		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tcm = table1.getColumnModel() ; 
+		table1.addMouseListener(this);
+		tcm.getColumn(0).setCellRenderer(dtcr);
+		tcm.getColumn(1).setCellRenderer(dtcr);
+		tcm.getColumn(4).setCellRenderer(dtcr);
+		
+		JScrollPane sp = new JScrollPane(table1);
 		listtablePanel.add(sp);
 		listPanel.add(listtablePanel, BorderLayout.CENTER);
 
@@ -167,6 +212,7 @@ class StaffPanel extends JPanel {
 		listbottombutton1.setBackground(Color.BLACK);
 		listbottombutton1.setForeground(Color.WHITE);
 		listbottombutton1.setFont(new Font("HYPOST", Font.BOLD, 28));
+		listbottombutton1.addActionListener(this);
 		listPanel.add(listbottombutton1);
 		add(listPanel);
 
@@ -223,11 +269,13 @@ class StaffPanel extends JPanel {
 		v2.add("15.000");
 		rowData.add(v1);
 		rowData.add(v2);
-		JTable table = new JTable(rowData, columnNames);
-		table.setPreferredScrollableViewportSize(new Dimension(680, 300));
-		table.setFillsViewportHeight(true);
-		table.setBackground(Color.WHITE);
-		JScrollPane sp = new JScrollPane(table);
+		table2 = new JTable(rowData, columnNames);
+		table2.setPreferredScrollableViewportSize(new Dimension(680, 300));
+		table2.setFillsViewportHeight(true);
+		table2.setBackground(Color.WHITE);
+		
+
+		JScrollPane sp = new JScrollPane(table2);
 		listtablePanel.add(sp);
 		detailPanel.add(listtablePanel, BorderLayout.CENTER);
 
@@ -284,4 +332,31 @@ class StaffPanel extends JPanel {
 		add(detailPanel);
 
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton btn = (JButton)e.getSource();
+		if (btn.getText().equals("선택하기")) {
+			
+			//onDetailPanel();
+		}
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int row = table1.getSelectedRow();
+		System.out.println(row);
+		orderNumber = table1.getValueAt(row, 0).toString();
+		totalPrice = table1.getValueAt(row, 3).toString();
+		System.out.println(orderNumber +", "+totalPrice);
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {}
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+	@Override
+	public void mouseExited(MouseEvent e) {}
 }
