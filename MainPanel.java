@@ -425,7 +425,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		menuLetterLabel.setFont(new Font("HYPOST", Font.BOLD, 20));
 		sidePanel.add(menuLetterLabel);
 
-<<<<<<< HEAD
+
 		JSeparator menutopSolidline = new JSeparator();
 		menutopSolidline.setBounds(17, 22, 50, 50);
 		menutopSolidline.setForeground(Color.WHITE); // top line color
@@ -435,30 +435,13 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		
 		
 		
-		String sideimagePath = "./src/a.png";
-		BufferedImage bufferedImage = null;
-		try {
-			bufferedImage = ImageIO.read(new File(sideimagePath));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		Image img = bufferedImage.getScaledInstance(120, 50, Image.SCALE_DEFAULT);
-		ImageIcon sidemenuimg1 = new ImageIcon(img);
 	//메뉴종류-커피,버튼
 		String text =  "커피";
-=======
-		ImageIcon sidemenuimg1 = new ImageIcon(returnImg("./src/mainBut1.png", 120, 60));
+		ImageIcon sidemenuimg1 = new ImageIcon(returnImg("./src/a.png", 120, 60));
 		//메뉴종류-커피,버튼
 		
-		JLabel menuLabel1 = new JLabel(sidemenuimg1);
-		menuLabel1.setBounds(10, 20, 100, 50);
-		JLabel menuLabel2 = new JLabel(sidemenuimg1);
-		menuLabel2.setBounds(10, 100, 100, 50);
-		JLabel menuLabel3 = new JLabel(sidemenuimg1);
-		menuLabel3.setBounds(10, 180, 100, 50);
 	
->>>>>>> 77065e1093b95af342248c935f577d0c35fd49f3
-		
+
 		JButton menuBtn1 = new JButton(text, sidemenuimg1);
 		menuBtn1.setFont(new Font("HYPOST", Font.BOLD, 15));
 		menuBtn1.setLayout(null);
@@ -479,7 +462,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		menuBtn2.setLayout(null);
 		menuBtn2.setPreferredSize(new Dimension(145, 80));
 		menuBtn2.setForeground(Color.WHITE);
-		menuBtn2.setBounds(-16, 100, 150, 50);
+		menuBtn2.setBounds(-16, 110, 150, 50);
 		menuBtn2.setBorderPainted(false);
 		menuBtn2.setBackground(new Color(255,0,0,0));
 		menuBtn2.setVerticalTextPosition(menuBtn2.CENTER); // 텍스트 아래로
@@ -492,7 +475,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		menuBtn3.setLayout(null);
 		menuBtn3.setPreferredSize(new Dimension(145, 80));
 		menuBtn3.setForeground(Color.WHITE);
-		menuBtn3.setBounds(-16, 150, 150, 50);
+		menuBtn3.setBounds(-16, 170, 150, 50);
 		menuBtn3.setBorderPainted(false);
 		menuBtn3.setBackground(new Color(255,0,0,0));
 		menuBtn3.setVerticalTextPosition(menuBtn2.CENTER); // 텍스트 아래로
