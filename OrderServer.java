@@ -11,7 +11,7 @@ public interface OrderServer {
 	
 	void selectCart(); //현재 장바구니 테이블 조회
 	
-	void insertOrder(String cdno); //주문 테이블에 데이터 넣기
+	void insertOrder(int cdno); //주문 테이블에 데이터 넣기
 	
 	void selectOrder(); //주문테이블 조회
 	

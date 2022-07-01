@@ -99,5 +99,6 @@ create sequence MEMBER_SEQ increment by 1 start with 1 nocache;
 create sequence ORDERS_SEQ increment by 1 start with 1 nocache;
 create sequence FILE_SEQ increment by 1 start with 1 nocache;
 
+commit;
 
 -- insert into file values(FILE_SEQ, 111, '.src\coffee1_americano','png'); <-파일이미지 불러오는 SQL문

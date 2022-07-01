@@ -94,3 +94,4 @@ insert into OPTIONS values(51, 0);
 insert into OPTIONS values(52, 0);
 insert into OPTIONS values(53, 0);
 
+commit;
