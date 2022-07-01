@@ -30,12 +30,12 @@ public class OrderServerImpl implements OrderServer {
 		//deleteProduct(127);
 		//insertCart(1, 113, 11, 21, 32, 42, 53);
 		//selectCart();
-		//insertOrder(1);
+		insertOrder(1);
 		//selectOrder();
 		//returnFileInfo(111);
 		//insertMember("strong1", "power123", "김근육", "010-3333-6666", 0);
 		//selectMember(2,"010-4252-3906");
-		updateOSTATE(2, "220701-046-01");
+		//updateOSTATE(2, "220701-046-01");
 	}
 	//DB와의 연결
 	void connectDB() {
@@ -56,13 +56,13 @@ public class OrderServerImpl implements OrderServer {
 	}
 	
 	// 상품번호, 상품명, 상품 가격, 판매 상태, 카테고리번호
-	public void insertProduct(int PNO, String PNAME, int PSAL, int PSTATE, int CNO) {
+	public void insertProduct(int PNO, String PNAME, int PPRICE, int PSTATE, int CNO) {
 		sql = "insert into PRODUCT values(?, ?, ?, ?, ?)";
 		try {
 			pstmt2 = con.prepareStatement(sql);
 			pstmt2.setInt(1,PNO);
 			pstmt2.setString(2, PNAME);
-			pstmt2.setInt(3, PSAL);
+			pstmt2.setInt(3, PPRICE);
 			pstmt2.setInt(4, PSTATE);
 			pstmt2.setInt(5, CNO);
 			int i = pstmt2.executeUpdate();
@@ -252,7 +252,7 @@ public class OrderServerImpl implements OrderServer {
 	
 		// 장바구니 번호에 있는 상품번호를 기준으로 상품테이블에서 가격데이터(PPRICE) 가져오기
 		int pprice = returnPrice(options[0]);
-		//System.out.println(orderNo + ", " + pprice);
+		System.out.println(orderNo + ", " + pprice);
 		
 		// orderNo + 주문상세번호,  제대로 완성 됐을때 insert문 실행
 		// 1.ONO 2.MID 3.PNO 4.ODNO 5.ODATE 6.OSTATE 7.PPRICE 8.COP1 9.COP2 10.COP3 11.COP4 12.COP5
@@ -338,7 +338,7 @@ public class OrderServerImpl implements OrderServer {
 	}
 	
 	int returnPrice(int pno) {
-		String sql = "select PSAL from PRODUCT where PNO=?"; //PSAL -> PPRICE로 변경하기
+		String sql = "select PPRICE from PRODUCT where PNO=?"; 
 		ResultSet rs = null;
 		int price = 0;
 		try {
@@ -537,10 +537,10 @@ public class OrderServerImpl implements OrderServer {
 			pstmt2.setString(2, odno);
 			int i =pstmt2.executeUpdate();
 			if(i>0) {
-				System.out.println("추가 성공");
+				System.out.println("변경 성공");
 				con.commit();
 			}else {
-				System.out.println("추가 실패");
+				System.out.println("변경 실패");
 				con.rollback();
 			}
 		}catch(SQLException se) {

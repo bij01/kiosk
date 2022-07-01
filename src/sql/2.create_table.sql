@@ -32,7 +32,7 @@ create table CATEGORY(
 create table PRODUCT(
 	PNO number,
 	PNAME varchar2(50) NOT null,
-	PSAL number(5) Not null,
+	PPRICE number(5) Not null,
 	PSTATE number(1) DEFAULT 1 not null, -- 1은 판매중 2는 솔드아웃
 	CNO number(3) not null,
 	constraint PRODUCT_PK primary key(PNO),
@@ -66,7 +66,7 @@ create table ORDERS(
 	ODNO number not null,
 	ODATE date not null,
 	OSTATE number(1) DEFAULT 1, --1은 주문대기 2는 주문확정
-	PSAL number(5) not null,
+	PPRICE number(5) not null,
 	COP1 number(2) not null,
 	COP2 number(2),
 	COP3 number(2),
@@ -79,7 +79,7 @@ create table ORDERS(
 
 create table LOGIN(
     MID varchar2(10), 
-    MPWD varchar2(10) NOT NULL, 
+    MPW varchar2(10) NOT NULL, 
     constraint LOGIN_PK primary key(MID), 
     constraint LOGIN_FK foreign key(MID) references MEMBER(MID) on delete cascade
 );
