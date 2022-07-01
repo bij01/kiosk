@@ -30,3 +30,5 @@ create sequence CART_SEQ increment by 1 start with 1 nocache;
 
 insert into CART values(CART_SEQ.nextval, 121, 11, 21, 31, 42, 53);
 insert into CART values(CART_SEQ.nextval, 117, 11, 21, 31, 42, 53);
+
+commit;

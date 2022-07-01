@@ -26,9 +26,9 @@ public class OrderServerImpl implements OrderServer {
 		//insertProduct(128,"자바칩프라프치노1", 6600, 1, 11);
 		//selectProduct(1, 11);
 		//deleteProduct(127);
-		//insertCart(1,113, 11, 21, 32, 42, 53);
+		//insertCart(1, 113, 11, 21, 32, 42, 53);
 		//selectCart();
-		//insertOrder();
+		insertOrder(1);
 		//selectOrder();
 		//returnFileInfo(111);
 		//System.out.println(returnFileInfo(111)[0] + "." + returnFileInfo(111)[1]);
@@ -110,7 +110,7 @@ public class OrderServerImpl implements OrderServer {
 		}finally {
 			try {
 				if (rs!=null) rs.close();
-				if (rs!=null) pstmt1.close();
+				if (pstmt1!=null) pstmt1.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -205,7 +205,7 @@ public class OrderServerImpl implements OrderServer {
 		}finally {
 			try {
 				if (rs!=null) rs.close();
-				if (rs!=null) pstmt1.close();
+				if (pstmt1!=null) pstmt1.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -214,18 +214,58 @@ public class OrderServerImpl implements OrderServer {
 	
 	@Override
 	// 주문번호(자동생성), 회원ID(자동입력), 장바구니번호(상품번호, 옵션번호 1~5), 주문시간, 주문상태
-	public void insertOrder(String cdno) { //주문 테이블에 데이터 넣기
+	public void insertOrder(int cdno) { //주문 테이블에 데이터 넣기
+		String orderNo = returnOrderNo(cdno);
+		// 장바구니번호(주문상세번호) 입력받아서 이걸 기준으로 장바구니 테이블에서 상품번호, 옵션번호1~5를 받아오기
+		//PNO, COP1, COP2, COP3, COP4, COP5 
+		int options[] = selectCartOptions(cdno);
+	
+		// 장바구니 번호에 있는 상품번호를 기준으로 상품테이블에서 가격데이터(PPRICE) 가져오기
+		int pprice = returnPrice(options[0]);
+		//System.out.println(orderNo + ", " + pprice);
+		
+		// orderNo + 주문상세번호,  제대로 완성 됐을때 insert문 실행
+		// 1.ONO 2.MID 3.PNO 4.ODNO 5.ODATE 6.OSTATE 7.PPRICE 8.COP1 9.COP2 10.COP3 11.COP4 12.COP5
+		//    ?  kiosk   ?      ?     sys       ?        ?       ?      ?       ?       ?       ?
+		String sql = "insert into ORDERS values(?,'kiosk',?,?,SYSDATE,?,?,?,?,?,?,?)";
+		try {
+			pstmt2 = con.prepareStatement(sql);
+			pstmt2.setString(1, orderNo);
+			pstmt2.setInt(2,options[0]);
+			pstmt2.setInt(3,cdno);
+			pstmt2.setInt(4,1);
+			pstmt2.setInt(5,pprice);
+			pstmt2.setInt(6,options[1]);
+			pstmt2.setInt(7,options[2]);
+			pstmt2.setInt(8,options[3]);
+			pstmt2.setInt(9,options[4]);
+			pstmt2.setInt(10,options[5]);
+			int i = pstmt2.executeUpdate();
+			System.out.println("test");
+			if(i>0) {
+				System.out.println("추가 성공");
+				con.commit();
+			}else {
+				System.out.println("실험 실패");
+				con.rollback();
+			}
+		}catch(SQLException se) {
+			System.out.println("insert실패:"+se);
+		}
+	}
+	
+	String returnOrderNo(int cdno) {
 		sql = "select to_char(SYSDATE, 'YYMMDD'), ORDERS_SEQ.nextval from dual";
 		ResultSet rs = null;
 		String date;
-		String orderNoFinal;
+		String finalOrderNo = null;
 		try {
 			pstmt1 = con.prepareStatement(sql);
 			rs = pstmt1.executeQuery();
 			while(rs.next()) {
 				date = rs.getString(1);
 				String orderNo = rs.getString(2);
-				System.out.println(date + ", " + orderNo + "order길이: " + orderNo.length());
+				//System.out.println(date + ", " + orderNo + "order길이: " + orderNo.length());
 				if(orderNo.length() == 1) {
 					orderNo = "00" + orderNo;
 				} else if (orderNo.length() == 2) {
@@ -235,40 +275,83 @@ public class OrderServerImpl implements OrderServer {
 				} else {
 					System.out.println("범위 초과");
 				}
-				System.out.println(date + "-" + orderNo);
-				if (cdno.length() == 1) {
-					orderNoFinal = date + "-" + orderNo + "-0" + cdno;
-					System.out.println(orderNoFinal);
-				}else if (cdno.length() == 2){
-					orderNoFinal = date + "-" + orderNo + "-" + cdno;
+				//System.out.println(date + "-" + orderNo);
+				String cdnoS = Integer.toString(cdno);
+				if (cdnoS.length() == 1) {
+					finalOrderNo = date + "-" + orderNo + "-0" + cdnoS;
+					//System.out.println(finalOrderNo);
+					return finalOrderNo;
+				}else if (cdnoS.length() == 2){
+					finalOrderNo = date + "-" + orderNo + "-" + cdnoS;
+					return finalOrderNo;
 				}else {
 					System.out.println("범위 초과");
 				}
-				// 장바구니번호(주문상세번호) 입력받아서 이걸 기준으로 장바구니 테이블에서 상품번호, 옵션번호1~5를 받아오기
-				String sql1 = "select PNO, COP1, COP2, COP3, COP4, COP5 from CART where CDNO=?";
-				ResultSet rss = null;
-				String data;
-				try {
-					pstmt1 = con.prepareStatement(sql1);
-					pstmt1.setString(1, cdno);
-					rss = pstmt1.executeQuery();
-					while(rss.next()) {
-						System.out.println("tset");
-					}
-				}catch(SQLException se) {}
-				
-				// 장바구니 번호에 있는 상품번호를 기준으로 상품테이블에서 가격데이터(PSAL) 가져오기
-				String sql2 = "select ";
-				
-				// orderNoFinal + 주문상세번호,  제대로 완성 됐을때 insert문 실행
-				String sql3 = "insert into ORDERS values(?,'kiosk',?,?,SYSDATE,?,?,?,?,?,?,?);";
 			}
 		}catch(SQLException se) {
 			System.out.println("상품을 찾을 수 없습니다." + se);
+		}finally {
+			try {
+				if (rs!=null) rs.close();
+				if (pstmt1!=null) pstmt1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		
+		return finalOrderNo;
 		
 	}
+	
+	int returnPrice(int pno) {
+		String sql = "select PSAL from PRODUCT where PNO=?"; //PSAL -> PPRICE로 변경하기
+		ResultSet rs = null;
+		int price = 0;
+		try {
+			pstmt1 = con.prepareStatement(sql);
+			pstmt1.setInt(1, pno);
+			rs = pstmt1.executeQuery();
+			while(rs.next()) {
+				price = rs.getInt(1);
+				return price;
+			}
+		}catch(SQLException se) {
+		}finally {
+			try {
+				if (rs!=null) rs.close();
+				if (pstmt1!=null) pstmt1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return price;
+	}
+	
+	int[] selectCartOptions(int cdno) {
+		String sql = "select PNO, COP1, COP2, COP3, COP4, COP5 from CART where CDNO=?";
+		ResultSet rs = null;
+		int options[] = new int[6];
+		try {
+			pstmt1 = con.prepareStatement(sql);
+			pstmt1.setInt(1, cdno);
+			rs = pstmt1.executeQuery();
+			while(rs.next()) {
+				options[0] = rs.getInt(1); options[1] = rs.getInt(2); options[2] = rs.getInt(3);
+				options[3] = rs.getInt(4); options[4] = rs.getInt(5); options[5] = rs.getInt(6);
+				return options;
+			}
+		}catch(SQLException se) {
+		}finally {
+			try {
+				if (rs!=null) rs.close();
+				if (pstmt1!=null) pstmt1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return options;
+	}
+	
+	
 
 	@Override
 	public void selectOrder() { //주문테이블 조회
@@ -288,6 +371,7 @@ public class OrderServerImpl implements OrderServer {
 			System.out.println("상품을 찾을 수 없습니다." + se);
 		}
 	}
+	
 	
 	//이미지를 불러와서 배열에 담아서 이미지를 집어넣기 위한 메서드
 	String[] returnFileInfo(int pno) {
@@ -318,26 +402,10 @@ public class OrderServerImpl implements OrderServer {
 		
 		return fileInfo;
 	}
-	void user(int cdno) {
-	String sql1 = "select PNO, COP1, COP2, COP3, COP4, COP5 from CART where CDNO=?";
-	ResultSet rss = null;
-	String data;
-	try {
-		pstmt1 = con.prepareStatement(sql1);
-		pstmt1.setInt(1, cdno);
-		rss = pstmt1.executeQuery();
-		while(rss.next()) {
-			System.out.println(rss.getInt(1) +" " +  rss.getInt(2) +" " + rss.getInt(3) + " " +
-		rss.getInt(4) + " " +rss.getInt(5) +" " + rss.getInt(6));
-		}
-	}catch(SQLException se) {}
-	}
-	
 
 	public static void main(String[] args) {
 		OrderServerImpl os = new OrderServerImpl();
 		os.init();
-		os.user(1);
 	}
 
 }

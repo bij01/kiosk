@@ -42,4 +42,6 @@ insert into FILES values (FILE_SEQ.nextval, 336, 'dessert6_gwakamollisaendeuwich
 insert into FILES values (FILE_SEQ.nextval, 337, 'dessert7_macalong' ,'png');
 insert into FILES values (FILE_SEQ.nextval, 338, 'dessert8_tiramisucake' ,'png');
 insert into FILES values (FILE_SEQ.nextval, 339, 'dessert9_cheesecake' ,'png');
-insert into FILES values (FILE_SEQ.nextval, 340, 'dessert10_chocolatebrownie' ,'png')
+insert into FILES values (FILE_SEQ.nextval, 340, 'dessert10_chocolatebrownie' ,'png');
+
+commit;

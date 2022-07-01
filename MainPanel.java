@@ -453,64 +453,73 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		sidePanel.setBackground(new Color(30, 30, 30));
 	
 	
-		JLabel menuLetterLabel = new JLabel(" | 메뉴");
-		menuLetterLabel.setBounds(10, 300, 100, 50);
+		JLabel menuLetterLabel = new JLabel("메뉴");
+		menuLetterLabel.setBounds(14, 3, 100, 50);
 		menuLetterLabel.setForeground(Color.WHITE);
 		menuLetterLabel.setFont(new Font("HYPOST", Font.BOLD, 20));
 		sidePanel.add(menuLetterLabel);
 
-		ImageIcon sidemenuimg1 = new ImageIcon(returnImg("./src/mainBut1.png", 120, 60));
+
+		JSeparator menutopSolidline = new JSeparator();
+		menutopSolidline.setBounds(17, 22, 50, 50);
+		menutopSolidline.setForeground(Color.WHITE); // top line color
+		menutopSolidline.setBackground(Color.black.brighter());
+		add(menutopSolidline);
+		
+		
+		
+		
+	//메뉴종류-커피,버튼
+		String text =  "커피";
+		ImageIcon sidemenuimg1 = new ImageIcon(returnImg("./src/a.png", 120, 60));
 		//메뉴종류-커피,버튼
 		
-		JLabel menuLabel1 = new JLabel(sidemenuimg1);
-		menuLabel1.setBounds(10, 20, 100, 50);
-		JLabel menuLabel2 = new JLabel(sidemenuimg1);
-		menuLabel2.setBounds(10, 100, 100, 50);
-		JLabel menuLabel3 = new JLabel(sidemenuimg1);
-		menuLabel3.setBounds(10, 180, 100, 50);
 	
-		
-		JButton menuBtn1 = new JButton("커피");
-		menuBtn1.setFont(new Font("HYPOST", Font.BOLD, 20));
+
+		JButton menuBtn1 = new JButton(text, sidemenuimg1);
+		menuBtn1.setFont(new Font("HYPOST", Font.BOLD, 15));
+		menuBtn1.setLayout(null);
+		menuBtn1.setPreferredSize(new Dimension(145, 80));
 		menuBtn1.setForeground(Color.WHITE);
-		menuBtn1.setBounds(15, -3, 100, 50);
+		menuBtn1.setBounds(-16, 50, 150, 50);
 		menuBtn1.setBorderPainted(false);
-		menuBtn1.setContentAreaFilled(true);
-		menuBtn1.setFocusPainted(false);
 		menuBtn1.setBackground(new Color(255,0,0,0));
-		menuBtn1.setOpaque(false);
-		menuLabel1.add(menuBtn1);
-	
-
-		JButton menuBtn2 = new JButton("음료");
-		menuBtn2.setFont(new Font("HYPOST", Font.BOLD, 20));
+		menuBtn1.setVerticalTextPosition(menuBtn1.CENTER); // 텍스트 아래로
+		menuBtn1.setHorizontalTextPosition(menuBtn1.CENTER);
+		//menuBtn1.setContentAreaFilled(false);
+		//menuBtn1.setFocusPainted(false);
+		//menuBtn1.setOpaque(false);
+		
+		String text2 =  "음료";	
+		JButton menuBtn2 = new JButton(text2, sidemenuimg1);
+		menuBtn2.setFont(new Font("HYPOST", Font.BOLD, 15));
+		menuBtn2.setLayout(null);
+		menuBtn2.setPreferredSize(new Dimension(145, 80));
 		menuBtn2.setForeground(Color.WHITE);
-		menuBtn2.setBounds(15, 77, 100, 50);
+		menuBtn2.setBounds(-16, 110, 150, 50);
 		menuBtn2.setBorderPainted(false);
-		menuBtn2.setContentAreaFilled(true);
-		menuBtn2.setFocusPainted(false);
 		menuBtn2.setBackground(new Color(255,0,0,0));
-		menuBtn2.setOpaque(false);
-		menuLabel2.add(menuBtn2);
+		menuBtn2.setVerticalTextPosition(menuBtn2.CENTER); // 텍스트 아래로
+		menuBtn2.setHorizontalTextPosition(menuBtn2.CENTER);
 		
 		
-		JButton menuBtn3 = new JButton("디저트");
-		menuBtn3.setFont(new Font("HYPOST", Font.BOLD, 20));
+		String text3 =  "디저트";	
+		JButton menuBtn3 = new JButton(text3, sidemenuimg1);
+		menuBtn3.setFont(new Font("HYPOST", Font.BOLD, 15));
+		menuBtn3.setLayout(null);
+		menuBtn3.setPreferredSize(new Dimension(145, 80));
 		menuBtn3.setForeground(Color.WHITE);
-		menuBtn3.setBounds(15,157, 100, 50);
+		menuBtn3.setBounds(-16, 170, 150, 50);
 		menuBtn3.setBorderPainted(false);
-		menuBtn3.setContentAreaFilled(true);
-		menuBtn3.setFocusPainted(false);
 		menuBtn3.setBackground(new Color(255,0,0,0));
-		menuBtn3.setOpaque(false);
-		menuLabel3.add(menuBtn3);
-
-	
+		menuBtn3.setVerticalTextPosition(menuBtn2.CENTER); // 텍스트 아래로
+		menuBtn3.setHorizontalTextPosition(menuBtn2.CENTER);
+			
 		menuBtn1.addActionListener(new ChangeList());
 		menuBtn2.addActionListener(new ChangeList());
 		menuBtn3.addActionListener(new ChangeList());
 
-		sidePanel.add(menuLabel1);
+		sidePanel.add(menuBtn1);
 		sidePanel.add(menuBtn2);
 		sidePanel.add(menuBtn3);
 		add(sidePanel);	

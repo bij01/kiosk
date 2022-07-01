@@ -13,3 +13,5 @@ purge recyclebin;
 
 alter session set "_oracle_script"=true;
 drop user Team2 cascade;
+
+show user
