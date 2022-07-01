@@ -107,6 +107,13 @@ public class OrderServerImpl implements OrderServer {
 			}
 		}catch(SQLException se) {
 			System.out.println("상품을 찾을 수 없습니다." + se);
+		}finally {
+			try {
+				if (rs!=null) rs.close();
+				if (rs!=null) pstmt1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -195,6 +202,13 @@ public class OrderServerImpl implements OrderServer {
 			
 		}catch(SQLException se) {
 			System.out.println("상품을 찾을 수 없습니다." + se);
+		}finally {
+			try {
+				if (rs!=null) rs.close();
+				if (rs!=null) pstmt1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -293,6 +307,13 @@ public class OrderServerImpl implements OrderServer {
 			return fileInfo; 
 		}catch(SQLException se) {
 			System.out.println(se);
+		}finally {
+			try {
+				if (rs!=null) rs.close();
+				if (rs!=null) pstmt1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return fileInfo;

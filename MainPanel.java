@@ -102,7 +102,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 	void addProductOnCart(String name, String op1, String op2, String op3, String op4) {
 		
 		cartCount += 1;
-		System.out.println(cartCount);
+		
 		os.productVector.clear();
 		os.selectProduct(2, Integer.parseInt(pno));
 
@@ -113,9 +113,20 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		subLabel.setVisible(true);
 		subLabel.setLayout(null);
 		subLabel.setBackground(new Color(70, 250, 200));
-
+		
+		System.out.println(pno);
+		String path[] = os.returnFileInfo(Integer.parseInt(pno));
+		System.out.println(path[0]);
+		ImageIcon listimage = new ImageIcon(returnImg("./src/noimage.png", 50, 55));
+        try {
+        	listimage = new ImageIcon(returnImg("./src/img/" + path[0] + "." + path[1], 50, 55));
+        } catch (NullPointerException npe) {
+        	
+        }
+		
 		JLabel imageLabel = new JLabel("");
-		imageLabel.setIcon(new ImageIcon(coffee1));
+		
+		imageLabel.setIcon(listimage);
 		imageLabel.setBounds(30, 10, 50, 70);
 		JLabel nameLabel = new JLabel(name);
 		nameLabel.setBounds(90, 10, 230, 70);
@@ -414,18 +425,9 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		menuLetterLabel.setFont(new Font("HYPOST", Font.BOLD, 20));
 		sidePanel.add(menuLetterLabel);
 
+		ImageIcon sidemenuimg1 = new ImageIcon(returnImg("./src/mainBut1.png", 120, 60));
+		//메뉴종류-커피,버튼
 		
-		String sideimagePath = "./src/mainBut1.png";
-		BufferedImage bufferedImage = null;
-		try {
-			bufferedImage = ImageIO.read(new File(sideimagePath));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		Image img = bufferedImage.getScaledInstance(120, 60, Image.SCALE_DEFAULT);
-		ImageIcon sidemenuimg1 = new ImageIcon(img);
-	//메뉴종류-커피,버튼
-	
 		JLabel menuLabel1 = new JLabel(sidemenuimg1);
 		menuLabel1.setBounds(10, 20, 100, 50);
 		JLabel menuLabel2 = new JLabel(sidemenuimg1);
@@ -477,12 +479,8 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		sidePanel.add(menuLabel1);
 		sidePanel.add(menuBtn2);
 		sidePanel.add(menuBtn3);
-		add(sidePanel);
-			
-		
+		add(sidePanel);	
 	}
-	
-	
 	
 	@Override
 	public void run() {
