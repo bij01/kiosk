@@ -124,13 +124,13 @@ class OrderClient extends JFrame implements ActionListener {
 		mainPanel.setVisible(false);
 		cp.setBackground(new Color(150, 150, 150));
 		cp.add(mainPanel);
-	}	
+	}
 
 	void setBottomPanel() {
 		bottomPanel = new JPanel();
 		bottomPanel.setBounds(0, 881, 684, 80);
 		bottomPanel.setVisible(false);
-		bottomPanel.setBackground(new Color(50, 70, 70));
+		bottomPanel.setBackground(new Color(30, 30, 30));
 		bottomPanel.setLayout(null);
 		mainBtn1 = new JButton("처음으로");
 		mainBtn2 = new JButton("주문하기");
@@ -138,6 +138,7 @@ class OrderClient extends JFrame implements ActionListener {
 		mainBtn2.setFont(new Font("HYPOST", Font.BOLD, 20));
 		mainBtn1.setBounds(172, 15, 120, 50);
 		mainBtn2.setBounds(372, 15, 120, 50);
+		mainBtn1.addActionListener(this);
 		mainBtn2.addActionListener(this);
 		bottomPanel.add(mainBtn1);
 		bottomPanel.add(mainBtn2);
@@ -173,6 +174,20 @@ class OrderClient extends JFrame implements ActionListener {
 			System.out.print(mainPanel.cop5+"\t");
 			mainPanel.offOptionPanel();
 			mainPanel.addProductOnCart(mainPanel.pname, mainPanel.cop2, mainPanel.cop3, mainPanel.cop4, mainPanel.cop5);
+		} else if (btnText.equals("처음으로")) {
+			firstPanel.setVisible(true);
+			mainPanel.setVisible(false);
+			bottomPanel.setVisible(false);
+			mainPanel.offOptionPanel();
+			mainPanel.labelMap.clear();
+			mainPanel.cartCount = 0;
+			mainPanel.cartPrice = 0;
+			mainPanel.orderLabel2.setText("0");
+			mainPanel.orderLabel4.setText("0");
+			mainPanel.cartSubPanel1.removeAll();
+			mainPanel.cartSubPanel1.repaint();
+			repaint();
+			mainPanel.os.deleteCart();
 		}
 	}
 

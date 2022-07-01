@@ -14,8 +14,9 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 	OrderClient oc;
 	OrderServerImpl os;
 	
-	JPanel listPanel, sidePanel, cartPanel, optionPanel;
+	JPanel listPanel, sidePanel, cartPanel;
 	JPanel cartSubPanel1, cartSubPanel2;
+	JPanel optionPanel, staffPanel;
 	JButton cartBtn, listBtn, cartDropBtn;
 	JLabel cartLabel1, cartLabel2, orderLabel2, orderLabel4;
 	
@@ -37,6 +38,8 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		setListPanel();
 		setSidePanel();
 		setOptionPanel();
+		setStaffPanel();
+		onStaffPanel();
 		cop1 = "매장";
 		//testMode();
 		os.deleteCart();
@@ -50,6 +53,37 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 	void setOptionPanel() {
 		optionPanel = oc.op;
 		add(optionPanel);
+	}
+	
+	void setStaffPanel() {
+		staffPanel = new StaffPanel();
+		add(staffPanel);
+	}
+	
+	void onStaffPanel() {
+		listPanel.setVisible(false);
+		sidePanel.setVisible(false);
+		cartPanel.setVisible(false);
+		cartSubPanel1.setVisible(false);
+		cartSubPanel2.setVisible(false);
+		listScroll.setVisible(false);
+		oc.mainBtn1.setVisible(false);
+		oc.mainBtn2.setVisible(false);
+		oc.bottomPanel.setVisible(false);
+		staffPanel.setVisible(true);
+	}
+	
+	void offStaffPanel() {
+		listPanel.setVisible(true);
+		sidePanel.setVisible(true);
+		cartPanel.setVisible(true);
+		cartSubPanel1.setVisible(true);
+		cartSubPanel2.setVisible(true);
+		listScroll.setVisible(true);
+		oc.mainBtn1.setVisible(true);
+		oc.mainBtn2.setVisible(true);
+		oc.bottomPanel.setVisible(true);
+		staffPanel.setVisible(false);
 	}
 
 	void onOptionPanel() {
