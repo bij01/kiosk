@@ -43,7 +43,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		setSidePanel();
 		setOptionPanel();
 		setStaffPanel();
-		//onStaffPanel();
+		onStaffPanel();
 		cop1 = "매장";
 		//testMode();
 		os.deleteCart();
@@ -60,7 +60,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 	}
 	
 	void setStaffPanel() {
-		staffPanel = new StaffPanel();
+		staffPanel = new StaffPanel(this);
 		add(staffPanel);
 	}
 	
@@ -148,9 +148,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		subLabel.setOpaque(true);
 		subLabel.setBackground(new Color(255, 255, 255));
 		subLabel.setBorder(BorderFactory.createEtchedBorder());
-		System.out.println(pno);
 		String path[] = os.returnFileInfo(Integer.parseInt(pno));
-		System.out.println(path[0]);
 		ImageIcon listimage = new ImageIcon(returnImg("./src/noimage.png", 50, 55));
         try {
         	listimage = new ImageIcon(returnImg("./src/img/" + path[0] + "." + path[1], 70, 70));
@@ -410,8 +408,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		listScroll.getVerticalScrollBar().setUnitIncrement(18);
 		listScroll.getVerticalScrollBar().setPreferredSize(new Dimension(15, 0));
 		add(listScroll);
-	}
-	
+	}	
 	void addlistButton(int cno) {
 		os.productsVector.clear();
 		os.selectProduct(1, cno);

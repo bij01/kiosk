@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Vector;
 import java.io.*;
 
@@ -25,8 +26,12 @@ public class OrderServerImpl implements OrderServer {
 	Vector<Vector> memberVector1 = new Vector<Vector>(); //회원 이름으로 조회
 	Vector<Object> memberVector2 = new Vector<Object>(); // 회원 핸드폰 번호로 조회
 	
+	LinkedHashSet<Vector> ordersSet = new LinkedHashSet<Vector>();
+	
+	
 	void init() {
 		connectDB();
+		//returnSameOrderNumCount("220701-024");
 		//insertProduct(128,"자바칩프라프치노1", 6600, 1, 11);
 		//selectProduct(1, 11);
 		//deleteProduct(127);
@@ -34,10 +39,15 @@ public class OrderServerImpl implements OrderServer {
 		//selectCart();
 		//insertOrder(1);
 		//selectOrder();
+		//System.out.println(ordersSet);
 		//returnFileInfo(111);
 		//insertMember("strong1", "power123", "김근육", "010-3333-6666", 0);
 		//selectMember(2,"010-4252-3906");
+<<<<<<< HEAD
 		//updateOSTATE(3, "220701-011");
+=======
+		//updateOSTATE(2, "220701-046-01");
+>>>>>>> 18acaaa9d16e2e2af0669bd256a06f46fc8a1d3a
 	}
 	//DB와의 연결
 	void connectDB() {
@@ -56,6 +66,57 @@ public class OrderServerImpl implements OrderServer {
 			System.out.println("연결 실패: "+ se);
 		}
 	}
+	int returnPriceSum(String ono) {
+		sql = "select sum(psal) from product where pno in "
+				+ "(select pno from orders where ono like ?)";
+		ResultSet rs = null;
+		int sum = 0;
+		try {
+			pstmt1 = con.prepareStatement(sql);
+			pstmt1.setString(1, "%"+ono+"%");
+			rs = pstmt1.executeQuery();
+			
+			while(rs.next()) {
+				sum = rs.getInt(1);
+				//System.out.println(sum);
+			}
+		}catch(SQLException se) {
+			System.out.println("select 실패: "+ se);
+		}finally {
+			try {
+				if (pstmt1!=null) pstmt1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return sum;
+	}
+	
+	int returnSameOrderNumCount(String ono) {
+		sql = "select count(ONO) from orders where ONO like ?";
+		ResultSet rs = null;
+		int count = 0;
+		try {
+			pstmt1 = con.prepareStatement(sql);
+			pstmt1.setString(1, "%"+ono+"%");
+			rs = pstmt1.executeQuery();
+			
+			while(rs.next()) {
+				count = rs.getInt(1);
+				//System.out.println(count);
+			}
+		}catch(SQLException se) {
+			System.out.println("select 실패: "+ se);
+		}finally {
+			try {
+				if (pstmt1!=null) pstmt1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return count;
+	}
+	
 	
 	// 상품번호, 상품명, 상품 가격, 판매 상태, 카테고리번호
 	public void insertProduct(int PNO, String PNAME, int PPRICE, int PSTATE, int CNO) {
@@ -98,7 +159,6 @@ public class OrderServerImpl implements OrderServer {
 		Vector<Object> productV = null;
 		try {
 			pstmt1 = con.prepareStatement(sql);
-			System.out.println(pstmt1);
 			rs = pstmt1.executeQuery();
 			while(rs.next()) {
 				//System.out.println(rs.getInt(1)+ " "+ rs.getString(2) + " " + rs.getInt(3) +"원 " + rs.getInt(4) +" "+ rs.getInt(5));
@@ -111,6 +171,7 @@ public class OrderServerImpl implements OrderServer {
 					productV.add(rs.getInt(5));
 					productsVector.add(productV);
 				} else {
+					productVector.clear();
 					productVector.add(rs.getInt(1));
 					productVector.add(rs.getString(2));
 					productVector.add(rs.getInt(3));
@@ -140,7 +201,7 @@ public class OrderServerImpl implements OrderServer {
 				System.out.println("삭제 성공");
 				con.commit();
 			}else {
-				System.out.println("삭제 실패");
+				//System.out.println("삭제 실패");
 				con.rollback();
 			}
 		}catch(SQLException se) {
@@ -194,7 +255,7 @@ public class OrderServerImpl implements OrderServer {
 				System.out.println("삭제 성공");
 				con.commit();
 			}else {
-				System.out.println("삭제 실패");
+				//System.out.println("삭제 실패");
 				con.rollback();
 			}
 		}catch(SQLException se) {
@@ -401,23 +462,31 @@ public class OrderServerImpl implements OrderServer {
 		}
 		return options;
 	}
-	
-	
 
 	@Override
 	public void selectOrder() { //주문테이블 조회
-		sql = "select * from ORDERS order by ONO";
+		sql = "select * from ORDERS order by ONO desc";
 		ResultSet rs = null;
+		Vector<Object> orderSet;
 		try {
 			pstmt1 = con.prepareStatement(sql);
 			rs = pstmt1.executeQuery();
 			while(rs.next()) {
-				System.out.println(rs.getString(1)+" "+ rs.getString(2)+" "+ rs.getInt(3)
-				+" "+ rs.getInt(4)+" "+ rs.getString(5)+" "+ rs.getInt(6)+" "+ rs.getInt(7)
-				+"원 "+ rs.getInt(8)+" "+ rs.getInt(9)+" "+ rs.getInt(10)+" "+ rs.getInt(11)
-				+" "+ rs.getInt(12));
+				orderSet = new Vector<Object>();
+				orderSet.add(rs.getString(1));
+				orderSet.add(rs.getString(2));
+				orderSet.add(rs.getInt(3));
+				orderSet.add(rs.getInt(4));
+				orderSet.add(rs.getString(5));
+				orderSet.add(rs.getInt(6));
+				orderSet.add(rs.getInt(7));
+				orderSet.add(rs.getInt(8));
+				orderSet.add(rs.getInt(9));
+				orderSet.add(rs.getInt(10));
+				orderSet.add(rs.getInt(11));
+				orderSet.add(rs.getInt(12));
+				ordersSet.add(orderSet);
 			}
-			
 		}catch(SQLException se) {
 			System.out.println("상품을 찾을 수 없습니다." + se);
 		}finally {
@@ -426,17 +495,10 @@ public class OrderServerImpl implements OrderServer {
 				if (pstmt1!=null) pstmt1.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}finally {
-				try {
-					if (rs!=null) rs.close();
-					if (pstmt1!=null) pstmt1.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
 			}
 		}
 	}
-	
+
 	
 	//이미지를 불러와서 배열에 담아서 이미지를 집어넣기 위한 메서드
 	String[] returnFileInfo(int pno) {
