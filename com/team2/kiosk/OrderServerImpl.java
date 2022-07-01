@@ -32,12 +32,12 @@ public class OrderServerImpl implements OrderServer {
 		//deleteProduct(127);
 		//insertCart(1, 113, 11, 21, 32, 42, 53);
 		//selectCart();
-		insertOrder(1);
+		//insertOrder(1);
 		//selectOrder();
 		//returnFileInfo(111);
 		//insertMember("strong1", "power123", "김근육", "010-3333-6666", 0);
 		//selectMember(2,"010-4252-3906");
-		//updateOSTATE(2, "220701-046-01");
+		updateOSTATE(3, "220701-011");
 	}
 	//DB와의 연결
 	void connectDB() {
@@ -255,7 +255,7 @@ public class OrderServerImpl implements OrderServer {
 	
 		// 장바구니 번호에 있는 상품번호를 기준으로 상품테이블에서 가격데이터(PPRICE) 가져오기
 		int pprice = returnPrice(options[0]);
-		System.out.println(orderNo + ", " + pprice);
+		//System.out.println(orderNo + ", " + pprice);
 		
 		// orderNo + 주문상세번호,  제대로 완성 됐을때 insert문 실행
 		// 1.ONO 2.MID 3.PNO 4.ODNO 5.ODATE 6.OSTATE 7.PPRICE 8.COP1 9.COP2 10.COP3 11.COP4 12.COP5
@@ -300,6 +300,7 @@ public class OrderServerImpl implements OrderServer {
 		}
 		ResultSet rs = null;
 		String date;
+		String date2;
 		String finalOrderNo = null;
 		try {
 			pstmt1 = con.prepareStatement(sql);
@@ -318,6 +319,7 @@ public class OrderServerImpl implements OrderServer {
 					System.out.println("범위 초과");
 				}
 				//System.out.println(date + "-" + orderNo);
+				date2 = date + "-" + orderNo;
 				String cdnoS = Integer.toString(cdno);
 				if (cdnoS.length() == 1) {
 					finalOrderNo = date + "-" + orderNo + "-0" + cdnoS;
@@ -329,6 +331,7 @@ public class OrderServerImpl implements OrderServer {
 				}else {
 					System.out.println("범위 초과");
 				}
+				return date2;
 			}
 		}catch(SQLException se) {
 			System.out.println("상품을 찾을 수 없습니다." + se);
@@ -536,13 +539,14 @@ public class OrderServerImpl implements OrderServer {
 		
 	}
 	// 1 = 주문대기 2=결제완료 3= 결제 취소
-	void updateOSTATE(int ostate, String odno) {
-		sql = "update ORDERS set OSTATE =? where ONO=?";
+	void updateOSTATE(int ostate, String ono) {
+		sql = "update ORDERS set OSTATE =? where ONO LIKE ? ";
 		try {
 			pstmt2 = con.prepareStatement(sql);
 			pstmt2.setInt(1, ostate);
-			pstmt2.setString(2, odno);
+			pstmt2.setString(2, ""+ono+"%");
 			int i =pstmt2.executeUpdate();
+			System.out.println("test");
 			if(i>0) {
 				System.out.println("변경 성공");
 				con.commit();
