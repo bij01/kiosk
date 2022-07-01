@@ -2,6 +2,7 @@ package com.team2.kiosk;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -206,6 +207,15 @@ class OrderClient extends JFrame implements ActionListener {
 				mainPanel.os.deleteCart();
 				JOptionPane.showMessageDialog(null,"주문이 완료 되었습니다.",
 					    "안내메시지",JOptionPane.WARNING_MESSAGE);
+				if (mainPanel.cartPanel.getSize().equals(new Dimension(684, 785))) {
+					mainPanel.cartBtn.setIcon(new ImageIcon(mainPanel.imgUp));
+					mainPanel.cartPanel.setBounds(0, 621, 684, 160);
+					mainPanel.listScroll.setVisible(true);
+					mainPanel.listPanel.setVisible(true);
+					mainPanel.sidePanel.setVisible(true);
+					mainPanel.repaint();
+					repaint();
+				}
 			}
 		}
 	}

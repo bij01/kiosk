@@ -23,11 +23,13 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 	JLabel cartLabel1, cartLabel2, orderLabel2, orderLabel4;
 	
 	Font font;
-	Image coffee1 = returnImg("src/coffee1.png", 50, 60);
 	JScrollPane listScroll;
 	HashMap<Integer, JLabel> labelMap = new HashMap<Integer, JLabel>();
 	String pname="", pno="", cop1="", cop2="", cop3="", cop4="", cop5="";
-
+	
+	Image imgDown = returnImg("src/down.png", 20, 20);
+	Image imgUp = returnImg("src/up.png", 20, 20);
+	
 	int cartCount = 0;
 	int cartPrice = 0;
 	
@@ -282,8 +284,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 	}
 
 	void setCartPanel() {
-		Image imgDown = returnImg("src/down.png", 20, 20);
-		Image imgUp = returnImg("src/up.png", 20, 20);
+		
 		
 		Color bgColor = new Color(230, 230, 230);
 
@@ -479,9 +480,11 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		menutopSolidline.setForeground(Color.WHITE); // top line color
 		menutopSolidline.setBackground(Color.black.brighter());
 		add(menutopSolidline);
-		*/
+		
 
 		//메뉴종류-커피,버튼
+		sidePanel.add(menutopSolidline);
+		*/
 		String text =  "커피";
 		ImageIcon sidemenuimg1 = new ImageIcon(returnImg("./src/a.png", 120, 60));
 		
