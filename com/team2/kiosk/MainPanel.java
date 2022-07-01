@@ -1,3 +1,5 @@
+package com.team2.kiosk;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +41,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		setSidePanel();
 		setOptionPanel();
 		setStaffPanel();
-		onStaffPanel();
+		//onStaffPanel();
 		cop1 = "매장";
 		//testMode();
 		os.deleteCart();
@@ -134,36 +136,39 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 	}
 
 	void addProductOnCart(String name, String op1, String op2, String op3, String op4) {
-		
 		cartCount += 1;
-		
 		os.productVector.clear();
 		os.selectProduct(2, Integer.parseInt(pno));
-
-		System.out.println();
-		String labelNo = Integer.toString(cartCount);
-		JLabel subLabel = new JLabel(labelNo);
 		
+		JLabel subLabel = new JLabel();
 		subLabel.setVisible(true);
 		subLabel.setLayout(null);
-		subLabel.setBackground(new Color(70, 250, 200));
-		
+		subLabel.setOpaque(true);
+		subLabel.setBackground(new Color(255, 255, 255));
+		subLabel.setBorder(BorderFactory.createEtchedBorder());
 		System.out.println(pno);
 		String path[] = os.returnFileInfo(Integer.parseInt(pno));
 		System.out.println(path[0]);
 		ImageIcon listimage = new ImageIcon(returnImg("./src/noimage.png", 50, 55));
         try {
-        	listimage = new ImageIcon(returnImg("./src/img/" + path[0] + "." + path[1], 50, 55));
+        	listimage = new ImageIcon(returnImg("./src/img/" + path[0] + "." + path[1], 70, 70));
         } catch (NullPointerException npe) {
         	
         }
 		
 		JLabel imageLabel = new JLabel("");
 		
+		String labelNo = Integer.toString(cartCount);
+		JLabel numLabel = new JLabel(labelNo);
+		numLabel.setBounds(10, 30, 30, 30);
+		//numLabel.setBorder(BorderFactory.createEtchedBorder());
+		numLabel.setHorizontalAlignment(JLabel.CENTER);
 		imageLabel.setIcon(listimage);
-		imageLabel.setBounds(30, 10, 50, 70);
+		imageLabel.setBounds(50, 10, 70, 70);
+		imageLabel.setBorder(BorderFactory.createEtchedBorder());
+		imageLabel.setHorizontalAlignment(JLabel.CENTER);
 		JLabel nameLabel = new JLabel(name);
-		nameLabel.setBounds(90, 10, 230, 70);
+		nameLabel.setBounds(130, 10, 230, 70);
 		nameLabel.setFont(new Font("HYPOST",Font.BOLD,13));
 		nameLabel.setBorder(new EtchedBorder());
 		nameLabel.setOpaque(true);
@@ -175,7 +180,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		cartPrice += priceInt;
 		
 		JLabel priceLabel = new JLabel(price);
-		priceLabel.setBounds(530, 10, 50, 70);
+		priceLabel.setBounds(550, 10, 50, 70);
 		priceLabel.setFont(new Font("HYPOST",Font.BOLD,13));
 		priceLabel.setBorder(new EtchedBorder());
 		priceLabel.setOpaque(true);
@@ -183,7 +188,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		priceLabel.setHorizontalAlignment(priceLabel.RIGHT);
 		
 		JLabel wonLabel = new JLabel("원");
-		wonLabel.setBounds(580, 10, 30, 70);
+		wonLabel.setBounds(600, 10, 30, 70);
 		wonLabel.setFont(new Font("HYPOST",Font.BOLD,13));
 		wonLabel.setBorder(new EtchedBorder());
 		wonLabel.setOpaque(true);
@@ -197,10 +202,10 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 			JLabel optionLabel3 = new JLabel(op3);
 			JLabel optionLabel4 = new JLabel(op4);
 
-			optionLabel1.setBounds(330, 10, 80, 30);
-			optionLabel2.setBounds(420, 10, 80, 30);
-			optionLabel3.setBounds(330, 50, 80, 30);
-			optionLabel4.setBounds(420, 50, 80, 30);
+			optionLabel1.setBounds(370, 10, 80, 30);
+			optionLabel2.setBounds(460, 10, 80, 30);
+			optionLabel3.setBounds(370, 50, 80, 30);
+			optionLabel4.setBounds(460, 50, 80, 30);
 
 			optionLabel1.setHorizontalAlignment(JLabel.CENTER);
 			optionLabel2.setHorizontalAlignment(JLabel.CENTER);
@@ -212,10 +217,10 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 			optionLabel3.setFont(new Font("HYPOST",Font.BOLD,13));
 			optionLabel4.setFont(new Font("HYPOST",Font.BOLD,13));
 
-			optionLabel1.setOpaque(true);
-			optionLabel2.setOpaque(true);
-			optionLabel3.setOpaque(true);
-			optionLabel4.setOpaque(true);
+			optionLabel1.setBorder(BorderFactory.createEtchedBorder());
+			optionLabel2.setBorder(BorderFactory.createEtchedBorder());
+			optionLabel3.setBorder(BorderFactory.createEtchedBorder());
+			optionLabel4.setBorder(BorderFactory.createEtchedBorder());
 
 			optionLabel1.setBackground(new Color(250, 250, 250));
 			optionLabel2.setBackground(new Color(250, 250, 250));
@@ -226,6 +231,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 			subLabel.add(optionLabel3);
 			subLabel.add(optionLabel4);
 		}
+		subLabel.add(numLabel);
 		subLabel.add(imageLabel);
 		subLabel.add(nameLabel);
 		subLabel.add(priceLabel);
@@ -250,7 +256,6 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		System.out.println(cartCount + "," +  pno1 +", "+ pop1 +","+ pop2+","+pop3+","+pop4+","+pop5);
 		*/
 		os.insertCart(cartCount, pno1, pop1, pop2, pop3, pop4, pop5);
-		
 		setLabel();
 	}
 	
@@ -263,16 +268,38 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 			oc.repaint();
 		}
 	}
+	
+	void initCart() {
+		labelMap.clear();
+		cartCount = 0;
+		cartPrice = 0;
+		orderLabel2.setText("0");
+		orderLabel4.setText("0");
+		cartSubPanel1.removeAll();
+		cartSubPanel1.repaint();
+		oc.repaint();
+		os.deleteCart();
+	}
 
 	void setCartPanel() {
 		Image imgDown = returnImg("src/down.png", 20, 20);
 		Image imgUp = returnImg("src/up.png", 20, 20);
+		
+		Color bgColor = new Color(230, 230, 230);
 
 		cartPanel = new JPanel();
 		cartPanel.setBounds(0, 621, 684, 160);
 		cartPanel.setVisible(true);
 		cartPanel.setLayout(null);
-		cartPanel.setBackground(new Color(230, 230, 230));
+		cartPanel.setBackground(bgColor);
+		cartPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+		
+		JPanel cartTopPanel = new JPanel();
+		cartTopPanel.setBounds(0, 0, 684, 35);
+		cartTopPanel.setVisible(true);
+		cartTopPanel.setLayout(null);
+		cartTopPanel.setBackground(new Color(255, 255, 255));
+		cartTopPanel.setBorder(new BevelBorder(BevelBorder.RAISED));
 		cartLabel1 = new JLabel("장바구니");
 		cartLabel1.setFont(new Font("HYPOST",Font.PLAIN,12));
 		cartLabel2 = new JLabel("자세히보기");
@@ -299,50 +326,33 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 			}
 		});
 		
-	    cartBtn.setIcon(new ImageIcon(imgUp));
-	    cartBtn.setHorizontalAlignment(SwingConstants.CENTER);
-	    cartLabel1.setBounds(10, 0, 100, 35);
-	    cartLabel2.setBounds(560, 0, 75, 35);
-	    cartLabel2.setOpaque(true);
-	    cartBtn.setBounds(634, 5, 25, 25);
-
 		cartBtn.setIcon(new ImageIcon(imgUp));
 		cartBtn.setHorizontalAlignment(SwingConstants.CENTER);
 		cartLabel1.setBounds(10, 0, 100, 35);
 		cartLabel2.setBounds(514, 0, 120, 35);
 		cartBtn.setBounds(634, 5, 25, 25);
-		cartPanel.add(cartLabel1);
-		cartPanel.add(cartLabel2);
-		cartPanel.add(cartBtn);
-
+		
+		cartTopPanel.add(cartLabel1);
+		cartTopPanel.add(cartLabel2);
+		cartTopPanel.add(cartBtn);
 		cartSubPanel1 = new JPanel();
-		cartSubPanel1.setBounds(30, 35, 624, 681);
+		cartSubPanel1.setBounds(0, 35, 684, 681);
 		cartSubPanel1.setVisible(true);
-		cartSubPanel1.setLayout(new GridLayout(7, 1, 10, 10));
-		cartSubPanel1.setBackground(new Color(70, 70, 200));
-
-		cartPanel.add(cartSubPanel1);
-
+		cartSubPanel1.setLayout(new GridLayout(7, 1, 10, 0));
+		cartSubPanel1.setBackground(bgColor);
+		
 		cartSubPanel2 = new JPanel();
 		cartSubPanel2.setBounds(0, 750, 684, 35);
 		cartSubPanel2.setVisible(true);
 		cartSubPanel2.setLayout(null);
-		cartSubPanel2.setBackground(new Color(250, 250, 250));
-		JLabel orderLabel1 = new JLabel("주문수량:");
+		cartSubPanel2.setBackground(new Color(255,255,255));
+		JLabel orderLabel1 = new JLabel("수량:");
 		orderLabel2 = new JLabel("0");
-		JLabel orderLabel3 = new JLabel("주문금액:");
+		JLabel orderLabel3 = new JLabel("합계:");
 		orderLabel4 = new JLabel("0");
 		cartDropBtn = new JButton("장바구니 비우기");
 		cartDropBtn.addActionListener(e ->{
-			labelMap.clear();
-			cartCount = 0;
-			cartPrice = 0;
-			orderLabel2.setText("0");
-			orderLabel4.setText("0");
-			cartSubPanel1.removeAll();
-			cartSubPanel1.repaint();
-			oc.repaint();
-			os.deleteCart();
+			initCart();
 		});
 		orderLabel1.setBounds(10, 0, 100, 30);
 		orderLabel2.setBounds(110, 0, 100, 30);
@@ -360,6 +370,10 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		cartSubPanel2.add(orderLabel3);
 		cartSubPanel2.add(orderLabel4);
 		cartSubPanel2.add(cartDropBtn);
+		cartSubPanel2.setBorder(new BevelBorder(BevelBorder.RAISED));
+		
+		cartPanel.add(cartTopPanel);
+		cartPanel.add(cartSubPanel1);
 		
 		add(cartSubPanel2);
 		add(cartPanel);
@@ -447,7 +461,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 	
 	void setSidePanel() {
 		sidePanel = new JPanel();
-		sidePanel.setBounds(0, -20, 120, 621);
+		sidePanel.setBounds(0, 0, 120, 621);
 		sidePanel.setVisible(true);
 		sidePanel.setLayout(null);
 		sidePanel.setBackground(new Color(30, 30, 30));
@@ -459,23 +473,18 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		menuLetterLabel.setFont(new Font("HYPOST", Font.BOLD, 20));
 		sidePanel.add(menuLetterLabel);
 
-
+		/*
 		JSeparator menutopSolidline = new JSeparator();
 		menutopSolidline.setBounds(17, 22, 50, 50);
 		menutopSolidline.setForeground(Color.WHITE); // top line color
 		menutopSolidline.setBackground(Color.black.brighter());
 		add(menutopSolidline);
-		
-		
-		
-		
-	//메뉴종류-커피,버튼
+		*/
+
+		//메뉴종류-커피,버튼
 		String text =  "커피";
 		ImageIcon sidemenuimg1 = new ImageIcon(returnImg("./src/a.png", 120, 60));
-		//메뉴종류-커피,버튼
 		
-	
-
 		JButton menuBtn1 = new JButton(text, sidemenuimg1);
 		menuBtn1.setFont(new Font("HYPOST", Font.BOLD, 15));
 		menuBtn1.setLayout(null);
