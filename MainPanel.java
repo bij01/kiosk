@@ -464,7 +464,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		menutopSolidline.setBounds(17, 22, 50, 50);
 		menutopSolidline.setForeground(Color.WHITE); // top line color
 		menutopSolidline.setBackground(Color.black.brighter());
-		add(menutopSolidline);
+		sidePanel.add(menutopSolidline);
 		
 		
 		
