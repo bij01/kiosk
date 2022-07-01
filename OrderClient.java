@@ -1,13 +1,22 @@
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
 
-import javax.swing.border.*;
+import javax.imageio.ImageIO;
+import javax.security.auth.login.Configuration;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import com.formdev.flatlaf.*;
 
 class OrderClient extends JFrame implements ActionListener {
