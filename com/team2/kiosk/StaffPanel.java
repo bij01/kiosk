@@ -1,3 +1,5 @@
+package com.team2.kiosk;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,3 +1,5 @@
+package com.team2.kiosk;
+
 import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -96,6 +98,7 @@ public class OrderServerImpl implements OrderServer {
 		Vector<Object> productV = null;
 		try {
 			pstmt1 = con.prepareStatement(sql);
+			System.out.println(pstmt1);
 			rs = pstmt1.executeQuery();
 			while(rs.next()) {
 				//System.out.println(rs.getInt(1)+ " "+ rs.getString(2) + " " + rs.getInt(3) +"원 " + rs.getInt(4) +" "+ rs.getInt(5));
@@ -290,7 +293,11 @@ public class OrderServerImpl implements OrderServer {
 	}
 	
 	String returnOrderNo(int cdno) {
-		sql = "select to_char(SYSDATE, 'YYMMDD'), ORDERS_SEQ.nextval from dual";
+		if (cdno == 1) {
+			sql = "select to_char(SYSDATE, 'YYMMDD'), ORDERS_SEQ.nextval from dual";
+		} else {
+			sql = "select to_char(SYSDATE, 'YYMMDD'), ORDERS_SEQ.currval from dual";
+		}
 		ResultSet rs = null;
 		String date;
 		String finalOrderNo = null;

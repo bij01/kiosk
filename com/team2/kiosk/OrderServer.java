@@ -1,3 +1,5 @@
+package com.team2.kiosk;
+
 public interface OrderServer {
 	
 	void selectProduct(int mode, int no); //상품 데이터를 조회
