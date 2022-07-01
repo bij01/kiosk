@@ -408,8 +408,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		listScroll.getVerticalScrollBar().setUnitIncrement(18);
 		listScroll.getVerticalScrollBar().setPreferredSize(new Dimension(15, 0));
 		add(listScroll);
-	}
-	
+	}	
 	void addlistButton(int cno) {
 		os.productsVector.clear();
 		os.selectProduct(1, cno);

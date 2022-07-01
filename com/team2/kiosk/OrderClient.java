@@ -1,5 +1,6 @@
 package com.team2.kiosk;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -12,6 +13,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 import javax.security.auth.login.Configuration;
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -54,9 +56,8 @@ class OrderClient extends JFrame implements ActionListener {
 		setTopPanel();
 		setBottomPanel();
 		setMainPanel();
-		testMode();
+	//	testMode();
 		setVisible(true);
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -69,7 +70,8 @@ class OrderClient extends JFrame implements ActionListener {
 		firstPanel.setBounds(0, 0, 684, 961);
 		firstPanel.setLayout(null);
 		firstPanel.setVisible(true);
-		firstPanel.setBackground(new Color(50, 70, 70));
+		firstPanel.setBackground(new Color(150, 70, 70));
+		
 		String bgimagePath = "./src/background1.png";
 		BufferedImage bufferedImage = null;
 		try {
@@ -81,29 +83,64 @@ class OrderClient extends JFrame implements ActionListener {
 		ImageIcon bgimg = new ImageIcon(img);
 		JLabel bgimageLabel = new JLabel(bgimg);
 		bgimageLabel.setBounds(0, 0, 680, 960);
-		inBtn = new JButton("매장");
+		
+		
+		//버튼이미지입히기
+
+		ImageIcon butimg = new ImageIcon("./src/butbackground.png"); 
+		inBtn = new JButton("먹고가기>",butimg);
+		inBtn.setVerticalTextPosition(inBtn.CENTER); // 텍스트 아래로
+		inBtn.setHorizontalTextPosition(inBtn.CENTER);
 		inBtn.setForeground(Color.WHITE);
 		inBtn.setBorder(BorderFactory.createRaisedBevelBorder());
 		inBtn.setFocusPainted(false);
 		// BorderFactory.createLineBorder
 		// inBtn.setBorder(BorderFactory.createEmptyBorder(3 , 3 , 3 , 3));
 		inBtn.setFont(new Font("HYPOST", Font.BOLD, 28));
-		inBtn.setBackground(new Color(51, 25, 0));
-		inBtn.setBounds(80, 800, 200, 80);
+		inBtn.setBackground(new Color(255,0,0,0));
+		inBtn.setBounds(130, 50, 200, 80);
 		inBtn.addActionListener(this);
-		outBtn = new JButton("포장");
-		outBtn.setBounds(400, 800, 200, 80);
+		outBtn = new JButton("포장하기>",butimg);
+		outBtn.setVerticalTextPosition(outBtn.CENTER); // 텍스트 아래로
+		outBtn.setHorizontalTextPosition(outBtn.CENTER);	
+		outBtn.setBounds(350, 50, 200, 80);
 		outBtn.addActionListener(this);
 		outBtn.setForeground(Color.WHITE);
 		outBtn.setBorder(BorderFactory.createRaisedBevelBorder());
 		outBtn.setFocusPainted(false);
 		outBtn.setFont(new Font("HYPOST", Font.BOLD, 28));
-		outBtn.setBackground(new Color(51, 25, 0));
+		outBtn.setBackground(new Color(255,0, 0, 0));
+		
+
 		bgimageLabel.add(inBtn);
 		bgimageLabel.add(outBtn);
 		firstPanel.add(bgimageLabel);
-		firstPanel.setBorder(new BevelBorder(BevelBorder.RAISED));
+		firstPanel.setBorder(new BevelBorder(BevelBorder.RAISED));	
 		cp.add(firstPanel);
+		
+		
+		/*JPanel butbtopPanel = new JPanel();
+		butbtopPanel.setBounds(0, 0, 682, 150);
+		butbtopPanel.setVisible(true);
+		butbtopPanel.setBackground(new Color(0, 0, 0));
+	    
+	
+		
+		JPanel butbottomPanel = new JPanel();
+		
+		butbottomPanel.setBounds(0, 820, 682, 150);
+		butbottomPanel.setVisible(true);
+		butbottomPanel.setBackground(new Color(0, 0, 0));
+		cp.add(butbtopPanel);
+		cp.add(butbottomPanel);*/
+		//cp.add(firstPanel);
+		
+		
+		//butbottomPanel = new JPanel();
+		
+		
+	
+	
 	}
 
 	void setTopPanel() {
@@ -169,7 +206,7 @@ class OrderClient extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JButton Btn = (JButton) e.getSource();
 		String btnText = Btn.getText();
-		if (btnText.equals("매장") || btnText.equals("포장")) {
+		if (btnText.equals("먹고가기>") || btnText.equals("포장하기>")) {
 			mainPanel.cop1 = Btn.getText().trim();
 			firstPanel.setVisible(false);
 			mainPanel.setVisible(true);
