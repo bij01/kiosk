@@ -1,3 +1,5 @@
+package com.team2.kiosk;
+
 import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,6 +22,8 @@ public class OrderServerImpl implements OrderServer {
 	Vector<Vector> cartVector1 = new Vector<Vector>();
 	Vector<Vector> productsVector = new Vector<Vector>(); //카테고리별 상품 조회
 	Vector<Object> productVector = new Vector<Object>(); // 단일 상품 조회
+	Vector<Vector> memberVector1 = new Vector<Vector>(); //회원 이름으로 조회
+	Vector<Object> memberVector2 = new Vector<Object>(); // 회원 핸드폰 번호로 조회
 	
 	void init() {
 		connectDB();
@@ -28,10 +32,12 @@ public class OrderServerImpl implements OrderServer {
 		//deleteProduct(127);
 		//insertCart(1, 113, 11, 21, 32, 42, 53);
 		//selectCart();
-		insertOrder(1);
+		//insertOrder(1);
 		//selectOrder();
 		//returnFileInfo(111);
-		//System.out.println(returnFileInfo(111)[0] + "." + returnFileInfo(111)[1]);
+		//insertMember("strong1", "power123", "김근육", "010-3333-6666", 0);
+		//selectMember(2,"010-4252-3906");
+		updateOSTATE(2, "220701-046-01");
 	}
 	//DB와의 연결
 	void connectDB() {
@@ -71,6 +77,12 @@ public class OrderServerImpl implements OrderServer {
 			}
 		}catch(SQLException se) {
 			System.out.println("insert 실패: "+ se);
+		}finally {
+			try {
+				if (pstmt2!=null) pstmt2.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -86,6 +98,7 @@ public class OrderServerImpl implements OrderServer {
 		Vector<Object> productV = null;
 		try {
 			pstmt1 = con.prepareStatement(sql);
+			System.out.println(pstmt1);
 			rs = pstmt1.executeQuery();
 			while(rs.next()) {
 				//System.out.println(rs.getInt(1)+ " "+ rs.getString(2) + " " + rs.getInt(3) +"원 " + rs.getInt(4) +" "+ rs.getInt(5));
@@ -130,7 +143,14 @@ public class OrderServerImpl implements OrderServer {
 				System.out.println("삭제 실패");
 				con.rollback();
 			}
-		}catch(SQLException se) {}
+		}catch(SQLException se) {
+		}finally {
+			try {
+				if (pstmt2!=null) pstmt2.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override 
@@ -156,6 +176,12 @@ public class OrderServerImpl implements OrderServer {
 			}
 		}catch(SQLException se) {
 			System.out.println("insert실패:"+se);
+		}finally {
+			try {
+				if (pstmt2!=null) pstmt2.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -171,7 +197,14 @@ public class OrderServerImpl implements OrderServer {
 				System.out.println("삭제 실패");
 				con.rollback();
 			}
-		}catch(SQLException se) {}
+		}catch(SQLException se) {
+		}finally {
+			try {
+				if (pstmt2!=null) pstmt2.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override
@@ -241,7 +274,6 @@ public class OrderServerImpl implements OrderServer {
 			pstmt2.setInt(9,options[4]);
 			pstmt2.setInt(10,options[5]);
 			int i = pstmt2.executeUpdate();
-			System.out.println("test");
 			if(i>0) {
 				System.out.println("추가 성공");
 				con.commit();
@@ -251,11 +283,21 @@ public class OrderServerImpl implements OrderServer {
 			}
 		}catch(SQLException se) {
 			System.out.println("insert실패:"+se);
+		}finally {
+			try {
+				if (pstmt2!=null) pstmt2.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	String returnOrderNo(int cdno) {
-		sql = "select to_char(SYSDATE, 'YYMMDD'), ORDERS_SEQ.nextval from dual";
+		if (cdno == 1) {
+			sql = "select to_char(SYSDATE, 'YYMMDD'), ORDERS_SEQ.nextval from dual";
+		} else {
+			sql = "select to_char(SYSDATE, 'YYMMDD'), ORDERS_SEQ.currval from dual";
+		}
 		ResultSet rs = null;
 		String date;
 		String finalOrderNo = null;
@@ -346,6 +388,13 @@ public class OrderServerImpl implements OrderServer {
 				if (pstmt1!=null) pstmt1.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}finally {
+				try {
+					if (rs!=null) rs.close();
+					if (pstmt1!=null) pstmt1.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return options;
@@ -369,6 +418,20 @@ public class OrderServerImpl implements OrderServer {
 			
 		}catch(SQLException se) {
 			System.out.println("상품을 찾을 수 없습니다." + se);
+		}finally {
+			try {
+				if (rs!=null) rs.close();
+				if (pstmt1!=null) pstmt1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					if (rs!=null) rs.close();
+					if (pstmt1!=null) pstmt1.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
@@ -382,7 +445,6 @@ public class OrderServerImpl implements OrderServer {
 			pstmt1 = con.prepareStatement(sql);
 			pstmt1.setInt(1, pno);
 			rs = pstmt1.executeQuery();
-
 			while(rs.next()) {			
 				fileInfo[0] = rs.getString(1);
 				fileInfo[1] = rs.getString(2);
@@ -394,7 +456,7 @@ public class OrderServerImpl implements OrderServer {
 		}finally {
 			try {
 				if (rs!=null) rs.close();
-				if (rs!=null) pstmt1.close();
+				if (pstmt1!=null) pstmt1.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -402,7 +464,102 @@ public class OrderServerImpl implements OrderServer {
 		
 		return fileInfo;
 	}
-
+	
+	void insertMember(String MID, String MPW, String MNAME, String MPHNO, int MPOINT) {
+		sql = "insert into MEMBER values (?, ? , MEMBER_SEQ.nextval , ?, ? , ?)";
+		try {
+			pstmt2 = con.prepareStatement(sql);
+			pstmt2.setString(1, MID);
+			pstmt2.setString(2, MPW);
+			pstmt2.setString(3, MNAME);
+			pstmt2.setString(4, MPHNO);
+			pstmt2.setInt(5, MPOINT);
+			int i = pstmt2.executeUpdate();
+			if(i>0) {
+				System.out.println("추가 성공");
+				con.commit();
+			}else {
+				System.out.println("추가 실패");
+				con.rollback();
+			}
+		}catch(SQLException se) {
+			System.out.println("insert실패:"+se);
+		}finally {
+			try {
+				if (pstmt2!=null) pstmt2.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	//Vector<Vector> memberVector1 = new Vector<Vector>(); //회원 ID로 조회
+	//Vector<Object> memberVector2 = new Vector<Object>(); // 회원 핸드폰 번호로 조회
+	void selectMember(int mode, String keyword) { //완성 후 시간이 남으면 stetment로 해보기
+		if (mode==1) {
+			sql = "select MID, MPW, MNO, MNAME, MPOINT from MEMBER where MID="+keyword+"";
+		} else {
+			sql = "select MID, MPW, MNO, MNAME, MPOINT from MEMBER where MPHNO='"+keyword+"'";
+		}
+		ResultSet rs = null;
+		Vector<Object> MemberV = null;
+		try {
+			pstmt1 = con.prepareStatement(sql);
+			rs = pstmt1.executeQuery();
+			//System.out.println("test");
+			while(rs.next()) {
+				if(mode == 1) {
+					MemberV = new Vector<Object>();
+					MemberV.add(rs.getString(1));
+					MemberV.add(rs.getString(2));
+					MemberV.add(rs.getInt(3));
+					MemberV.add(rs.getString(4));
+					MemberV.add(rs.getInt(5));
+					memberVector1.add(MemberV);
+				} else {
+					memberVector2.add(rs.getString(1));
+					memberVector2.add(rs.getString(2));
+					memberVector2.add(rs.getInt(3));
+					memberVector2.add(rs.getString(4));
+					memberVector2.add(rs.getInt(5));
+				}
+			}
+		}catch(SQLException se) {
+			System.out.println("오류 : " + se);
+		}finally {
+			try {
+				if (rs!=null) rs.close();
+				if (pstmt1!=null) pstmt1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	// 1 = 주문대기 2=결제완료 3= 결제 취소
+	void updateOSTATE(int ostate, String odno) {
+		sql = "update ORDERS set OSTATE =? where ONO=?";
+		try {
+			pstmt2 = con.prepareStatement(sql);
+			pstmt2.setInt(1, ostate);
+			pstmt2.setString(2, odno);
+			int i =pstmt2.executeUpdate();
+			if(i>0) {
+				System.out.println("추가 성공");
+				con.commit();
+			}else {
+				System.out.println("추가 실패");
+				con.rollback();
+			}
+		}catch(SQLException se) {
+			System.out.println("update실패:"+se);
+		}finally {
+			try {
+				if (pstmt2!=null) pstmt2.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	public static void main(String[] args) {
 		OrderServerImpl os = new OrderServerImpl();
 		os.init();

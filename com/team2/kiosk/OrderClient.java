@@ -1,5 +1,8 @@
+package com.team2.kiosk;
+
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -14,9 +17,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.BevelBorder;
+
 import com.formdev.flatlaf.*;
 
 class OrderClient extends JFrame implements ActionListener {
@@ -96,6 +102,7 @@ class OrderClient extends JFrame implements ActionListener {
 		bgimageLabel.add(inBtn);
 		bgimageLabel.add(outBtn);
 		firstPanel.add(bgimageLabel);
+		firstPanel.setBorder(new BevelBorder(BevelBorder.RAISED));
 		cp.add(firstPanel);
 	}
 
@@ -116,6 +123,7 @@ class OrderClient extends JFrame implements ActionListener {
 		mainTitleLabel.setBounds(0, -15, 500, 100);
 		mainTitleLabel.setBounds(-50, 0, 500, 100);
 		topPanel.add(mainTitleLabel);
+		
 		cp.add(topPanel);
 	}
 
@@ -134,6 +142,10 @@ class OrderClient extends JFrame implements ActionListener {
 		bottomPanel.setLayout(null);
 		mainBtn1 = new JButton("처음으로");
 		mainBtn2 = new JButton("주문하기");
+		mainBtn1.setForeground(Color.WHITE);
+		mainBtn2.setForeground(Color.WHITE);
+		mainBtn1.setBackground(new Color(10, 10, 10));
+		mainBtn2.setBackground(new Color(10, 10, 10));
 		mainBtn1.setFont(new Font("HYPOST", Font.BOLD, 20));
 		mainBtn2.setFont(new Font("HYPOST", Font.BOLD, 20));
 		mainBtn1.setBounds(172, 15, 120, 50);
@@ -179,15 +191,32 @@ class OrderClient extends JFrame implements ActionListener {
 			mainPanel.setVisible(false);
 			bottomPanel.setVisible(false);
 			mainPanel.offOptionPanel();
-			mainPanel.labelMap.clear();
-			mainPanel.cartCount = 0;
-			mainPanel.cartPrice = 0;
-			mainPanel.orderLabel2.setText("0");
-			mainPanel.orderLabel4.setText("0");
-			mainPanel.cartSubPanel1.removeAll();
-			mainPanel.cartSubPanel1.repaint();
+			mainPanel.initCart();
 			repaint();
-			mainPanel.os.deleteCart();
+		} else if (btnText.equals("주문하기")) {
+			if(mainPanel.cartCount == 0) {
+				JOptionPane.showMessageDialog(null, 
+					    "장바구니에 담긴 상품이 없습니다.",
+					    "안내메시지",
+					    JOptionPane.WARNING_MESSAGE);
+			} else {
+				for(int i=1; i<=mainPanel.cartCount;i++) {
+					mainPanel.os.insertOrder(i);
+				}
+				mainPanel.initCart();
+				mainPanel.os.deleteCart();
+				JOptionPane.showMessageDialog(null,"주문이 완료 되었습니다.",
+					    "안내메시지",JOptionPane.WARNING_MESSAGE);
+				if (mainPanel.cartPanel.getSize().equals(new Dimension(684, 785))) {
+					mainPanel.cartBtn.setIcon(new ImageIcon(mainPanel.imgUp));
+					mainPanel.cartPanel.setBounds(0, 621, 684, 160);
+					mainPanel.listScroll.setVisible(true);
+					mainPanel.listPanel.setVisible(true);
+					mainPanel.sidePanel.setVisible(true);
+					mainPanel.repaint();
+					repaint();
+				}
+			}
 		}
 	}
 
