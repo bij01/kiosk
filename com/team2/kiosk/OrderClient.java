@@ -72,7 +72,7 @@ class OrderClient extends JFrame implements ActionListener {
 		firstPanel.setVisible(true);
 		firstPanel.setBackground(new Color(150, 70, 70));
 		
-		String bgimagePath = "./src/background1.png";
+		String bgimagePath = "./src/originbackground.png";
 		BufferedImage bufferedImage = null;
 		try {
 			bufferedImage = ImageIO.read(new File(bgimagePath));
@@ -86,9 +86,19 @@ class OrderClient extends JFrame implements ActionListener {
 		
 		
 		//버튼이미지입히기
-
-		ImageIcon butimg = new ImageIcon("./src/butbackground.png"); 
-		inBtn = new JButton("먹고가기>",butimg);
+		String butimagePath ="./src/butbackground.png";
+		bufferedImage = null;
+		try {
+			bufferedImage = ImageIO.read(new File(butimagePath));
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		Image img2 = bufferedImage.getScaledInstance(330,80, Image.SCALE_DEFAULT);
+		ImageIcon butimage = new ImageIcon(img2);
+		
+	
+		
+		inBtn = new JButton("먹고가기>",butimage);
 		inBtn.setVerticalTextPosition(inBtn.CENTER); // 텍스트 아래로
 		inBtn.setHorizontalTextPosition(inBtn.CENTER);
 		inBtn.setForeground(Color.WHITE);
@@ -96,20 +106,20 @@ class OrderClient extends JFrame implements ActionListener {
 		inBtn.setFocusPainted(false);
 		// BorderFactory.createLineBorder
 		// inBtn.setBorder(BorderFactory.createEmptyBorder(3 , 3 , 3 , 3));
-		inBtn.setFont(new Font("HYPOST", Font.BOLD, 28));
-		inBtn.setBackground(new Color(255,0,0,0));
-		inBtn.setBounds(130, 50, 200, 80);
+		inBtn.setFont(new Font("휴먼고딕체", Font.BOLD, 40));
+		inBtn.setBackground(new Color(0,0,0,0));
+		inBtn.setBounds(5, 860, 330, 80);
 		inBtn.addActionListener(this);
-		outBtn = new JButton("포장하기>",butimg);
+		outBtn = new JButton("포장하기>",butimage);
 		outBtn.setVerticalTextPosition(outBtn.CENTER); // 텍스트 아래로
 		outBtn.setHorizontalTextPosition(outBtn.CENTER);	
-		outBtn.setBounds(350, 50, 200, 80);
+		outBtn.setBounds(345, 860, 330, 80);
 		outBtn.addActionListener(this);
 		outBtn.setForeground(Color.WHITE);
 		outBtn.setBorder(BorderFactory.createRaisedBevelBorder());
 		outBtn.setFocusPainted(false);
-		outBtn.setFont(new Font("HYPOST", Font.BOLD, 28));
-		outBtn.setBackground(new Color(255,0, 0, 0));
+		outBtn.setFont(new Font("휴먼고딕체", Font.BOLD, 40));
+		outBtn.setBackground(new Color(0,0,0,0));
 		
 
 		bgimageLabel.add(inBtn);
