@@ -470,7 +470,10 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 			detailbottomlabel2.setText(orderCount);
 			detailbottomlabel4.setText(totalPrice);
 			os.selectOrder(orderNumber);
-			setdetailTable();
+			try {
+				setdetailTable();
+			} catch (ConcurrentModificationException cme) {}
+			
 		} catch (ArrayIndexOutOfBoundsException io){}
 	}
 	@Override
