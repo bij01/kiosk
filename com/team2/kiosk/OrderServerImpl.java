@@ -19,6 +19,7 @@ public class OrderServerImpl implements OrderServer {
 	PreparedStatement pstmt1, pstmt2, pstmt3, pstmt4; //select=1 insert=2 update=3 delete=4
 	Statement stmt, stmt1;
 	String sql = "";
+	String receiptNo;
 	
 	Vector<Vector> cartVector1 = new Vector<Vector>();
 	Vector<Vector> productsVector = new Vector<Vector>(); //카테고리별 상품 조회
@@ -43,11 +44,6 @@ public class OrderServerImpl implements OrderServer {
 		//returnFileInfo(111);
 		//insertMember("strong1", "power123", "김근육", "010-3333-6666", 0);
 		//selectMember(2,"010-4252-3906");
-<<<<<<< HEAD
-		//updateOSTATE(3, "220701-011");
-=======
-		//updateOSTATE(2, "220701-046-01");
->>>>>>> 18acaaa9d16e2e2af0669bd256a06f46fc8a1d3a
 	}
 	//DB와의 연결
 	void connectDB() {
@@ -378,6 +374,9 @@ public class OrderServerImpl implements OrderServer {
 				} else {
 					System.out.println("범위 초과");
 				}
+				if(cdno == 1) {
+					receiptNo = orderNo;
+				}
 				//System.out.println(date + "-" + orderNo);
 				date2 = date + "-" + orderNo;
 				String cdnoS = Integer.toString(cdno);
@@ -465,27 +464,65 @@ public class OrderServerImpl implements OrderServer {
 
 	@Override
 	public void selectOrder() { //주문테이블 조회
+		ordersSet.clear();
 		sql = "select * from ORDERS order by ONO desc";
 		ResultSet rs = null;
-		Vector<Object> orderSet;
+		Vector<Object> orderVector;
 		try {
 			pstmt1 = con.prepareStatement(sql);
 			rs = pstmt1.executeQuery();
 			while(rs.next()) {
-				orderSet = new Vector<Object>();
-				orderSet.add(rs.getString(1));
-				orderSet.add(rs.getString(2));
-				orderSet.add(rs.getInt(3));
-				orderSet.add(rs.getInt(4));
-				orderSet.add(rs.getString(5));
-				orderSet.add(rs.getInt(6));
-				orderSet.add(rs.getInt(7));
-				orderSet.add(rs.getInt(8));
-				orderSet.add(rs.getInt(9));
-				orderSet.add(rs.getInt(10));
-				orderSet.add(rs.getInt(11));
-				orderSet.add(rs.getInt(12));
-				ordersSet.add(orderSet);
+				orderVector = new Vector<Object>();
+				orderVector.add(rs.getString(1));
+				orderVector.add(rs.getString(2));
+				orderVector.add(rs.getInt(3));
+				orderVector.add(rs.getInt(4));
+				orderVector.add(rs.getString(5));
+				orderVector.add(rs.getInt(6));
+				orderVector.add(rs.getInt(7));
+				orderVector.add(rs.getInt(8));
+				orderVector.add(rs.getInt(9));
+				orderVector.add(rs.getInt(10));
+				orderVector.add(rs.getInt(11));
+				orderVector.add(rs.getInt(12));
+				ordersSet.add(orderVector);
+			}
+		}catch(SQLException se) {
+			System.out.println("상품을 찾을 수 없습니다." + se);
+		}finally {
+			try {
+				if (rs!=null) rs.close();
+				if (pstmt1!=null) pstmt1.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void selectOrder(String ono) { //주문번호로 주문테이블 조회
+		ordersSet.clear();
+		sql = "select * from ORDERS where ONO like ? order by ONO";
+		ResultSet rs = null;
+		Vector<Object> orderVector;
+		try {
+			pstmt1 = con.prepareStatement(sql);
+			pstmt1.setString(1, "%"+ono+"%");
+			rs = pstmt1.executeQuery();
+			while(rs.next()) {
+				orderVector = new Vector<Object>();
+				orderVector.add(rs.getString(1));
+				orderVector.add(rs.getString(2));
+				orderVector.add(rs.getInt(3));
+				orderVector.add(rs.getInt(4));
+				orderVector.add(rs.getString(5));
+				orderVector.add(rs.getInt(6));
+				orderVector.add(rs.getInt(7));
+				orderVector.add(rs.getInt(8));
+				orderVector.add(rs.getInt(9));
+				orderVector.add(rs.getInt(10));
+				orderVector.add(rs.getInt(11));
+				orderVector.add(rs.getInt(12));
+				ordersSet.add(orderVector);
 			}
 		}catch(SQLException se) {
 			System.out.println("상품을 찾을 수 없습니다." + se);

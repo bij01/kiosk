@@ -31,15 +31,15 @@ class OrderClient extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 7610854644979608019L;
 	final int WIDTH = 700;
 	final int HEIGHT = 1000;
-	
+
 	MainPanel mainPanel;
 	OptionPanel op;
 
 	Container cp;
 	JPanel firstPanel, topPanel, bottomPanel;
 	JButton inBtn, outBtn, mainBtn1, mainBtn2;
-	
-	void testMode(){ // 바로 두번째 화면으로 넘어가기(개발 끝나면 삭제)
+
+	void testMode() { // 바로 두번째 화면으로 넘어가기(개발 끝나면 삭제)
 		firstPanel.setVisible(false);
 		mainPanel.setVisible(true);
 		bottomPanel.setVisible(true);
@@ -56,22 +56,22 @@ class OrderClient extends JFrame implements ActionListener {
 		setTopPanel();
 		setBottomPanel();
 		setMainPanel();
-	//	testMode();
+		// testMode();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
+
 	void addOptionMember() {
 		op = new OptionPanel();
 	}
-	
+
 	void setFirstPanel() {
 		firstPanel = new JPanel();
 		firstPanel.setBounds(0, 0, 684, 961);
 		firstPanel.setLayout(null);
 		firstPanel.setVisible(true);
 		firstPanel.setBackground(new Color(150, 70, 70));
-		
+
 		String bgimagePath = "./src/originbackground.png";
 		BufferedImage bufferedImage = null;
 		try {
@@ -83,22 +83,19 @@ class OrderClient extends JFrame implements ActionListener {
 		ImageIcon bgimg = new ImageIcon(img);
 		JLabel bgimageLabel = new JLabel(bgimg);
 		bgimageLabel.setBounds(0, 0, 680, 960);
-		
-		
-		//버튼이미지입히기
-		String butimagePath ="./src/butbackground.png";
+
+		// 버튼이미지입히기
+		String butimagePath = "./src/butbackground.png";
 		bufferedImage = null;
 		try {
 			bufferedImage = ImageIO.read(new File(butimagePath));
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		Image img2 = bufferedImage.getScaledInstance(330,80, Image.SCALE_DEFAULT);
+		Image img2 = bufferedImage.getScaledInstance(330, 80, Image.SCALE_DEFAULT);
 		ImageIcon butimage = new ImageIcon(img2);
-		
-	
-		
-		inBtn = new JButton("먹고가기>",butimage);
+
+		inBtn = new JButton("먹고가기>", butimage);
 		inBtn.setVerticalTextPosition(inBtn.CENTER); // 텍스트 아래로
 		inBtn.setHorizontalTextPosition(inBtn.CENTER);
 		inBtn.setForeground(Color.WHITE);
@@ -107,50 +104,43 @@ class OrderClient extends JFrame implements ActionListener {
 		// BorderFactory.createLineBorder
 		// inBtn.setBorder(BorderFactory.createEmptyBorder(3 , 3 , 3 , 3));
 		inBtn.setFont(new Font("휴먼고딕체", Font.BOLD, 40));
-		inBtn.setBackground(new Color(0,0,0,0));
+		inBtn.setBackground(new Color(0, 0, 0, 0));
 		inBtn.setBounds(5, 860, 330, 80);
 		inBtn.addActionListener(this);
-		outBtn = new JButton("포장하기>",butimage);
+		outBtn = new JButton("포장하기>", butimage);
 		outBtn.setVerticalTextPosition(outBtn.CENTER); // 텍스트 아래로
-		outBtn.setHorizontalTextPosition(outBtn.CENTER);	
+		outBtn.setHorizontalTextPosition(outBtn.CENTER);
 		outBtn.setBounds(345, 860, 330, 80);
 		outBtn.addActionListener(this);
 		outBtn.setForeground(Color.WHITE);
 		outBtn.setBorder(BorderFactory.createRaisedBevelBorder());
 		outBtn.setFocusPainted(false);
 		outBtn.setFont(new Font("휴먼고딕체", Font.BOLD, 40));
-		outBtn.setBackground(new Color(0,0,0,0));
-		
+		outBtn.setBackground(new Color(0, 0, 0, 0));
 
 		bgimageLabel.add(inBtn);
 		bgimageLabel.add(outBtn);
 		firstPanel.add(bgimageLabel);
-		firstPanel.setBorder(new BevelBorder(BevelBorder.RAISED));	
+		firstPanel.setBorder(new BevelBorder(BevelBorder.RAISED));
 		cp.add(firstPanel);
-		
-		
-		/*JPanel butbtopPanel = new JPanel();
-		butbtopPanel.setBounds(0, 0, 682, 150);
-		butbtopPanel.setVisible(true);
-		butbtopPanel.setBackground(new Color(0, 0, 0));
-	    
-	
-		
-		JPanel butbottomPanel = new JPanel();
-		
-		butbottomPanel.setBounds(0, 820, 682, 150);
-		butbottomPanel.setVisible(true);
-		butbottomPanel.setBackground(new Color(0, 0, 0));
-		cp.add(butbtopPanel);
-		cp.add(butbottomPanel);*/
-		//cp.add(firstPanel);
-		
-		
-		//butbottomPanel = new JPanel();
-		
-		
-	
-	
+
+		/*
+		 * JPanel butbtopPanel = new JPanel(); butbtopPanel.setBounds(0, 0, 682, 150);
+		 * butbtopPanel.setVisible(true); butbtopPanel.setBackground(new Color(0, 0,
+		 * 0));
+		 * 
+		 * 
+		 * 
+		 * JPanel butbottomPanel = new JPanel();
+		 * 
+		 * butbottomPanel.setBounds(0, 820, 682, 150); butbottomPanel.setVisible(true);
+		 * butbottomPanel.setBackground(new Color(0, 0, 0)); cp.add(butbtopPanel);
+		 * cp.add(butbottomPanel);
+		 */
+		// cp.add(firstPanel);
+
+		// butbottomPanel = new JPanel();
+
 	}
 
 	void setTopPanel() {
@@ -168,7 +158,7 @@ class OrderClient extends JFrame implements ActionListener {
 		ImageIcon maintitleImage = new ImageIcon(img);
 		JLabel mainTitleLabel = new JLabel(maintitleImage);
 		topPanel.add(mainTitleLabel);
-		
+
 		cp.add(topPanel);
 	}
 
@@ -185,7 +175,7 @@ class OrderClient extends JFrame implements ActionListener {
 		bottomPanel.setVisible(false);
 		bottomPanel.setBackground(new Color(30, 30, 30));
 		bottomPanel.setLayout(null);
-		
+
 		mainBtn1 = new JButton("처음으로");
 		mainBtn2 = new JButton("주문하기");
 		mainBtn1.setForeground(Color.WHITE);
@@ -220,16 +210,16 @@ class OrderClient extends JFrame implements ActionListener {
 			firstPanel.setVisible(false);
 			mainPanel.setVisible(true);
 			bottomPanel.setVisible(true);
-		} else if (btnText.equals("확인")){
+		} else if (btnText.equals("확인")) {
 			mainPanel.cop2 = op.optionimageLabel1.getText();
 			mainPanel.cop3 = op.optionimageLabel2.getText();
 			mainPanel.cop4 = op.optionimageLabel3.getText();
 			mainPanel.cop5 = op.optionimageLabel4.getText();
-			System.out.print(mainPanel.cop1+"\t");
-			System.out.print(mainPanel.cop2+"\t");
-			System.out.print(mainPanel.cop3+"\t");
-			System.out.print(mainPanel.cop4+"\t");
-			System.out.print(mainPanel.cop5+"\t");
+			System.out.print(mainPanel.cop1 + "\t");
+			System.out.print(mainPanel.cop2 + "\t");
+			System.out.print(mainPanel.cop3 + "\t");
+			System.out.print(mainPanel.cop4 + "\t");
+			System.out.print(mainPanel.cop5 + "\t");
 			mainPanel.offOptionPanel();
 			mainPanel.addProductOnCart(mainPanel.pname, mainPanel.cop2, mainPanel.cop3, mainPanel.cop4, mainPanel.cop5);
 		} else if (btnText.equals("처음으로")) {
@@ -240,19 +230,15 @@ class OrderClient extends JFrame implements ActionListener {
 			mainPanel.initCart();
 			repaint();
 		} else if (btnText.equals("주문하기")) {
-			if(mainPanel.cartCount == 0) {
-				JOptionPane.showMessageDialog(null, 
-					    "장바구니에 담긴 상품이 없습니다.",
-					    "안내메시지",
-					    JOptionPane.WARNING_MESSAGE);
+			if (mainPanel.cartCount == 0) {
+				JOptionPane.showMessageDialog(null, "장바구니에 담긴 상품이 없습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
 			} else {
-				for(int i=1; i<=mainPanel.cartCount;i++) {
+				for (int i = 1; i <= mainPanel.cartCount; i++) {
 					mainPanel.os.insertOrder(i);
 				}
 				mainPanel.initCart();
 				mainPanel.os.deleteCart();
-				JOptionPane.showMessageDialog(null,"주문이 완료 되었습니다.",
-					    "안내메시지",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "주문이 완료 되었습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
 				if (mainPanel.cartPanel.getSize().equals(new Dimension(684, 785))) {
 					mainPanel.cartBtn.setIcon(new ImageIcon(mainPanel.imgUp));
 					mainPanel.cartPanel.setBounds(0, 621, 684, 160);
