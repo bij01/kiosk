@@ -72,7 +72,7 @@ class OrderClient extends JFrame implements ActionListener {
 		firstPanel.setVisible(true);
 		firstPanel.setBackground(new Color(150, 70, 70));
 
-		String bgimagePath = "./src/originbackground.png";
+		String bgimagePath = "./src/background3.png";
 		BufferedImage bufferedImage = null;
 		try {
 			bufferedImage = ImageIO.read(new File(bgimagePath));
