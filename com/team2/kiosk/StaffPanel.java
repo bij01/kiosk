@@ -196,12 +196,22 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 		
 		JButton backToListBtn = new JButton(">>");
 		backToListBtn.setBounds(590, 15, 50, 50);
+		backToListBtn.setBackground(Color.BLACK);
+		backToListBtn.setForeground(Color.WHITE);
 		backToListBtn.setFont(new Font("HYPOST", Font.BOLD, 13));
+		backToListBtn.addActionListener(this);
 		detailPanel.add(backToListBtn);
 		
 		listtablePanel = new JPanel();
 		listtablePanel.setBackground(new Color(30, 30, 100));
 		listtablePanel.setBounds(0, 80, 684, 400);
+		
+		table2 = new JTable();
+		table2.setPreferredScrollableViewportSize(new Dimension(680, 300));
+		table2.setFillsViewportHeight(true);
+		table2.setBackground(Color.WHITE);
+		JScrollPane sp = new JScrollPane(table2);
+		listtablePanel.add(sp);
 		
 		setdetailTable();
 		
@@ -334,7 +344,6 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 	}
 	
 	void setdetailTable() {
-		listtablePanel.removeAll();
 		Vector<String> columnNames = new Vector<String>();
 		Vector<Vector<Object>> rowData = new Vector<Vector<Object>>();
 		columnNames.add("주문번호");
@@ -387,14 +396,23 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 			orderV.add(option5);
 			rowData.add(orderV);
 		}
-		
-		table2 = new JTable(rowData, columnNames);
-		table2.setPreferredScrollableViewportSize(new Dimension(680, 300));
-		table2.setFillsViewportHeight(true);
-		table2.setBackground(Color.WHITE);
 
-		JScrollPane sp = new JScrollPane(table2);
-		listtablePanel.add(sp);
+		model2 = new DefaultTableModel(rowData, columnNames);
+		table2.setModel(model2);
+		table2.getColumnModel().getColumn(0).setPreferredWidth(150);
+		table2.getColumnModel().getColumn(1).setPreferredWidth(100);
+		
+		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tcm = table2.getColumnModel() ; 
+		tcm.getColumn(0).setCellRenderer(dtcr);
+		tcm.getColumn(1).setCellRenderer(dtcr);
+		tcm.getColumn(2).setCellRenderer(dtcr);
+		tcm.getColumn(3).setCellRenderer(dtcr);
+		tcm.getColumn(4).setCellRenderer(dtcr);
+		tcm.getColumn(5).setCellRenderer(dtcr);
+		tcm.getColumn(6).setCellRenderer(dtcr);
+		tcm.getColumn(7).setCellRenderer(dtcr);
 	}
 
 	@Override
@@ -408,6 +426,8 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 					detailToplabel2.setText(orderNumber.substring(7,10));
 				}
 			}catch(NullPointerException npe){}
+		} else if (btn.getText().equals(">>")) {
+			onListPanel();
 		}
 		
 	}
