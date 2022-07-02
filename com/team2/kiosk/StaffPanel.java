@@ -82,8 +82,17 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 		listToplabelline2.setBounds(40, 70, 600, 600);
 		listToplabelline2.setForeground(Color.WHITE); // top line color
 		listToplabelline2.setBackground(Color.black.brighter());
+		
+		JButton backToListBtn = new JButton(">>");
+		backToListBtn.setBounds(590, 15, 50, 50);
+		backToListBtn.setBackground(Color.BLACK);
+		backToListBtn.setForeground(Color.WHITE);
+		backToListBtn.setFont(new Font("HYPOST", Font.BOLD, 13));
+		backToListBtn.addActionListener(e -> mp.offStaffPanel());
+		
 		listPanel.add(listToplabelline1);
 		listPanel.add(listToplabelline2);
+		listPanel.add(backToListBtn);
 		//테이블 
 		listtablePanel1 = new JPanel();
 		listtablePanel1.setBackground(new Color(30, 30, 100));
@@ -148,16 +157,9 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 		listbottombutton1.setForeground(Color.WHITE);
 		listbottombutton1.setFont(new Font("HYPOST", Font.BOLD, 28));
 		listbottombutton1.addActionListener(this);
-		
-		JButton test = new JButton("test");
-		test.setBounds(80, 630, 80, 70);
-		test.addActionListener(e -> {
-			setListTable();
-			
-			//model1.fireTableDataChanged();
-		});
+
 		listPanel.add(listbottombutton1);
-		listPanel.add(test);
+
 		add(listPanel);
 
 	}
@@ -467,17 +469,14 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 
 	@Override
 	public void run() {
-		/*
 		try {
 			while(true) {
 				Thread.sleep(5000);
-				System.out.println("페이지 새로고침");
-				setListTable();
+				if(isVisible()) { // 관리자 페이지가 On 일 경우에만
+					setListTable(); //페이지 새로 고침
+				}
 			}
-		} catch(Exception e) {
-			
-		}
-		*/
+		} catch(Exception e) {}
 		
 	}
 }

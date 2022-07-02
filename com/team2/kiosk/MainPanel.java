@@ -43,7 +43,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		setSidePanel();
 		setOptionPanel();
 		setStaffPanel();
-		onStaffPanel();
+		//onStaffPanel();
 		cop1 = "매장";
 		os.deleteCart();
 	}
@@ -510,7 +510,6 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		menuBtn2.setVerticalTextPosition(menuBtn2.CENTER); // 텍스트 아래로
 		menuBtn2.setHorizontalTextPosition(menuBtn2.CENTER);
 		
-		
 		String text3 =  "디저트";	
 		JButton menuBtn3 = new JButton(text3, sidemenuimg1);
 		menuBtn3.setFont(new Font("HYPOST", Font.BOLD, 15));
@@ -520,16 +519,32 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		menuBtn3.setBounds(-16, 170, 150, 50);
 		menuBtn3.setBorderPainted(false);
 		menuBtn3.setBackground(new Color(255,0,0,0));
-		menuBtn3.setVerticalTextPosition(menuBtn2.CENTER); // 텍스트 아래로
-		menuBtn3.setHorizontalTextPosition(menuBtn2.CENTER);
-			
+		menuBtn3.setVerticalTextPosition(menuBtn3.CENTER); // 텍스트 아래로
+		menuBtn3.setHorizontalTextPosition(menuBtn3.CENTER);
+		
+		String text4 =  "관리자";	
+		JButton menuBtn4 = new JButton(text4, sidemenuimg1);
+		menuBtn4.setFont(new Font("HYPOST", Font.BOLD, 15));
+		menuBtn4.setLayout(null);
+		menuBtn4.setPreferredSize(new Dimension(145, 80));
+		menuBtn4.setForeground(Color.WHITE);
+		menuBtn4.setBounds(-16, 550, 150, 50);
+		menuBtn4.setBorderPainted(false);
+		menuBtn4.setBackground(new Color(255,0,0,0));
+		menuBtn4.setVerticalTextPosition(menuBtn4.CENTER); // 텍스트 아래로
+		menuBtn4.setHorizontalTextPosition(menuBtn4.CENTER);
+		
 		menuBtn1.addActionListener(new ChangeList());
 		menuBtn2.addActionListener(new ChangeList());
 		menuBtn3.addActionListener(new ChangeList());
+		menuBtn4.addActionListener(e -> {
+			onStaffPanel();
+		});
 
 		sidePanel.add(menuBtn1);
 		sidePanel.add(menuBtn2);
 		sidePanel.add(menuBtn3);
+		sidePanel.add(menuBtn4);
 		add(sidePanel);	
 	}
 	

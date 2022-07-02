@@ -19,6 +19,7 @@ public class OrderServerImpl implements OrderServer {
 	PreparedStatement pstmt1, pstmt2, pstmt3, pstmt4; //select=1 insert=2 update=3 delete=4
 	Statement stmt, stmt1;
 	String sql = "";
+	String receiptNo;
 	
 	Vector<Vector> cartVector1 = new Vector<Vector>();
 	Vector<Vector> productsVector = new Vector<Vector>(); //카테고리별 상품 조회
@@ -372,6 +373,9 @@ public class OrderServerImpl implements OrderServer {
 					orderNo = "" + orderNo;
 				} else {
 					System.out.println("범위 초과");
+				}
+				if(cdno == 1) {
+					receiptNo = orderNo;
 				}
 				//System.out.println(date + "-" + orderNo);
 				date2 = date + "-" + orderNo;

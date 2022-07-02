@@ -193,6 +193,16 @@ class OrderClient extends JFrame implements ActionListener {
 		bottomPanel.add(mainBtn2);
 		cp.add(bottomPanel);
 	}
+	
+	void moveToFirstView() {
+		firstPanel.setVisible(true);
+		mainPanel.setVisible(false);
+		bottomPanel.setVisible(false);
+		mainPanel.offOptionPanel();
+		mainPanel.offStaffPanel();
+		mainPanel.initCart();
+		repaint();
+	}
 
 	public static void main(String[] args) {
 		try {
@@ -224,12 +234,7 @@ class OrderClient extends JFrame implements ActionListener {
 			mainPanel.offOptionPanel();
 			mainPanel.addProductOnCart(mainPanel.pname, mainPanel.cop2, mainPanel.cop3, mainPanel.cop4, mainPanel.cop5);
 		} else if (btnText.equals("처음으로")) {
-			firstPanel.setVisible(true);
-			mainPanel.setVisible(false);
-			bottomPanel.setVisible(false);
-			mainPanel.offOptionPanel();
-			mainPanel.initCart();
-			repaint();
+			moveToFirstView();
 		} else if (btnText.equals("주문하기")) {
 			if(mainPanel.cartCount == 0) {
 				JOptionPane.showMessageDialog(null, 
@@ -242,9 +247,9 @@ class OrderClient extends JFrame implements ActionListener {
 				}
 				mainPanel.initCart();
 				mainPanel.os.deleteCart();
-				JOptionPane.showMessageDialog(null,"주문이 완료 되었습니다.",
-					    "안내메시지",JOptionPane.WARNING_MESSAGE);
-				if (mainPanel.cartPanel.getSize().equals(new Dimension(684, 785))) {
+				JOptionPane.showMessageDialog(null,"주문이 완료 되었습니다. \n주문번호: " + mainPanel.os.receiptNo + "번",
+					    "안내메시지",JOptionPane.INFORMATION_MESSAGE);
+				if (mainPanel.cartPanel.getSize().equals(new Dimension(684, 785))) { //카트 원위치
 					mainPanel.cartBtn.setIcon(new ImageIcon(mainPanel.imgUp));
 					mainPanel.cartPanel.setBounds(0, 621, 684, 160);
 					mainPanel.listScroll.setVisible(true);
@@ -253,6 +258,15 @@ class OrderClient extends JFrame implements ActionListener {
 					mainPanel.repaint();
 					repaint();
 				}
+				// 3초 뒤에 처음화면으로 이동
+				new Thread (() -> {
+					try {
+						Thread.sleep(3000);
+						moveToFirstView();
+					} catch (InterruptedException e1) {
+					}
+				}).start();
+				
 			}
 		}
 	}
