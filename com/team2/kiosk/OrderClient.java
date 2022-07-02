@@ -157,18 +157,16 @@ class OrderClient extends JFrame implements ActionListener {
 		topPanel = new JPanel();
 		topPanel.setBounds(0, 0, 684, 100);
 		topPanel.setBackground(new Color(30, 30, 30));
-		String topimagePath = "./src/menutitle1.png";
+		String topimagePath = "./src/topsideimg.png";
 		BufferedImage bufferedImage = null;
 		try {
 			bufferedImage = ImageIO.read(new File(topimagePath));
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		Image img = bufferedImage.getScaledInstance(400, 100, Image.SCALE_DEFAULT);
+		Image img = bufferedImage.getScaledInstance(684, 100, Image.SCALE_DEFAULT);
 		ImageIcon maintitleImage = new ImageIcon(img);
 		JLabel mainTitleLabel = new JLabel(maintitleImage);
-		mainTitleLabel.setBounds(0, -15, 500, 100);
-		mainTitleLabel.setBounds(-50, 0, 500, 100);
 		topPanel.add(mainTitleLabel);
 		
 		cp.add(topPanel);
@@ -187,6 +185,7 @@ class OrderClient extends JFrame implements ActionListener {
 		bottomPanel.setVisible(false);
 		bottomPanel.setBackground(new Color(30, 30, 30));
 		bottomPanel.setLayout(null);
+		
 		mainBtn1 = new JButton("처음으로");
 		mainBtn2 = new JButton("주문하기");
 		mainBtn1.setForeground(Color.WHITE);
