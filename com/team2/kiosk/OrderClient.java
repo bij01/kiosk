@@ -98,12 +98,12 @@ class OrderClient extends JFrame implements ActionListener {
 		// inBtn.setBorder(BorderFactory.createEmptyBorder(3 , 3 , 3 , 3));
 		inBtn.setFont(new Font("HYPOST", Font.BOLD, 28));
 		inBtn.setBackground(new Color(255,0,0,0));
-		inBtn.setBounds(130, 50, 200, 80);
+		inBtn.setBounds(130, 800, 200, 80);
 		inBtn.addActionListener(this);
 		outBtn = new JButton("포장하기>",butimg);
 		outBtn.setVerticalTextPosition(outBtn.CENTER); // 텍스트 아래로
 		outBtn.setHorizontalTextPosition(outBtn.CENTER);	
-		outBtn.setBounds(350, 50, 200, 80);
+		outBtn.setBounds(350, 800, 200, 80);
 		outBtn.addActionListener(this);
 		outBtn.setForeground(Color.WHITE);
 		outBtn.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -195,9 +195,29 @@ class OrderClient extends JFrame implements ActionListener {
 	}
 	
 	void moveToFirstView() {
+		firstPanel.setSize(0, 961);// 684, 961
+		new Thread(() -> {
+			for(int i=0;i<684;i+=6) {
+				try {
+					if(i==678) {
+						i+=8;
+					}
+					Thread.sleep(1);
+					firstPanel.setSize(i, i+277);
+					firstPanel.repaint();
+					System.out.println(i);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+		topPanel.setVisible(false);
 		firstPanel.setVisible(true);
 		mainPanel.setVisible(false);
+		mainBtn1.setVisible(false);
+		mainBtn2.setVisible(false);
 		bottomPanel.setVisible(false);
+		
 		mainPanel.offOptionPanel();
 		mainPanel.offStaffPanel();
 		mainPanel.initCart();
@@ -219,6 +239,7 @@ class OrderClient extends JFrame implements ActionListener {
 		if (btnText.equals("먹고가기>") || btnText.equals("포장하기>")) {
 			mainPanel.cop1 = Btn.getText().trim();
 			firstPanel.setVisible(false);
+			topPanel.setVisible(true);
 			mainPanel.setVisible(true);
 			bottomPanel.setVisible(true);
 		} else if (btnText.equals("확인")){

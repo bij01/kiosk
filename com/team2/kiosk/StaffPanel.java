@@ -5,16 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
+
 import java.util.*;
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.border.*;
 
 class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnable {
+	private static final long serialVersionUID = 857377719283309389L;
 	OrderServerImpl os;
 	MainPanel mp;
 	OrderClient oc;
@@ -260,6 +258,7 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 		detailbottombutton1.setBackground(Color.BLACK);
 		detailbottombutton1.setForeground(Color.WHITE);
 		detailbottombutton1.setFont(new Font("HYPOST", Font.BOLD, 28));
+		detailbottombutton1.addActionListener(this);
 		detailPanel.add(detailbottombutton1);
 		add(detailPanel);
 
@@ -268,6 +267,7 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 		detailbottombutton2.setBackground(Color.BLACK);
 		detailbottombutton2.setForeground(Color.WHITE);
 		detailbottombutton2.setFont(new Font("HYPOST", Font.BOLD, 28));
+		detailbottombutton2.addActionListener(this);
 		detailPanel.add(detailbottombutton2);
 		add(detailPanel);
 
@@ -420,7 +420,8 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton btn = (JButton)e.getSource();
-		if (btn.getText().equals("상세화면")) {
+		String btnText = btn.getText();
+		if (btnText.equals("상세화면")) {
 			try {
 				if(orderNumber.equals(null)) {
 				} else {
@@ -428,7 +429,21 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 					detailToplabel2.setText(orderNumber.substring(7,10));
 				}
 			}catch(NullPointerException npe){}
-		} else if (btn.getText().equals(">>")) {
+		} else if (btnText.equals(">>")) {
+			onListPanel();
+		} else if (btnText.equals("결제완료")) {
+			String orderNo = (String)table2.getValueAt(0, 0);
+			orderNo = orderNo.substring(0, 10);
+			os.updateOSTATE(2, orderNo);
+			JOptionPane.showMessageDialog(null,"결제가 완료 되었습니다.",
+				    "안내메시지",JOptionPane.INFORMATION_MESSAGE);
+			onListPanel();
+		} else if (btnText.equals("결제취소")) {
+			String orderNo = (String)table2.getValueAt(0, 0);
+			orderNo = orderNo.substring(0, 10);
+			os.updateOSTATE(3, orderNo);
+			JOptionPane.showMessageDialog(null,"결제가 취소 되었습니다.",
+				    "안내메시지",JOptionPane.INFORMATION_MESSAGE);
 			onListPanel();
 		}
 		

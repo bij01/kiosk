@@ -12,7 +12,8 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.border.*;
 
-class MainPanel extends JPanel implements Runnable, ActionListener  {
+class MainPanel extends JPanel implements Runnable {
+	private static final long serialVersionUID = -239742803172507112L;
 	OrderClient oc;
 	OrderServerImpl os;
 	
@@ -72,7 +73,8 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		listScroll.setVisible(false);
 		oc.mainBtn1.setVisible(false);
 		oc.mainBtn2.setVisible(false);
-		oc.bottomPanel.setVisible(false);
+
+		oc.setSize(700, 950);
 		staffPanel.setVisible(true);
 	}
 	
@@ -85,7 +87,8 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		listScroll.setVisible(true);
 		oc.mainBtn1.setVisible(true);
 		oc.mainBtn2.setVisible(true);
-		oc.bottomPanel.setVisible(true);
+
+		oc.setSize(700, 1000);
 		staffPanel.setVisible(false);
 	}
 
@@ -145,7 +148,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		subLabel.setVisible(true);
 		subLabel.setLayout(null);
 		subLabel.setOpaque(true);
-		subLabel.setBackground(new Color(255, 255, 255));
+		subLabel.setBackground(new Color(240, 240, 240));
 		subLabel.setBorder(BorderFactory.createEtchedBorder());
 		String path[] = os.returnFileInfo(Integer.parseInt(pno));
 		ImageIcon listimage = new ImageIcon(returnImg("./src/noimage.png", 50, 55));
@@ -164,35 +167,38 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		numLabel.setHorizontalAlignment(JLabel.CENTER);
 		imageLabel.setIcon(listimage);
 		imageLabel.setBounds(50, 10, 70, 70);
-		imageLabel.setBorder(BorderFactory.createEtchedBorder());
+		//imageLabel.setBorder(BorderFactory.createEtchedBorder());
 		imageLabel.setHorizontalAlignment(JLabel.CENTER);
 		JLabel nameLabel = new JLabel(name);
 		nameLabel.setBounds(130, 10, 230, 70);
 		nameLabel.setFont(new Font("HYPOST",Font.BOLD,13));
-		nameLabel.setBorder(new EtchedBorder());
-		nameLabel.setOpaque(true);
+		//nameLabel.setBorder(new EtchedBorder());
+		//nameLabel.setOpaque(true);
 		nameLabel.setBackground(new Color(250, 250, 250));
 		
 		Object obj = os.productVector.get(2);
 		String price = obj.toString();
 		int priceInt = Integer.parseInt(price);
 		cartPrice += priceInt;
-		
-		JLabel priceLabel = new JLabel(price);
-		priceLabel.setBounds(550, 10, 50, 70);
-		priceLabel.setFont(new Font("HYPOST",Font.BOLD,13));
+		JLabel priceLabel = new JLabel();
+		priceLabel.setBounds(550, 10, 90, 70);
 		priceLabel.setBorder(new EtchedBorder());
-		priceLabel.setOpaque(true);
-		priceLabel.setBackground(new Color(250, 250, 250));
-		priceLabel.setHorizontalAlignment(priceLabel.RIGHT);
 		
-		JLabel wonLabel = new JLabel("원");
-		wonLabel.setBounds(600, 10, 30, 70);
-		wonLabel.setFont(new Font("HYPOST",Font.BOLD,13));
-		wonLabel.setBorder(new EtchedBorder());
-		wonLabel.setOpaque(true);
-		wonLabel.setBackground(new Color(250, 250, 250));
-		wonLabel.setHorizontalAlignment(wonLabel.LEFT);
+		priceLabel.setBackground(new Color(255, 255, 255));
+		priceLabel.setOpaque(true);
+		//priceLabel.setHorizontalAlignment(JLabel.CENTER);
+		JLabel priceL = new JLabel(price);
+		priceL.setBounds(0, 0, 50, 70);
+		priceL.setFont(new Font("HYPOST",Font.BOLD,13));
+		//priceL.setForeground(Color.WHITE);
+		priceL.setHorizontalAlignment(JLabel.RIGHT);
+		
+		JLabel wonL = new JLabel("원");
+		wonL.setBounds(50, 0, 30, 70);
+		wonL.setFont(new Font("HYPOST",Font.BOLD,13));
+		//wonL.setForeground(Color.WHITE);
+		priceLabel.add(priceL);
+		priceLabel.add(wonL);
 		
 		if (pno.startsWith("3")) { // 디저트 메뉴일 경우 옵션 라벨 추가안함
 		} else {
@@ -221,10 +227,20 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 			optionLabel3.setBorder(BorderFactory.createEtchedBorder());
 			optionLabel4.setBorder(BorderFactory.createEtchedBorder());
 
-			optionLabel1.setBackground(new Color(250, 250, 250));
+			
 			optionLabel2.setBackground(new Color(250, 250, 250));
 			optionLabel3.setBackground(new Color(250, 250, 250));
 			optionLabel4.setBackground(new Color(250, 250, 250));
+			
+			if(op1.equals("ICE")) {
+				optionLabel1.setBackground(new Color(10, 10, 230));
+				optionLabel1.setForeground(new Color(250, 250, 250));
+				optionLabel1.setOpaque(true);
+			} else if (op1.equals("HOT")) {
+				optionLabel1.setBackground(new Color(230, 10, 10));
+				optionLabel1.setForeground(new Color(250, 250, 250));
+				optionLabel1.setOpaque(true);
+			}
 			subLabel.add(optionLabel1);
 			subLabel.add(optionLabel2);
 			subLabel.add(optionLabel3);
@@ -234,7 +250,6 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		subLabel.add(imageLabel);
 		subLabel.add(nameLabel);
 		subLabel.add(priceLabel);
-		subLabel.add(wonLabel);
 		
 		cartSubPanel1.add(subLabel);
 		labelMap.put(cartCount, subLabel);
@@ -281,8 +296,6 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 	}
 
 	void setCartPanel() {
-		
-		
 		Color bgColor = new Color(230, 230, 230);
 
 		cartPanel = new JPanel();
@@ -333,12 +346,13 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		cartTopPanel.add(cartLabel1);
 		cartTopPanel.add(cartLabel2);
 		cartTopPanel.add(cartBtn);
+		
 		cartSubPanel1 = new JPanel();
-		cartSubPanel1.setBounds(0, 35, 684, 681);
+		cartSubPanel1.setBounds(0, 35, 684, 721);
 		cartSubPanel1.setVisible(true);
 		cartSubPanel1.setLayout(new GridLayout(7, 1, 10, 0));
-		cartSubPanel1.setBackground(bgColor);
-		
+		cartSubPanel1.setBackground(new Color(250, 250, 250)); //카트 내부 컬러
+
 		cartSubPanel2 = new JPanel();
 		cartSubPanel2.setBounds(0, 750, 684, 35);
 		cartSubPanel2.setVisible(true);
@@ -350,7 +364,14 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		orderLabel4 = new JLabel("0");
 		cartDropBtn = new JButton("장바구니 비우기");
 		cartDropBtn.addActionListener(e ->{
-			initCart();
+			initCart(); // 카트초기화 및 원위치
+			cartBtn.setIcon(new ImageIcon(imgUp));
+			cartPanel.setBounds(0, 621, 684, 160);
+			listScroll.setVisible(true);
+			listPanel.setVisible(true);
+			sidePanel.setVisible(true);
+			repaint();
+			oc.repaint();
 		});
 		orderLabel1.setBounds(10, 0, 100, 30);
 		orderLabel2.setBounds(110, 0, 100, 30);
@@ -384,7 +405,6 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 			try {
 				bufferedImage = ImageIO.read(new File(path));
 			} catch (Exception e) {
-				System.out.println(e);
 			}
 			img = bufferedImage.getScaledInstance(size1, size2, Image.SCALE_DEFAULT);
 		} catch (Exception ex) {
@@ -417,9 +437,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 			ImageIcon listimage = new ImageIcon(returnImg("./src/noimage.png", 120, 125));
 	        try {
 	        	listimage = new ImageIcon(returnImg("./src/img/" + path[0] + "." + path[1], 120, 125));
-	        } catch (NullPointerException npe) {
-	        	
-	        }
+	        } catch (NullPointerException npe) {}
 	        
 			String name = (String)productList.get(1);
 			pno = Integer.toString((Integer)productList.get(0));
@@ -537,8 +555,13 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		menuBtn1.addActionListener(new ChangeList());
 		menuBtn2.addActionListener(new ChangeList());
 		menuBtn3.addActionListener(new ChangeList());
-		menuBtn4.addActionListener(e -> {
-			onStaffPanel();
+		menuBtn4.addActionListener(e -> { //관리자 버튼 액션
+			try {
+				String answer = JOptionPane.showInputDialog(null, "관리자 암호를 입력해주세요.", "관리자 확인", JOptionPane.QUESTION_MESSAGE);
+				if (answer.equals("java")) {
+					onStaffPanel();
+				}
+			} catch(NullPointerException npe) {}
 		});
 
 		sidePanel.add(menuBtn1);
@@ -592,12 +615,5 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 			}
 			
 		}
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		JButton Btn = (JButton) e.getSource();
-		String btnText = Btn.getText();
-		
 	}
 }

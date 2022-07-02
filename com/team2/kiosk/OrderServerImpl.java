@@ -6,10 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+
 import java.util.LinkedHashSet;
 import java.util.Vector;
-import java.io.*;
+
 
 public class OrderServerImpl implements OrderServer {
 	static final String URL="jdbc:oracle:thin:@localhost:1521:JAVA";
@@ -55,7 +55,7 @@ public class OrderServerImpl implements OrderServer {
 			con = DriverManager.getConnection(info1, info2, info3);
 			con.setAutoCommit(false);
 			stmt = con.createStatement();
-			System.out.println("연결 성공");
+			//System.out.println("연결 성공");
 		}catch(ClassNotFoundException cnfe) {
 			System.out.println("드라이버 로딩 실패:" + cnfe);
 		}catch(SQLException se) {
@@ -77,7 +77,7 @@ public class OrderServerImpl implements OrderServer {
 				//System.out.println(sum);
 			}
 		}catch(SQLException se) {
-			System.out.println("select 실패: "+ se);
+			//System.out.println("select 실패: "+ se);
 		}finally {
 			try {
 				if (pstmt1!=null) pstmt1.close();
@@ -102,7 +102,7 @@ public class OrderServerImpl implements OrderServer {
 				//System.out.println(count);
 			}
 		}catch(SQLException se) {
-			System.out.println("select 실패: "+ se);
+			//System.out.println("select 실패: "+ se);
 		}finally {
 			try {
 				if (pstmt1!=null) pstmt1.close();
@@ -126,14 +126,14 @@ public class OrderServerImpl implements OrderServer {
 			pstmt2.setInt(5, CNO);
 			int i = pstmt2.executeUpdate();
 			if(i>0) {
-				System.out.println("상품 추가 완료");
+				//System.out.println("상품 추가 완료");
 				con.commit();
 			}else {
-				System.out.println("상품 추가 실패");
+				//System.out.println("상품 추가 실패");
 				con.rollback();
 			}
 		}catch(SQLException se) {
-			System.out.println("insert 실패: "+ se);
+			//System.out.println("insert 실패: "+ se);
 		}finally {
 			try {
 				if (pstmt2!=null) pstmt2.close();
@@ -176,7 +176,7 @@ public class OrderServerImpl implements OrderServer {
 				}
 			}
 		}catch(SQLException se) {
-			System.out.println("상품을 찾을 수 없습니다." + se);
+			//System.out.println("상품을 찾을 수 없습니다." + se);
 		}finally {
 			try {
 				if (rs!=null) rs.close();
@@ -194,7 +194,7 @@ public class OrderServerImpl implements OrderServer {
 			pstmt2.setInt(1, PNO);
 			int i = pstmt2.executeUpdate();
 			if(i>0) {
-				System.out.println("삭제 성공");
+				//System.out.println("삭제 성공");
 				con.commit();
 			}else {
 				//System.out.println("삭제 실패");
@@ -225,14 +225,14 @@ public class OrderServerImpl implements OrderServer {
 			pstmt2.setInt(7, COP5);
 			int i = pstmt2.executeUpdate();
 			if(i>0) {
-				System.out.println("추가 성공");
+				//System.out.println("추가 성공");
 				con.commit();
 			}else {
-				System.out.println("실험 실패");
+				//System.out.println("실험 실패");
 				con.rollback();
 			}
 		}catch(SQLException se) {
-			System.out.println("insert실패:"+se);
+			//System.out.println("insert실패:"+se);
 		}finally {
 			try {
 				if (pstmt2!=null) pstmt2.close();
@@ -248,7 +248,7 @@ public class OrderServerImpl implements OrderServer {
 			pstmt2 = con.prepareStatement(sql);
 			int i = pstmt2.executeUpdate();
 			if(i>0) {
-				System.out.println("삭제 성공");
+				//System.out.println("삭제 성공");
 				con.commit();
 			}else {
 				//System.out.println("삭제 실패");
@@ -290,7 +290,7 @@ public class OrderServerImpl implements OrderServer {
 			}
 			
 		}catch(SQLException se) {
-			System.out.println("상품을 찾을 수 없습니다." + se);
+			//System.out.println("상품을 찾을 수 없습니다." + se);
 		}finally {
 			try {
 				if (rs!=null) rs.close();
@@ -331,14 +331,14 @@ public class OrderServerImpl implements OrderServer {
 			pstmt2.setInt(10,options[5]);
 			int i = pstmt2.executeUpdate();
 			if(i>0) {
-				System.out.println("추가 성공");
+				//System.out.println("추가 성공");
 				con.commit();
 			}else {
-				System.out.println("실험 실패");
+				//System.out.println("실험 실패");
 				con.rollback();
 			}
 		}catch(SQLException se) {
-			System.out.println("insert실패:"+se);
+			//System.out.println("insert실패:"+se);
 		}finally {
 			try {
 				if (pstmt2!=null) pstmt2.close();
@@ -372,7 +372,7 @@ public class OrderServerImpl implements OrderServer {
 				}else if (orderNo.length() == 3) {
 					orderNo = "" + orderNo;
 				} else {
-					System.out.println("범위 초과");
+					//System.out.println("범위 초과");
 				}
 				if(cdno == 1) {
 					receiptNo = orderNo;
@@ -388,7 +388,7 @@ public class OrderServerImpl implements OrderServer {
 					finalOrderNo = date + "-" + orderNo + "-" + cdnoS;
 					return finalOrderNo;
 				}else {
-					System.out.println("범위 초과");
+					//System.out.println("범위 초과");
 				}
 				return date2;
 			}
@@ -488,7 +488,7 @@ public class OrderServerImpl implements OrderServer {
 				ordersSet.add(orderVector);
 			}
 		}catch(SQLException se) {
-			System.out.println("상품을 찾을 수 없습니다." + se);
+			//System.out.println("상품을 찾을 수 없습니다." + se);
 		}finally {
 			try {
 				if (rs!=null) rs.close();
@@ -525,7 +525,7 @@ public class OrderServerImpl implements OrderServer {
 				ordersSet.add(orderVector);
 			}
 		}catch(SQLException se) {
-			System.out.println("상품을 찾을 수 없습니다." + se);
+			//System.out.println("상품을 찾을 수 없습니다." + se);
 		}finally {
 			try {
 				if (rs!=null) rs.close();
@@ -577,14 +577,14 @@ public class OrderServerImpl implements OrderServer {
 			pstmt2.setInt(5, MPOINT);
 			int i = pstmt2.executeUpdate();
 			if(i>0) {
-				System.out.println("추가 성공");
+				//System.out.println("추가 성공");
 				con.commit();
 			}else {
-				System.out.println("추가 실패");
+				//System.out.println("추가 실패");
 				con.rollback();
 			}
 		}catch(SQLException se) {
-			System.out.println("insert실패:"+se);
+			//System.out.println("insert실패:"+se);
 		}finally {
 			try {
 				if (pstmt2!=null) pstmt2.close();
@@ -644,16 +644,16 @@ public class OrderServerImpl implements OrderServer {
 			pstmt2.setInt(1, ostate);
 			pstmt2.setString(2, ""+ono+"%");
 			int i =pstmt2.executeUpdate();
-			System.out.println("test");
+			//System.out.println("test");
 			if(i>0) {
-				System.out.println("변경 성공");
+				//System.out.println("변경 성공");
 				con.commit();
 			}else {
-				System.out.println("변경 실패");
+				//System.out.println("변경 실패");
 				con.rollback();
 			}
 		}catch(SQLException se) {
-			System.out.println("update실패:"+se);
+			//System.out.println("update실패:"+se);
 		}finally {
 			try {
 				if (pstmt2!=null) pstmt2.close();
