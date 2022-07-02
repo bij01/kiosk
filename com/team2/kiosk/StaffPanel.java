@@ -14,7 +14,7 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.border.*;
 
-class StaffPanel extends JPanel implements ActionListener, MouseListener {
+class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnable {
 	OrderServerImpl os;
 	MainPanel mp;
 	OrderClient oc;
@@ -23,6 +23,14 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener {
 	JPanel listPanel, detailPanel;
 	JTable table1, table2;
 	String orderNumber, totalPrice;
+	JLabel detailToplabel2, listbottomlabel2, listbottomlabel4, listbottomlabel6
+	, detailbottomlabel2, detailbottomlabel4;
+	
+	JPanel listtablePanel1, listtablePanel;
+	DefaultTableModel model1, model2;
+	
+	Vector<String> columnNames1;
+	Vector<Vector<Object>> rowData1;
 
 	StaffPanel(MainPanel mp) {
 		this.mp = mp;
@@ -31,6 +39,8 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener {
 		setDetailPanel();
 		onListPanel();
 		//onDetailPanel();
+		Thread th = new Thread(this);
+		th.start();
 	}
 
 	void init() {
@@ -75,97 +85,22 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener {
 		listPanel.add(listToplabelline1);
 		listPanel.add(listToplabelline2);
 		//테이블 
-		JPanel listtablePanel = new JPanel();
-		listtablePanel.setBackground(new Color(30, 30, 100));
-		listtablePanel.setBounds(0, 80, 684, 400);
-		Vector<String> columnNames = new Vector<String>();
-		Vector<Vector<Object>> rowData = new Vector<Vector<Object>>();
-		columnNames.add("주문번호");
-		columnNames.add("상태");
-		columnNames.add("주문메뉴");
-		columnNames.add("가격");
-		columnNames.add("주문시간");
-		Vector<Object> v1 = new Vector<Object>();
-		v1.add(1);
-		v1.add("대기중");
-		v1.add("아메리카노 외 3잔");
-		v1.add("15000원");
-		v1.add("SYSDATE");
+		listtablePanel1 = new JPanel();
+		listtablePanel1.setBackground(new Color(30, 30, 100));
+		listtablePanel1.setBounds(0, 80, 684, 400);
 		
-		os.selectOrder();
-		Vector orderV = null;
-		String pname = "";
-		for (Vector<Object> vector: os.ordersSet) {
-			orderV = new Vector();
-			String orderNo = (String)vector.get(0);
-			
-			if(orderNo.endsWith("1")){
-				int pno = (Integer)vector.get(2);
-				os.selectProduct(2, pno);
-				// 상품 이름
-				pname = os.productVector.get(1).toString();
-			}
-			orderNo = orderNo.substring(0, 10);
-			// 같은 주문번호로 주문된게 몇개인지 확인
-			int count = os.returnSameOrderNumCount(orderNo);
-			String countS = Integer.toString(count);
-			// 같은 주문번호로 기준 합계금액 확인
-			int priceSum = os.returnPriceSum(orderNo);
-			String priceSumS = Integer.toString(priceSum);
-			//System.out.println("주문번호: "+ orderNo +", 주문합계: " + count + ", 금액: " + priceSum);
-			
-			//orderV.add(countS);
-			String orderState = null;
-			// 주문번호, 주문상태
-			orderV.add(orderNo);
-			if(vector.get(5).equals(1)) {
-				orderState = "주문대기";
-			} else if(vector.get(5).equals(2)) {
-				orderState = "결제완료";
-			} else if(vector.get(5).equals(3)) {
-				orderState = "결제취소";
-			}
-			orderV.add(orderState);
-			// 대표메뉴
-			if (countS.equals("1")){
-				orderV.add(pname);
-			} else {
-				String num = Integer.toString(count-1);
-				orderV.add(pname + " 외 " + num + "개");
-			}
-			// 가격
-			orderV.add(priceSum + "원");
-			// 주문시간
-			orderV.add(vector.get(4));
-			
-			listSet.add(orderV);
-		}
-
-		for(Vector v:listSet) {
-			//System.out.println(v);
-			rowData.add(v);
-		}
-			
-		//System.out.println(os.ordersSet);
+		table1 = new JTable(model1);
+		setListTable();
 		
-		table1 = new JTable(rowData, columnNames);
 		table1.setPreferredScrollableViewportSize(new Dimension(680, 300));
 		table1.setFillsViewportHeight(true);
 		table1.setBackground(Color.WHITE);
-		table1.getColumnModel().getColumn(1).setPreferredWidth(20);
-		table1.getColumnModel().getColumn(3).setPreferredWidth(30);
-		table1.getColumnModel().getColumn(4).setPreferredWidth(100);
-		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
-		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
-		TableColumnModel tcm = table1.getColumnModel() ; 
 		table1.addMouseListener(this);
-		tcm.getColumn(0).setCellRenderer(dtcr);
-		tcm.getColumn(1).setCellRenderer(dtcr);
-		tcm.getColumn(4).setCellRenderer(dtcr);
 		
 		JScrollPane sp = new JScrollPane(table1);
-		listtablePanel.add(sp);
-		listPanel.add(listtablePanel, BorderLayout.CENTER);
+		listtablePanel1.add(sp);
+		
+		listPanel.add(listtablePanel1, BorderLayout.CENTER);
 
 		JSeparator listbottomlabelline1 = new JSeparator();
 		listbottomlabelline1.setBounds(40, 490, 600, 600);
@@ -182,7 +117,7 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener {
 		listbottomlabel.setForeground(Color.WHITE);
 		listbottomlabel.setFont(new Font("HYPOST", Font.BOLD, 28));
 		listPanel.add(listbottomlabel);
-		JLabel listbottomlabel2 = new JLabel("153");
+		listbottomlabel2 = new JLabel("");
 		listbottomlabel2.setBounds(170, 500, 130, 120);
 		listbottomlabel2.setForeground(Color.WHITE);
 		listbottomlabel2.setFont(new Font("HYPOST", Font.BOLD, 28));
@@ -192,31 +127,42 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener {
 		listbottomlabel3.setForeground(Color.WHITE);
 		listbottomlabel3.setFont(new Font("HYPOST", Font.BOLD, 28));
 		listPanel.add(listbottomlabel3);
-		JLabel listbottomlabe4 = new JLabel("결제완료");
-		listbottomlabe4.setBounds(320, 500, 130, 120);
-		listbottomlabe4.setForeground(Color.WHITE);
-		listbottomlabe4.setFont(new Font("HYPOST", Font.BOLD, 28));
-		listPanel.add(listbottomlabe4);
-		JLabel listbottomlabe5 = new JLabel("| 가격:");
-		listbottomlabe5.setBounds(450, 500, 130, 120);
-		listbottomlabe5.setForeground(Color.WHITE);
-		listbottomlabe5.setFont(new Font("HYPOST", Font.BOLD, 28));
-		listPanel.add(listbottomlabe5);
-		JLabel listbottomlabe6 = new JLabel("35.000원");
-		listbottomlabe6.setBounds(540, 500, 130, 120);
-		listbottomlabe6.setForeground(Color.WHITE);
-		listbottomlabe6.setFont(new Font("HYPOST", Font.BOLD, 28));
-		listPanel.add(listbottomlabe6);
-		JButton listbottombutton1 = new JButton("선택하기");
+		listbottomlabel4 = new JLabel("");
+		listbottomlabel4.setBounds(320, 500, 130, 120);
+		listbottomlabel4.setForeground(Color.WHITE);
+		listbottomlabel4.setFont(new Font("HYPOST", Font.BOLD, 28));
+		listPanel.add(listbottomlabel4);
+		JLabel listbottomlabel5 = new JLabel("| 가격:");
+		listbottomlabel5.setBounds(450, 500, 130, 120);
+		listbottomlabel5.setForeground(Color.WHITE);
+		listbottomlabel5.setFont(new Font("HYPOST", Font.BOLD, 28));
+		listPanel.add(listbottomlabel5);
+		listbottomlabel6 = new JLabel("");
+		listbottomlabel6.setBounds(540, 500, 130, 120);
+		listbottomlabel6.setForeground(Color.WHITE);
+		listbottomlabel6.setFont(new Font("HYPOST", Font.BOLD, 28));
+		listPanel.add(listbottomlabel6);
+		JButton listbottombutton1 = new JButton("상세화면");
 		listbottombutton1.setBounds(190, 630, 280, 70);
 		listbottombutton1.setBackground(Color.BLACK);
 		listbottombutton1.setForeground(Color.WHITE);
 		listbottombutton1.setFont(new Font("HYPOST", Font.BOLD, 28));
 		listbottombutton1.addActionListener(this);
+		
+		JButton test = new JButton("test");
+		test.setBounds(80, 630, 80, 70);
+		test.addActionListener(e -> {
+			setListTable();
+			
+			//model1.fireTableDataChanged();
+		});
 		listPanel.add(listbottombutton1);
+		listPanel.add(test);
 		add(listPanel);
 
 	}
+	
+	
 	
 	void setDetailPanel() {
 		detailPanel = new JPanel();
@@ -237,46 +183,28 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener {
 		listPanel.add(detaiToplabelline2);
 
 		JLabel detailToplabel = new JLabel("주문번호:");
-		detailToplabel.setBounds(225, -20, 130, 120);
+		detailToplabel.setBounds(225, 0, 130, 80);
 		detailToplabel.setForeground(Color.WHITE);
 		detailToplabel.setFont(new Font("HYPOST", Font.BOLD, 28));
 		detailPanel.add(detailToplabel);
 
-		JLabel detailToplabel2 = new JLabel("153");
-		detailToplabel2.setBounds(385, -20, 120, 120);
+		detailToplabel2 = new JLabel("153");
+		detailToplabel2.setBounds(385, 0, 120, 80);
 		detailToplabel2.setForeground(Color.WHITE);
 		detailToplabel2.setFont(new Font("HYPOST", Font.BOLD, 28));
 		detailPanel.add(detailToplabel2);
-
-		JPanel listtablePanel = new JPanel();
+		
+		JButton backToListBtn = new JButton(">>");
+		backToListBtn.setBounds(590, 15, 50, 50);
+		backToListBtn.setFont(new Font("HYPOST", Font.BOLD, 13));
+		detailPanel.add(backToListBtn);
+		
+		listtablePanel = new JPanel();
 		listtablePanel.setBackground(new Color(30, 30, 100));
 		listtablePanel.setBounds(0, 80, 684, 400);
-		Vector<String> columnNames = new Vector<String>();
-		Vector<Vector<Object>> rowData = new Vector<Vector<Object>>();
-		columnNames.add("상품명");
-		columnNames.add("옵션");
-		columnNames.add("수량");
-		columnNames.add("가격");
-		Vector<Object> v1 = new Vector<Object>();
-		v1.add("아메리카노");
-		v1.add("샷추가");
-		v1.add("5");
-		v1.add("15.000");
-		Vector<Object> v2 = new Vector<Object>();
-		v2.add("아메리카노");
-		v2.add("샷추가");
-		v2.add("5");
-		v2.add("15.000");
-		rowData.add(v1);
-		rowData.add(v2);
-		table2 = new JTable(rowData, columnNames);
-		table2.setPreferredScrollableViewportSize(new Dimension(680, 300));
-		table2.setFillsViewportHeight(true);
-		table2.setBackground(Color.WHITE);
 		
-
-		JScrollPane sp = new JScrollPane(table2);
-		listtablePanel.add(sp);
+		setdetailTable();
+		
 		detailPanel.add(listtablePanel, BorderLayout.CENTER);
 
 		// 구분선
@@ -297,7 +225,7 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener {
 		detailbottomlabel.setFont(new Font("HYPOST", Font.BOLD, 28));
 		detailPanel.add(detailbottomlabel);
 
-		JLabel detailbottomlabel2 = new JLabel("5개");
+		detailbottomlabel2 = new JLabel("5개");
 		detailbottomlabel2.setBounds(200, 500, 150, 120);
 		detailbottomlabel2.setForeground(Color.WHITE);
 		detailbottomlabel2.setFont(new Font("HYPOST", Font.BOLD, 28));
@@ -309,7 +237,7 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener {
 		detailbottomlabel3.setFont(new Font("HYPOST", Font.BOLD, 28));
 		detailPanel.add(detailbottomlabel3);
 
-		JLabel detailbottomlabel4 = new JLabel("800원");
+		detailbottomlabel4 = new JLabel("");
 		detailbottomlabel4.setBounds(550, 500, 150, 120);
 		detailbottomlabel4.setForeground(Color.WHITE);
 		detailbottomlabel4.setFont(new Font("HYPOST", Font.BOLD, 28));
@@ -332,13 +260,154 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener {
 		add(detailPanel);
 
 	}
+	
+	void setListTable() {
+		listSet.clear();
+		columnNames1 = new Vector<String>();
+		rowData1 = new Vector<Vector<Object>>();
+		columnNames1.add("주문번호");
+		columnNames1.add("상태");
+		columnNames1.add("주문메뉴");
+		columnNames1.add("가격");
+		columnNames1.add("주문시간");
+		
+		os.selectOrder();
+		Vector orderV = null;
+		String pname = "";
+		for (Vector<Object> vector: os.ordersSet) {
+			orderV = new Vector();
+			String orderNo = (String)vector.get(0);
+			if(orderNo.endsWith("1")){
+				int pno = (Integer)vector.get(2);
+				os.selectProduct(2, pno);
+				// 상품 이름
+				pname = os.productVector.get(1).toString();
+				orderNo = orderNo.substring(0, 10);
+				// 같은 주문번호로 주문된게 몇개인지 확인
+				int count = os.returnSameOrderNumCount(orderNo);
+				String countS = Integer.toString(count);
+				// 같은 주문번호로 기준 합계금액 확인
+				int priceSum = os.returnPriceSum(orderNo);
+				String priceSumS = Integer.toString(priceSum);
+				String orderState = null;
+				// 주문번호, 주문상태
+				orderV.add(orderNo);
+				if(vector.get(5).equals(1)) {
+					orderState = "주문대기";
+				} else if(vector.get(5).equals(2)) {
+					orderState = "결제완료";
+				} else if(vector.get(5).equals(3)) {
+					orderState = "결제취소";
+				}
+				orderV.add(orderState);
+				// 대표메뉴
+				if (count == 1){
+					orderV.add(pname);
+				} else {
+					String num = Integer.toString(count-1);
+					orderV.add(pname + " 외 " + num + "개");
+				}
+				// 가격
+				orderV.add(priceSum + "원");
+				// 주문시간
+				orderV.add(vector.get(4));
+				//System.out.println(orderV);
+				listSet.add(orderV);
+			} else {}
+		}
+		for(Vector v:listSet) {
+			//System.out.println(v);
+			rowData1.add(v);
+		}
+		model1 = new DefaultTableModel(rowData1, columnNames1);
+		table1.setModel(model1);
+		table1.getColumnModel().getColumn(1).setPreferredWidth(20);
+		table1.getColumnModel().getColumn(3).setPreferredWidth(30);
+		table1.getColumnModel().getColumn(4).setPreferredWidth(100);
+		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tcm = table1.getColumnModel() ; 
+		
+		tcm.getColumn(0).setCellRenderer(dtcr);
+		tcm.getColumn(1).setCellRenderer(dtcr);
+		tcm.getColumn(4).setCellRenderer(dtcr);
+	}
+	
+	void setdetailTable() {
+		listtablePanel.removeAll();
+		Vector<String> columnNames = new Vector<String>();
+		Vector<Vector<Object>> rowData = new Vector<Vector<Object>>();
+		columnNames.add("주문번호");
+		columnNames.add("상품명");
+		columnNames.add("가격");
+		columnNames.add("옵션1");
+		columnNames.add("옵션2");
+		columnNames.add("옵션3");
+		columnNames.add("옵션4");
+		columnNames.add("옵션5");
+		
+		Vector<Object> orderV = new Vector<Object>();	
+		for (Vector<Object> vector: os.ordersSet) {
+			orderV = new Vector();
+
+			int pno = (Integer)vector.get(2);
+			os.selectProduct(2, pno);
+			// 상품 이름
+			String pname = os.productVector.get(1).toString();
+			String price = os.productVector.get(2).toString();
+			int cop1 = (Integer)vector.get(7);
+			int cop2 = (Integer)vector.get(8);
+			int cop3 = (Integer)vector.get(9);
+			int cop4 = (Integer)vector.get(10);
+			int cop5 = (Integer)vector.get(11);
+			String option1="", option2="", option3="", option4="", option5="";
+			if(cop1==11) option1 = "매장";
+			else if(cop1==12) option1 = "포장";
+			if(cop2==21) option2 = "아이스";
+			else if(cop2==22) option2 = "핫";
+			else option2 = "";
+			if(cop3==31) option3 = "미디움";
+			else if(cop3==32) option3 = "라지";
+			else option3 = "";
+			if(cop4==41) option4 = "샷추가";
+			else if(cop4==42) option4 = "추가안함";
+			else option4 = "";
+			if(cop5==51) option5 = "얼음많이";
+			else if(cop5==52) option5 = "얼음조금";
+			else if(cop5==53) option5 = "선택안함";
+			else option5 = "";
+			
+			orderV.add((String)vector.get(0));
+			orderV.add(pname);
+			orderV.add(price);
+			orderV.add(option1);
+			orderV.add(option2);
+			orderV.add(option3);
+			orderV.add(option4);
+			orderV.add(option5);
+			rowData.add(orderV);
+		}
+		
+		table2 = new JTable(rowData, columnNames);
+		table2.setPreferredScrollableViewportSize(new Dimension(680, 300));
+		table2.setFillsViewportHeight(true);
+		table2.setBackground(Color.WHITE);
+
+		JScrollPane sp = new JScrollPane(table2);
+		listtablePanel.add(sp);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton btn = (JButton)e.getSource();
-		if (btn.getText().equals("선택하기")) {
-			
-			//onDetailPanel();
+		if (btn.getText().equals("상세화면")) {
+			try {
+				if(orderNumber.equals(null)) {
+				} else {
+					onDetailPanel();
+					detailToplabel2.setText(orderNumber.substring(7,10));
+				}
+			}catch(NullPointerException npe){}
 		}
 		
 	}
@@ -346,10 +415,26 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		int row = table1.getSelectedRow();
-		System.out.println(row);
-		orderNumber = table1.getValueAt(row, 0).toString();
-		totalPrice = table1.getValueAt(row, 3).toString();
-		System.out.println(orderNumber +", "+totalPrice);
+		try {
+			orderNumber = table1.getValueAt(row, 0).toString();
+			totalPrice = table1.getValueAt(row, 3).toString();
+			String orderCount = table1.getValueAt(row, 2).toString();
+			if (orderCount.endsWith("개")){
+				int startIdx = orderCount.indexOf("외") + 2;
+				int endIdx = startIdx + 1;
+				orderCount = orderCount.substring(startIdx, endIdx);
+			}else {
+				orderCount = "1";
+			}
+			String orderState = table1.getValueAt(row, 1).toString();
+			listbottomlabel2.setText(orderNumber.substring(7,10));
+			listbottomlabel4.setText(orderState);
+			listbottomlabel6.setText(totalPrice);
+			detailbottomlabel2.setText(orderCount);
+			detailbottomlabel4.setText(totalPrice);
+			os.selectOrder(orderNumber);
+			setdetailTable();
+		} catch (ArrayIndexOutOfBoundsException io){}
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {}
@@ -359,4 +444,20 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener {
 	public void mouseEntered(MouseEvent e) {}
 	@Override
 	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void run() {
+		/*
+		try {
+			while(true) {
+				Thread.sleep(5000);
+				System.out.println("페이지 새로고침");
+				setListTable();
+			}
+		} catch(Exception e) {
+			
+		}
+		*/
+		
+	}
 }

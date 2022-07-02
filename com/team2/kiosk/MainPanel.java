@@ -45,7 +45,6 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		setStaffPanel();
 		onStaffPanel();
 		cop1 = "매장";
-		//testMode();
 		os.deleteCart();
 	}
 	
@@ -128,12 +127,12 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 		else if(optionName.equals("HOT")) num = 22;
 		else if(optionName.equals("MEDIUM")) num = 31;
 		else if(optionName.equals("LARGE")) num = 32;
-		else if(optionName.equals("샷추가")) num = 43;
-		else if(optionName.equals("추가안함")) num = 44;
+		else if(optionName.equals("샷추가")) num = 41;
+		else if(optionName.equals("추가안함")) num = 42;
 		else if(optionName.equals("얼음많이")) num = 51;
 		else if(optionName.equals("얼음조금")) num = 52;
 		else if(optionName.equals("선택안함")) num = 53;
-		else if(optionName.equals("")) num = 0;
+		else if(optionName.equals("디저트")) num = 0;
 		return num;
 	}
 
@@ -445,7 +444,7 @@ class MainPanel extends JPanel implements Runnable, ActionListener  {
 					pname = selfBtn.getText();
 					pno = selfLabel.getText();
 					if (pno.startsWith("3")) {
-						addProductOnCart(pname, "HOT", "MEDIUM", "추가안함", "추가안함");
+						addProductOnCart(pname, "디저트", "디저트", "디저트", "디저트");
 					} else {
 						onOptionPanel();
 					}
