@@ -42,6 +42,7 @@ class OrderClient extends JFrame implements ActionListener {
 	
 	String basePath = new File("").getAbsolutePath();
 	String topimagePath = "/src/topsideimg.png";
+	JLabel pageNameLabel;
 
 	void testMode() { // 바로 두번째 화면으로 넘어가기(개발 끝나면 삭제)
 		firstPanel.setVisible(false);
@@ -147,6 +148,12 @@ class OrderClient extends JFrame implements ActionListener {
 		topPanel.setBackground(new Color(30, 30, 30));
 		ImageIcon maintitleImage = new ImageIcon(returnImg(topimagePath, 684, 100));
 		JLabel mainTitleLabel = new JLabel(maintitleImage);
+		pageNameLabel = new JLabel("주문화면");
+		pageNameLabel.setBounds(0, 0, 684, 100);
+		pageNameLabel.setForeground(Color.WHITE);
+		pageNameLabel.setHorizontalAlignment(JLabel.CENTER);
+		pageNameLabel.setFont(new Font("휴먼매직체", Font.BOLD, 50));
+		mainTitleLabel.add(pageNameLabel);
 		topPanel.add(mainTitleLabel);
 
 		cp.add(topPanel);
@@ -197,7 +204,7 @@ class OrderClient extends JFrame implements ActionListener {
 			}
 			img = bufferedImage.getScaledInstance(size1, size2, Image.SCALE_DEFAULT);
 		} catch (Exception ex) {
-			System.out.println(ex);
+			//System.out.println(ex);
 		}
 		return img;
 	}

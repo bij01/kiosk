@@ -5,13 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.*;
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
 import javax.swing.border.*;
 
 
@@ -79,6 +74,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		setLocation(0, 30);
 		setSize(684, 780);
 		oc.bottomPanel.setLocation(0, 811);
+		oc.pageNameLabel.setText("");
 		staffPanel.setVisible(true);
 		staffPanel.setSize(684, 785);
 	}
@@ -97,6 +93,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		setLocation(0, 100);
 		setSize(684, 860);
 		oc.bottomPanel.setLocation(0, 881);
+		oc.pageNameLabel.setText("주문화면");
 		staffPanel.setVisible(false);
 	}
 
@@ -109,6 +106,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		listScroll.setVisible(false);
 		optionPanel.setVisible(true);
 		oc.mainBtn2.setText("확인");
+		oc.pageNameLabel.setText("옵션선택");
 	}
 
 	void offOptionPanel() {
@@ -120,6 +118,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		listScroll.setVisible(true);
 		optionPanel.setVisible(false);
 		oc.mainBtn2.setText("주문하기");
+		oc.pageNameLabel.setText("주문화면");
 	}
 
 	void init() {
@@ -250,7 +249,6 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 			optionLabel3.setBorder(BorderFactory.createEtchedBorder());
 			optionLabel4.setBorder(BorderFactory.createEtchedBorder());
 
-			
 			optionLabel2.setBackground(new Color(250, 250, 250));
 			optionLabel3.setBackground(new Color(250, 250, 250));
 			optionLabel4.setBackground(new Color(250, 250, 250));
@@ -516,16 +514,16 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		
 		
 		ImageIcon sidemenuimg1 = new ImageIcon(oc.returnImg("/src/mainBut2.png", 120, 60));
-		String text1 = "    커피";
+		String text1 = "   커피";
 		JButton menuBtn1 = new JButton(text1, sidemenuimg1);
 
-		String text2 = "    음료";
+		String text2 = "   음료";
 		JButton menuBtn2 = new JButton(text2, sidemenuimg1);
 
-		String text3 = "    디저트";
+		String text3 = "   디저트";
 		JButton menuBtn3 = new JButton(text3, sidemenuimg1);
 
-		String text4 =  "    관리자";	
+		String text4 =  "   관리자";	
 		JButton menuBtn4 = new JButton(text4, sidemenuimg1);
 		menuBtn4.addActionListener(e -> { //관리자 버튼 액션
 			try {
@@ -550,10 +548,10 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		menuBtn2.addActionListener(new ChangeList());
 		menuBtn3.addActionListener(new ChangeList());
 		
-		menuBtn1.setFont(new Font("휴먼고딕체", Font.BOLD, 15));
-		menuBtn2.setFont(new Font("휴먼고딕체", Font.BOLD, 15));
-		menuBtn3.setFont(new Font("휴먼고딕체", Font.BOLD, 15));
-		menuBtn4.setFont(new Font("휴먼고딕체", Font.BOLD, 15));
+		menuBtn1.setFont(new Font("휴먼매직체", Font.BOLD, 20));
+		menuBtn2.setFont(new Font("휴먼매직체", Font.BOLD, 20));
+		menuBtn3.setFont(new Font("휴먼매직체", Font.BOLD, 20));
+		menuBtn4.setFont(new Font("휴먼매직체", Font.BOLD, 20));
 		
 		menuBtn1.setForeground(Color.WHITE);
 		menuBtn2.setForeground(Color.WHITE);
@@ -611,17 +609,17 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		public void actionPerformed(ActionEvent e) {
 			JButton selfBtn = (JButton) e.getSource();
 			String text = selfBtn.getText();
-			if (text.equals("    커피")) {
+			if (text.equals("   커피")) {
 				listPanel.removeAll();
 				addlistButton(11);
 				listPanel.revalidate();
 				listPanel.repaint();
-			} else if (text.equals("    음료")) {
+			} else if (text.equals("   음료")) {
 				listPanel.removeAll();
 				addlistButton(22);
 				listPanel.revalidate();
 				listPanel.repaint();
-			} else if (text.equals("    디저트")) {
+			} else if (text.equals("   디저트")) {
 				// listScroll.removeAll();
 				// listScroll.repaint();
 				listPanel.removeAll();

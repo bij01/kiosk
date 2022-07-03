@@ -81,10 +81,11 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 		listToplabelline2.setForeground(Color.WHITE); // top line color
 		listToplabelline2.setBackground(Color.black.brighter());
 		
-		JButton backToListBtn = new JButton(">>");
-		backToListBtn.setBounds(590, 15, 50, 50);
-		backToListBtn.setBackground(Color.BLACK);
+		JButton backToListBtn = new JButton("<<");
+		backToListBtn.setBounds(40, 15, 50, 50);
 		backToListBtn.setForeground(Color.WHITE);
+		backToListBtn.setBackground(new Color(0, 0, 0, 0));
+		backToListBtn.setBorderPainted(false);
 		backToListBtn.setFont(new Font("HYPOST", Font.BOLD, 13));
 		backToListBtn.addActionListener(e -> mp.offStaffPanel());
 		
@@ -179,8 +180,8 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 		detaiToplabelline2.setBounds(40, 70, 600, 600);
 		detaiToplabelline2.setForeground(Color.WHITE); // top line color
 		detaiToplabelline2.setBackground(Color.black.brighter());
-		listPanel.add(detailToplabelline1);
-		listPanel.add(detaiToplabelline2);
+		detailPanel.add(detailToplabelline1);
+		detailPanel.add(detaiToplabelline2);
 
 		JLabel detailToplabel = new JLabel("주문번호:");
 		detailToplabel.setBounds(225, 0, 130, 80);
@@ -196,8 +197,9 @@ class StaffPanel extends JPanel implements ActionListener, MouseListener, Runnab
 		
 		JButton backToListBtn = new JButton(">>");
 		backToListBtn.setBounds(590, 15, 50, 50);
-		backToListBtn.setBackground(Color.BLACK);
 		backToListBtn.setForeground(Color.WHITE);
+		backToListBtn.setBackground(new Color(0, 0, 0, 0));
+		backToListBtn.setBorderPainted(false);
 		backToListBtn.setFont(new Font("HYPOST", Font.BOLD, 13));
 		backToListBtn.addActionListener(this);
 		detailPanel.add(backToListBtn);
