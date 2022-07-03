@@ -64,7 +64,7 @@ class OrderClient extends JFrame implements ActionListener {
 		setBottomPanel();
 		setMainPanel();
 		
-		testMode();
+		//testMode();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -119,7 +119,7 @@ class OrderClient extends JFrame implements ActionListener {
 		inBtn.setFocusPainted(false);
 		// BorderFactory.createLineBorder
 		// inBtn.setBorder(BorderFactory.createEmptyBorder(3 , 3 , 3 , 3));
-		inBtn.setFont(new Font("휴먼고딕체", Font.BOLD, 40));
+		inBtn.setFont(new Font("Black Han Sans", Font.BOLD, 40));
 		inBtn.setBackground(new Color(0, 0, 0, 0));
 		inBtn.setBounds(5, 860, 330, 80);
 		inBtn.addActionListener(this);
@@ -131,7 +131,7 @@ class OrderClient extends JFrame implements ActionListener {
 		outBtn.setForeground(Color.WHITE);
 		outBtn.setBorder(BorderFactory.createRaisedBevelBorder());
 		outBtn.setFocusPainted(false);
-		outBtn.setFont(new Font("휴먼고딕체", Font.BOLD, 40));
+		outBtn.setFont(new Font("Black Han Sans", Font.BOLD, 40));
 		outBtn.setBackground(new Color(0, 0, 0, 0));
 
 		bgimageLabel.add(inBtn);
@@ -141,7 +141,6 @@ class OrderClient extends JFrame implements ActionListener {
 		cp.add(firstPanel);
 
 	}
-
 	void setTopPanel() {
 		topPanel = new JPanel();
 		topPanel.setBounds(0, 0, 684, 100);
@@ -149,15 +148,16 @@ class OrderClient extends JFrame implements ActionListener {
 		ImageIcon maintitleImage = new ImageIcon(returnImg(topimagePath, 684, 100));
 		JLabel mainTitleLabel = new JLabel(maintitleImage);
 		pageNameLabel = new JLabel("주문화면");
-		pageNameLabel.setBounds(0, 0, 684, 100);
+		pageNameLabel.setBounds(0, 10, 684, 100);
 		pageNameLabel.setForeground(Color.WHITE);
 		pageNameLabel.setHorizontalAlignment(JLabel.CENTER);
-		pageNameLabel.setFont(new Font("휴먼매직체", Font.BOLD, 50));
+		pageNameLabel.setFont(new Font("Black Han Sans", Font.PLAIN, 50));
 		mainTitleLabel.add(pageNameLabel);
 		topPanel.add(mainTitleLabel);
 
 		cp.add(topPanel);
 	}
+	
 
 	void setMainPanel() {
 		mainPanel = new MainPanel(this);
@@ -166,24 +166,67 @@ class OrderClient extends JFrame implements ActionListener {
 		cp.add(mainPanel);
 	}
 
+	
 	void setBottomPanel() {
+		bottomPanel = new JPanel();
+		bottomPanel.setBounds(0, 881, 684, 80);
+		bottomPanel.setBackground(new Color(30, 30, 30));
+		
+		ImageIcon bottomImage = new ImageIcon(returnImg(topimagePath, 684, 80));
+		JLabel bottomLabel = new JLabel(bottomImage);
+		
+		mainBtn1 = new JButton("<처음으로");
+		mainBtn2 = new JButton("주문하기>");
+		mainBtn1.setForeground(Color.WHITE);
+		mainBtn2.setForeground(Color.WHITE);
+		mainBtn1.setFont(new Font("Black Han Sans", Font.PLAIN, 30));
+		mainBtn2.setFont(new Font("Black Han Sans", Font.PLAIN, 30));
+
+		mainBtn1.setBackground(new Color(10, 10, 10, 230));
+		mainBtn2.setBackground(new Color(10, 10, 10, 230));
+		mainBtn1.setBorderPainted(false);
+		mainBtn2.setBorderPainted(false);
+		
+		mainBtn1.setBounds(20, 5, 320, 70);
+		mainBtn2.setBounds(345, 5, 320, 70);
+		
+		mainBtn1.addActionListener(this);
+		mainBtn2.addActionListener(this);
+		bottomLabel.add(mainBtn1);
+		bottomLabel.add(mainBtn2);
+		bottomPanel.add(bottomLabel);
+	
+		cp.add(bottomPanel);
+	}
+	
+	/*void setBottomPanel() {
 		bottomPanel = new JPanel();
 		bottomPanel.setBounds(0, 881, 684, 80);
 		bottomPanel.setBackground(new Color(30, 30, 30));
 
 		ImageIcon bottomImage = new ImageIcon(returnImg(topimagePath, 684, 80));
 		JLabel bottomLabel = new JLabel(bottomImage);
-
-		mainBtn1 = new JButton("처음으로");
-		mainBtn2 = new JButton("주문하기");
+		
+		ImageIcon bottombutImag  = new ImageIcon(returnImg("/src/bottombutimg.png", 320, 70));
+		String text1 = "<처음으로";
+		JButton mainBtn1 = new JButton(text1, bottombutImag);
+		String text2 = "주문하기>";
+		JButton mainBtn2 = new JButton(text2, bottombutImag);
+	
 		mainBtn1.setForeground(Color.WHITE);
 		mainBtn2.setForeground(Color.WHITE);
-		mainBtn1.setBackground(new Color(10, 10, 10, 230));
-		mainBtn2.setBackground(new Color(10, 10, 10, 230));
-		mainBtn1.setFont(new Font("휴먼고딕체", Font.BOLD, 20));
-		mainBtn2.setFont(new Font("휴먼고딕체", Font.BOLD, 20));
-		mainBtn1.setBounds(172, 15, 120, 50);
-		mainBtn2.setBounds(372, 15, 120, 50);
+		mainBtn1.setFont(new Font("Black Han Sans", Font.PLAIN, 25));
+		mainBtn2.setFont(new Font("Black Han Sans", Font.PLAIN, 25));
+		mainBtn1.setBackground(new Color(0,0,0,0));
+		mainBtn2.setBackground(new Color(0,0,0,0));
+		mainBtn1.setBorderPainted(false);
+		mainBtn2.setBorderPainted(false);
+		mainBtn1.setVerticalTextPosition(JButton.CENTER);
+		mainBtn1.setHorizontalTextPosition(JButton.CENTER);
+		mainBtn2.setVerticalTextPosition(JButton.CENTER);
+		mainBtn2.setHorizontalTextPosition(JButton.CENTER);
+		mainBtn1.setBounds(25, 5, 320, 70);
+		mainBtn2.setBounds(335, 5, 320, 70);
 		mainBtn1.addActionListener(this);
 		mainBtn2.addActionListener(this);
 		bottomLabel.add(mainBtn1);
@@ -191,8 +234,7 @@ class OrderClient extends JFrame implements ActionListener {
 		bottomPanel.add(bottomLabel);
 
 		cp.add(bottomPanel);
-	}
-	
+	}*/
 	Image returnImg(String path, int size1, int size2) {
 		path = basePath + path;
 		Image img = null;
@@ -256,7 +298,7 @@ class OrderClient extends JFrame implements ActionListener {
 			topPanel.setVisible(true);
 			mainPanel.setVisible(true);
 			bottomPanel.setVisible(true);
-		} else if (btnText.equals("확인")) {
+		} else if (btnText.equals("확인>")) {
 			mainPanel.cop2 = op.optionimageLabel1.getText();
 			mainPanel.cop3 = op.optionimageLabel2.getText();
 			mainPanel.cop4 = op.optionimageLabel3.getText();
@@ -268,9 +310,9 @@ class OrderClient extends JFrame implements ActionListener {
 			System.out.print(mainPanel.cop5 + "\t");
 			mainPanel.offOptionPanel();
 			mainPanel.addProductOnCart(mainPanel.pname, mainPanel.cop2, mainPanel.cop3, mainPanel.cop4, mainPanel.cop5);
-		} else if (btnText.equals("처음으로")) {
+		} else if (btnText.equals("<처음으로")) {
 			moveToFirstView();
-		} else if (btnText.equals("주문하기")) {
+		} else if (btnText.equals("주문하기>")) {
 			if (mainPanel.cartCount == 0) {
 				JOptionPane.showMessageDialog(null, "장바구니에 담긴 상품이 없습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
 			} else {

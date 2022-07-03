@@ -105,7 +105,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		cartSubPanel2.setVisible(false);
 		listScroll.setVisible(false);
 		optionPanel.setVisible(true);
-		oc.mainBtn2.setText("확인");
+		oc.mainBtn2.setText("확인>");
 		oc.pageNameLabel.setText("옵션선택");
 	}
 
@@ -117,7 +117,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		cartSubPanel2.setVisible(true);
 		listScroll.setVisible(true);
 		optionPanel.setVisible(false);
-		oc.mainBtn2.setText("주문하기");
+		oc.mainBtn2.setText("주문하기>");
 		oc.pageNameLabel.setText("주문화면");
 	}
 
