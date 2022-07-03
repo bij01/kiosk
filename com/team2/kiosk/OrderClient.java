@@ -39,6 +39,9 @@ class OrderClient extends JFrame implements ActionListener {
 	Container cp;
 	JPanel firstPanel, topPanel, bottomPanel;
 	JButton inBtn, outBtn, mainBtn1, mainBtn2;
+	
+	String basePath = new File("").getAbsolutePath();
+	String topimagePath = "/src/topsideimg.png";
 
 	void testMode() { // 바로 두번째 화면으로 넘어가기(개발 끝나면 삭제)
 		firstPanel.setVisible(false);
@@ -49,14 +52,17 @@ class OrderClient extends JFrame implements ActionListener {
 	void init() {
 		setTitle("아싸커피");
 		setSize(WIDTH, HEIGHT);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		cp = getContentPane();
 		cp.setLayout(null);
 		setFirstPanel();
 		addOptionMember();
+		
 		setTopPanel();
 		setBottomPanel();
 		setMainPanel();
+		
 		testMode();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,19 +79,14 @@ class OrderClient extends JFrame implements ActionListener {
 		firstPanel.setVisible(true);
 		firstPanel.setBackground(new Color(150, 70, 70));
 
-		String bgimagePath = "./src/background3.png";
-		BufferedImage bufferedImage = null;
-		try {
-			bufferedImage = ImageIO.read(new File(bgimagePath));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		Image img = bufferedImage.getScaledInstance(680, 960, Image.SCALE_DEFAULT);
+		String bgimagePath = "/src/background3.png";
+		Image img = returnImg(bgimagePath, 680, 960);
+		
 		ImageIcon bgimg = new ImageIcon(img);
 		JLabel bgimageLabel = new JLabel(bgimg);
 		bgimageLabel.setBounds(0, 0, 680, 960);
+		/* OS 색상 바꾸기 -> 이미지 수정 필요
 		bgimageLabel.setOpaque(true);
-		
 		new Thread(() -> {
 			while(true) {
 				try {
@@ -103,15 +104,10 @@ class OrderClient extends JFrame implements ActionListener {
 				}
 			}
 		}).start();
+		*/
 		// 버튼이미지입히기
-		String butimagePath = "./src/butbackground.png";
-		bufferedImage = null;
-		try {
-			bufferedImage = ImageIO.read(new File(butimagePath));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		Image img2 = bufferedImage.getScaledInstance(330, 80, Image.SCALE_DEFAULT);
+		String btnimagePath = "/src/butbackground.png";
+		Image img2 = returnImg(btnimagePath, 330, 80);
 		ImageIcon butimage = new ImageIcon(img2);
 
 		inBtn = new JButton("먹고가기>", butimage);
@@ -149,15 +145,7 @@ class OrderClient extends JFrame implements ActionListener {
 		topPanel = new JPanel();
 		topPanel.setBounds(0, 0, 684, 100);
 		topPanel.setBackground(new Color(30, 30, 30));
-		String topimagePath = "./src/topsideimg.png";
-		BufferedImage bufferedImage = null;
-		try {
-			bufferedImage = ImageIO.read(new File(topimagePath));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		Image img = bufferedImage.getScaledInstance(684, 100, Image.SCALE_DEFAULT);
-		ImageIcon maintitleImage = new ImageIcon(img);
+		ImageIcon maintitleImage = new ImageIcon(returnImg(topimagePath, 684, 100));
 		JLabel mainTitleLabel = new JLabel(maintitleImage);
 		topPanel.add(mainTitleLabel);
 
@@ -174,25 +162,44 @@ class OrderClient extends JFrame implements ActionListener {
 	void setBottomPanel() {
 		bottomPanel = new JPanel();
 		bottomPanel.setBounds(0, 881, 684, 80);
-		bottomPanel.setVisible(false);
 		bottomPanel.setBackground(new Color(30, 30, 30));
-		bottomPanel.setLayout(null);
+
+		ImageIcon bottomImage = new ImageIcon(returnImg(topimagePath, 684, 80));
+		JLabel bottomLabel = new JLabel(bottomImage);
 
 		mainBtn1 = new JButton("처음으로");
 		mainBtn2 = new JButton("주문하기");
 		mainBtn1.setForeground(Color.WHITE);
 		mainBtn2.setForeground(Color.WHITE);
-		mainBtn1.setBackground(new Color(10, 10, 10));
-		mainBtn2.setBackground(new Color(10, 10, 10));
-		mainBtn1.setFont(new Font("HYPOST", Font.BOLD, 20));
-		mainBtn2.setFont(new Font("HYPOST", Font.BOLD, 20));
+		mainBtn1.setBackground(new Color(10, 10, 10, 230));
+		mainBtn2.setBackground(new Color(10, 10, 10, 230));
+		mainBtn1.setFont(new Font("휴먼고딕체", Font.BOLD, 20));
+		mainBtn2.setFont(new Font("휴먼고딕체", Font.BOLD, 20));
 		mainBtn1.setBounds(172, 15, 120, 50);
 		mainBtn2.setBounds(372, 15, 120, 50);
 		mainBtn1.addActionListener(this);
 		mainBtn2.addActionListener(this);
-		bottomPanel.add(mainBtn1);
-		bottomPanel.add(mainBtn2);
+		bottomLabel.add(mainBtn1);
+		bottomLabel.add(mainBtn2);
+		bottomPanel.add(bottomLabel);
+
 		cp.add(bottomPanel);
+	}
+	
+	Image returnImg(String path, int size1, int size2) {
+		path = basePath + path;
+		Image img = null;
+		try {
+			BufferedImage bufferedImage = null;
+			try {
+				bufferedImage = ImageIO.read(new File(path));
+			} catch (Exception e) {
+			}
+			img = bufferedImage.getScaledInstance(size1, size2, Image.SCALE_DEFAULT);
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		return img;
 	}
 	
 	void moveToFirstView() {

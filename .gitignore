@@ -1,3 +1,7 @@
 .idea/
 *.class
 *.properties
+order.exe
+ui.jar
+*.log
+config.xml

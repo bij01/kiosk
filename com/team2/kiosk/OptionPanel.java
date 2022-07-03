@@ -22,6 +22,8 @@ import javax.swing.border.MatteBorder;
 public class OptionPanel extends JPanel implements ActionListener {
 	JLabel optionimageLabel1, optionimageLabel2, optionimageLabel3, optionimageLabel4;
 	JButton optionBtn1, optionBtn2, optionBtn3, optionBtn4, optionBtn5, optionBtn6, optionBtn7, optionBtn8, optionBtn9;
+	
+	String basePath = new File("").getAbsolutePath();
 
 	OptionPanel() {
 		setBounds(0, 0, 684, 785);
@@ -80,14 +82,8 @@ public class OptionPanel extends JPanel implements ActionListener {
 		add(optioncheckLabel);
 
 		// 옵션추가현황확인체크박스 이미지+text
-		String optionimagePath = "./src/optcheckboximage.png";
-		BufferedImage bufferedImage = null;
-		try {
-			bufferedImage = ImageIO.read(new File(optionimagePath));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		Image img = bufferedImage.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+		String optionimagePath = "/src/optcheckboximage.png";
+		Image img = returnImg(optionimagePath, 30, 30);
 		ImageIcon optionimage1 = new ImageIcon(img);
 
 		optionimageLabel1 = new JLabel(optionimage1);
@@ -234,6 +230,22 @@ public class OptionPanel extends JPanel implements ActionListener {
 		add(optionBtn7);
 		add(optionBtn8);
 		add(optionBtn9);
+	}
+	
+	Image returnImg(String path, int size1, int size2) {
+		path = basePath + path;
+		Image img = null;
+		try {
+			BufferedImage bufferedImage = null;
+			try {
+				bufferedImage = ImageIO.read(new File(path));
+			} catch (Exception e) {
+			}
+			img = bufferedImage.getScaledInstance(size1, size2, Image.SCALE_DEFAULT);
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		return img;
 	}
 
 	@Override

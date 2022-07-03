@@ -31,11 +31,10 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 	HashMap<Integer, JLabel> labelMap = new HashMap<Integer, JLabel>();
 	String pname = "", pno = "", cop1 = "", cop2 = "", cop3 = "", cop4 = "", cop5 = "";
 
-	Image imgDown = returnImg("src/down.png", 20, 20);
-	Image imgUp = returnImg("src/up.png", 20, 20);
-
 	int cartCount = 0;
 	int cartPrice = 0;
+	
+	Image imgUp;
 
 	MainPanel(OrderClient oc) {
 		this.oc = oc;
@@ -172,9 +171,9 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		subLabel.setBackground(new Color(240, 240, 240));
 		subLabel.setBorder(BorderFactory.createEtchedBorder());
 		String path[] = os.returnFileInfo(Integer.parseInt(pno));
-		ImageIcon listimage = new ImageIcon(returnImg("./src/noimage.png", 50, 55));
+		ImageIcon listimage = new ImageIcon(oc.returnImg("/src/noimage.png", 50, 55));
 		try {
-			listimage = new ImageIcon(returnImg("./src/img/" + path[0] + "." + path[1], 70, 70));
+			listimage = new ImageIcon(oc.returnImg("/src/img/" + path[0] + "." + path[1], 70, 70));
 		} catch (NullPointerException npe) {
 
 		}
@@ -342,12 +341,15 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		cartLabel1.setFont(new Font("HYPOST", Font.PLAIN, 12));
 		cartLabel2 = new JLabel("자세히보기");
 		cartLabel2.setFont(new Font("HYPOST", Font.PLAIN, 12));
+		
+		Image imgDown = oc.returnImg("/src/down.png", 20, 20);
+		imgUp = oc.returnImg("/src/up.png", 20, 20);
+		
 		cartBtn = new JButton();
 		cartBtn.addActionListener(e -> {
 			if (cartPanel.getSize().equals(new Dimension(684, 160))) {
 				Thread th = new Thread(this);
 				th.start();
-				cartBtn.setIcon(new ImageIcon(imgDown));
 				cartBtn.setIcon(new ImageIcon(imgDown));
 				listScroll.setVisible(false);
 				listPanel.setVisible(false);
@@ -426,21 +428,6 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		add(cartPanel);
 	}
 
-	Image returnImg(String path, int size1, int size2) {
-		Image img = null;
-		try {
-			BufferedImage bufferedImage = null;
-			try {
-				bufferedImage = ImageIO.read(new File(path));
-			} catch (Exception e) {
-			}
-			img = bufferedImage.getScaledInstance(size1, size2, Image.SCALE_DEFAULT);
-		} catch (Exception ex) {
-			System.out.println(ex);
-		}
-		return img;
-	}
-
 	void setListPanel() {
 		listPanel = new JPanel();
 		listPanel.setBounds(120, 0, 564, 621);
@@ -463,10 +450,10 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		for (int i = 0; i < os.productsVector.size(); i++) {
 			Vector productList = os.productsVector.get(i);
 			String path[] = os.returnFileInfo((Integer) productList.get(0));
-			ImageIcon listimage = new ImageIcon(returnImg("./src/noimage.png", 120, 125));
+			ImageIcon listimage = new ImageIcon(oc.returnImg("/src/noimage.png", 120, 125));
 
 	        try {
-	        	listimage = new ImageIcon(returnImg("./src/img/" + path[0] + "." + path[1], 120, 125));
+	        	listimage = new ImageIcon(oc.returnImg("/src/img/" + path[0] + "." + path[1], 120, 125));
 	        } catch (NullPointerException npe) {}
 	        
 			String name = (String)productList.get(1);
@@ -508,7 +495,6 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		sidePanel.setVisible(true);
 		sidePanel.setLayout(null);
 		sidePanel.setBackground(new Color(30, 30, 30));
-
 		/*
 		 * JLabel menuLetterLabel = new JLabel(new ImageIcon("메뉴"));
 		 * menuLetterLabel.setBounds(0, 0, 200, 100);
@@ -524,65 +510,23 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		 * sidePanel.add(menutopSolidline); //메뉴종류-커피,버튼
 		 * sidePanel.add(menutopSolidline);
 		 */
-
-		String text = "커피";
-		ImageIcon sidemenuimg1 = new ImageIcon(returnImg("./src/a.png", 120, 60));
-
-		JButton menuBtn1 = new JButton(text, sidemenuimg1);
-		menuBtn1.setFont(new Font("HYPOST", Font.BOLD, 15));
-		menuBtn1.setLayout(null);
-		menuBtn1.setPreferredSize(new Dimension(145, 80));
-		menuBtn1.setForeground(Color.WHITE);
-		menuBtn1.setBounds(-40, 30, 150, 50);
-		menuBtn1.setBorderPainted(false);
-		menuBtn1.setBackground(new Color(255, 0, 0, 0));
-		menuBtn1.setVerticalTextPosition(menuBtn1.CENTER); // 텍스트 아래로
-		menuBtn1.setHorizontalTextPosition(menuBtn1.CENTER);
-		// menuBtn1.setContentAreaFilled(false);
-		// menuBtn1.setFocusPainted(false);
-		// menuBtn1.setOpaque(false);
-
-		String text2 = "음료";
-		JButton menuBtn2 = new JButton(text2, sidemenuimg1);
-		menuBtn2.setFont(new Font("HYPOST", Font.BOLD, 15));
-		menuBtn2.setLayout(null);
-		menuBtn2.setPreferredSize(new Dimension(145, 80));
-		menuBtn2.setForeground(Color.WHITE);
-		menuBtn2.setBounds(-40, 100, 150, 50);
-		menuBtn2.setBorderPainted(false);
-		menuBtn2.setBackground(new Color(255, 0, 0, 0));
-		menuBtn2.setVerticalTextPosition(menuBtn2.CENTER); // 텍스트 아래로
-		menuBtn2.setHorizontalTextPosition(menuBtn2.CENTER);
-
-		String text3 = "디저트";
-		JButton menuBtn3 = new JButton(text3, sidemenuimg1);
-		menuBtn3.setFont(new Font("HYPOST", Font.BOLD, 15));
-		menuBtn3.setLayout(null);
-		menuBtn3.setPreferredSize(new Dimension(145, 80));
-		menuBtn3.setForeground(Color.WHITE);
-		menuBtn3.setBounds(-40, 170, 150, 50);
-		menuBtn3.setBorderPainted(false);
-		menuBtn3.setBackground(new Color(255, 0, 0, 0));
-		menuBtn3.setVerticalTextPosition(menuBtn2.CENTER); // 텍스트 아래로
-		menuBtn3.setHorizontalTextPosition(menuBtn2.CENTER);
-		menuBtn1.addMouseListener(this);
-		menuBtn2.addMouseListener(this);
-		menuBtn3.addMouseListener(this);
-		menuBtn1.addActionListener(new ChangeList());
-		menuBtn2.addActionListener(new ChangeList());
-		menuBtn3.addActionListener(new ChangeList());
+		ImageIcon sideBackgroundImg = new ImageIcon(oc.returnImg("/src/leftsideimg.png", 120, 621));
+		JLabel sidebgLabel = new JLabel(sideBackgroundImg);
+		sidebgLabel.setBounds(0, 0, 120, 621);
 		
-		String text4 =  "관리자";	
+		
+		ImageIcon sidemenuimg1 = new ImageIcon(oc.returnImg("/src/mainBut2.png", 120, 60));
+		String text1 = "    커피";
+		JButton menuBtn1 = new JButton(text1, sidemenuimg1);
+
+		String text2 = "    음료";
+		JButton menuBtn2 = new JButton(text2, sidemenuimg1);
+
+		String text3 = "    디저트";
+		JButton menuBtn3 = new JButton(text3, sidemenuimg1);
+
+		String text4 =  "    관리자";	
 		JButton menuBtn4 = new JButton(text4, sidemenuimg1);
-		menuBtn4.setFont(new Font("HYPOST", Font.BOLD, 15));
-		menuBtn4.setLayout(null);
-		menuBtn4.setPreferredSize(new Dimension(145, 80));
-		menuBtn4.setForeground(Color.WHITE);
-		menuBtn4.setBounds(-16, 550, 150, 50);
-		menuBtn4.setBorderPainted(false);
-		menuBtn4.setBackground(new Color(255,0,0,0));
-		menuBtn4.setVerticalTextPosition(menuBtn4.CENTER); // 텍스트 아래로
-		menuBtn4.setHorizontalTextPosition(menuBtn4.CENTER);
 		menuBtn4.addActionListener(e -> { //관리자 버튼 액션
 			try {
 				String answer = JOptionPane.showInputDialog(null, "관리자 암호를 입력해주세요.", "관리자 확인", JOptionPane.QUESTION_MESSAGE);
@@ -591,14 +535,56 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 				}
 			} catch(NullPointerException npe) {}
 		});
+		
+		menuBtn1.setBounds(-40, 30, 130, 50);
+		menuBtn2.setBounds(-40, 100, 130, 50);
+		menuBtn3.setBounds(-40, 170, 130, 50);
+		menuBtn4.setBounds(-40, 550, 130, 50);
 
-
-		sidePanel.add(menuBtn1);
-		sidePanel.add(menuBtn2);
-		sidePanel.add(menuBtn3);
-		sidePanel.add(menuBtn4);
+		menuBtn1.addMouseListener(this);
+		menuBtn2.addMouseListener(this);
+		menuBtn3.addMouseListener(this);
+		menuBtn4.addMouseListener(this);
+	
+		menuBtn1.addActionListener(new ChangeList());
+		menuBtn2.addActionListener(new ChangeList());
+		menuBtn3.addActionListener(new ChangeList());
+		
+		menuBtn1.setFont(new Font("휴먼고딕체", Font.BOLD, 15));
+		menuBtn2.setFont(new Font("휴먼고딕체", Font.BOLD, 15));
+		menuBtn3.setFont(new Font("휴먼고딕체", Font.BOLD, 15));
+		menuBtn4.setFont(new Font("휴먼고딕체", Font.BOLD, 15));
+		
+		menuBtn1.setForeground(Color.WHITE);
+		menuBtn2.setForeground(Color.WHITE);
+		menuBtn3.setForeground(Color.WHITE);
+		menuBtn4.setForeground(Color.WHITE);
+		
+		menuBtn1.setBackground(new Color(0, 0, 0, 0));
+		menuBtn2.setBackground(new Color(0, 0, 0, 0));
+		menuBtn3.setBackground(new Color(0, 0, 0, 0));
+		menuBtn4.setBackground(new Color(0, 0, 0, 0));
+		
+		menuBtn1.setBorderPainted(false);
+		menuBtn2.setBorderPainted(false);
+		menuBtn3.setBorderPainted(false);
+		menuBtn4.setBorderPainted(false);
+		
+		menuBtn1.setVerticalTextPosition(JButton.CENTER);
+		menuBtn2.setVerticalTextPosition(JButton.CENTER);
+		menuBtn3.setVerticalTextPosition(JButton.CENTER);
+		menuBtn4.setVerticalTextPosition(JButton.CENTER);
+		menuBtn1.setHorizontalTextPosition(JButton.CENTER);
+		menuBtn2.setHorizontalTextPosition(JButton.CENTER);
+		menuBtn3.setHorizontalTextPosition(JButton.CENTER);
+		menuBtn4.setHorizontalTextPosition(JButton.CENTER);
+		
+		sidebgLabel.add(menuBtn1);
+		sidebgLabel.add(menuBtn2);
+		sidebgLabel.add(menuBtn3);
+		sidebgLabel.add(menuBtn4);
+		sidePanel.add(sidebgLabel);
 		add(sidePanel);
-
 	}
 
 	@Override
@@ -625,17 +611,17 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		public void actionPerformed(ActionEvent e) {
 			JButton selfBtn = (JButton) e.getSource();
 			String text = selfBtn.getText();
-			if (text.equals("커피")) {
+			if (text.equals("    커피")) {
 				listPanel.removeAll();
 				addlistButton(11);
 				listPanel.revalidate();
 				listPanel.repaint();
-			} else if (text.equals("음료")) {
+			} else if (text.equals("    음료")) {
 				listPanel.removeAll();
 				addlistButton(22);
 				listPanel.revalidate();
 				listPanel.repaint();
-			} else if (text.equals("디저트")) {
+			} else if (text.equals("    디저트")) {
 				// listScroll.removeAll();
 				// listScroll.repaint();
 				listPanel.removeAll();
@@ -663,7 +649,8 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 	public void mouseEntered(MouseEvent e) {
 		JButton btn = (JButton)e.getSource();
 		Point point = btn.getLocation();
-		btn.setLocation(-15, point.y);
+		btn.setLocation(-30, point.y);
+		btn.setForeground(new Color(255, 255, 255));
 	}
 
 	@Override
@@ -671,5 +658,6 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		JButton btn = (JButton)e.getSource();
 		Point point = btn.getLocation();
 		btn.setLocation(-40, point.y);
+		btn.setForeground(new Color(240, 240, 240));
 	}
 }
