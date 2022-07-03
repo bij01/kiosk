@@ -513,7 +513,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		sidebgLabel.setBounds(0, 0, 120, 621);
 		
 		
-		ImageIcon sidemenuimg1 = new ImageIcon(oc.returnImg("/src/mainBut2.png", 120, 60));
+		ImageIcon sidemenuimg1 = new ImageIcon(oc.returnImg("/src/sidemenubut.png", 120, 60));
 		String text1 = "   커피";
 		JButton menuBtn1 = new JButton(text1, sidemenuimg1);
 
@@ -533,11 +533,10 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 				}
 			} catch(NullPointerException npe) {}
 		});
-		
-		menuBtn1.setBounds(-40, 30, 130, 50);
-		menuBtn2.setBounds(-40, 100, 130, 50);
-		menuBtn3.setBounds(-40, 170, 130, 50);
-		menuBtn4.setBounds(-40, 550, 130, 50);
+		menuBtn1.setBounds(-20, -5, 130, 50);
+		menuBtn2.setBounds(-20, 55, 130, 50);
+		menuBtn3.setBounds(-20, 115, 130, 50);
+		menuBtn4.setBounds(-20, 570, 130, 50);
 
 		menuBtn1.addMouseListener(this);
 		menuBtn2.addMouseListener(this);
@@ -548,10 +547,10 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		menuBtn2.addActionListener(new ChangeList());
 		menuBtn3.addActionListener(new ChangeList());
 		
-		menuBtn1.setFont(new Font("휴먼매직체", Font.BOLD, 20));
-		menuBtn2.setFont(new Font("휴먼매직체", Font.BOLD, 20));
-		menuBtn3.setFont(new Font("휴먼매직체", Font.BOLD, 20));
-		menuBtn4.setFont(new Font("휴먼매직체", Font.BOLD, 20));
+		menuBtn1.setFont(new Font("KBIZ한마음고딕 R", Font.PLAIN, 20));
+		menuBtn2.setFont(new Font("KBIZ한마음고딕 R", Font.PLAIN, 20));
+		menuBtn3.setFont(new Font("KBIZ한마음고딕 R", Font.PLAIN, 20));
+		menuBtn4.setFont(new Font("KBIZ한마음고딕 R", Font.PLAIN, 20));
 		
 		menuBtn1.setForeground(Color.WHITE);
 		menuBtn2.setForeground(Color.WHITE);
