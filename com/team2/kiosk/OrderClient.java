@@ -67,6 +67,7 @@ class OrderClient extends JFrame implements ActionListener {
 		testMode();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainPanel.os.closeAll();
 	}
 
 	void addOptionMember() {

@@ -662,6 +662,21 @@ public class OrderServerImpl implements OrderServer {
 			}
 		}
 	}
+	
+	void closeAll() {
+		try {
+			if (pstmt1!=null) pstmt1.close();
+			if (pstmt2!=null) pstmt1.close();
+			if (pstmt3!=null) pstmt1.close();
+			if (pstmt4!=null) pstmt1.close();
+			if (stmt!=null) pstmt1.close();
+			if (stmt1!=null) pstmt1.close();
+			if (con!=null) pstmt1.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	public static void main(String[] args) {
 		OrderServerImpl os = new OrderServerImpl();
 		os.init();

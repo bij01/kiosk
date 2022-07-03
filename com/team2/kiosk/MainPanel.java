@@ -41,7 +41,6 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		setOptionPanel();
 		setStaffPanel();
 		//onStaffPanel();
-		cop1 = "매장";
 		os.deleteCart();
 	}
 
@@ -131,9 +130,9 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 
 	int optionNum(String optionName) {
 		int num = 0;
-		if (optionName.equals("매장"))
+		if (optionName.equals("먹고가기>"))
 			num = 11;
-		else if (optionName.equals("포장"))
+		else if (optionName.equals("포장하기>"))
 			num = 12;
 		else if (optionName.equals("ICE"))
 			num = 21;
