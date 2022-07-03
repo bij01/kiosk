@@ -80,7 +80,7 @@ class OrderClient extends JFrame implements ActionListener {
 		firstPanel.setVisible(true);
 		firstPanel.setBackground(new Color(150, 70, 70));
 
-		String bgimagePath = "/src/background3.png";
+		String bgimagePath = "/src/fixbackground.png";
 		Image img = returnImg(bgimagePath, 680, 960);
 		
 		ImageIcon bgimg = new ImageIcon(img);
