@@ -3,6 +3,8 @@ package com.team2.kiosk;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
@@ -13,7 +15,7 @@ import javax.swing.table.*;
 import javax.swing.border.*;
 
 
-class MainPanel extends JPanel implements Runnable {
+class MainPanel extends JPanel implements Runnable, MouseListener {
 	private static final long serialVersionUID = -239742803172507112L;
 	OrderClient oc;
 	OrderServerImpl os;
@@ -531,7 +533,7 @@ class MainPanel extends JPanel implements Runnable {
 		menuBtn1.setLayout(null);
 		menuBtn1.setPreferredSize(new Dimension(145, 80));
 		menuBtn1.setForeground(Color.WHITE);
-		menuBtn1.setBounds(-16, 5, 150, 50);
+		menuBtn1.setBounds(-40, 30, 150, 50);
 		menuBtn1.setBorderPainted(false);
 		menuBtn1.setBackground(new Color(255, 0, 0, 0));
 		menuBtn1.setVerticalTextPosition(menuBtn1.CENTER); // 텍스트 아래로
@@ -546,7 +548,7 @@ class MainPanel extends JPanel implements Runnable {
 		menuBtn2.setLayout(null);
 		menuBtn2.setPreferredSize(new Dimension(145, 80));
 		menuBtn2.setForeground(Color.WHITE);
-		menuBtn2.setBounds(-16, 65, 150, 50);
+		menuBtn2.setBounds(-40, 100, 150, 50);
 		menuBtn2.setBorderPainted(false);
 		menuBtn2.setBackground(new Color(255, 0, 0, 0));
 		menuBtn2.setVerticalTextPosition(menuBtn2.CENTER); // 텍스트 아래로
@@ -558,12 +560,14 @@ class MainPanel extends JPanel implements Runnable {
 		menuBtn3.setLayout(null);
 		menuBtn3.setPreferredSize(new Dimension(145, 80));
 		menuBtn3.setForeground(Color.WHITE);
-		menuBtn3.setBounds(-16, 125, 150, 50);
+		menuBtn3.setBounds(-40, 170, 150, 50);
 		menuBtn3.setBorderPainted(false);
 		menuBtn3.setBackground(new Color(255, 0, 0, 0));
 		menuBtn3.setVerticalTextPosition(menuBtn2.CENTER); // 텍스트 아래로
 		menuBtn3.setHorizontalTextPosition(menuBtn2.CENTER);
-
+		menuBtn1.addMouseListener(this);
+		menuBtn2.addMouseListener(this);
+		menuBtn3.addMouseListener(this);
 		menuBtn1.addActionListener(new ChangeList());
 		menuBtn2.addActionListener(new ChangeList());
 		menuBtn3.addActionListener(new ChangeList());
@@ -641,5 +645,31 @@ class MainPanel extends JPanel implements Runnable {
 			}
 
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		JButton btn = (JButton)e.getSource();
+		Point point = btn.getLocation();
+		btn.setLocation(-15, point.y);
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		JButton btn = (JButton)e.getSource();
+		Point point = btn.getLocation();
+		btn.setLocation(-40, point.y);
 	}
 }

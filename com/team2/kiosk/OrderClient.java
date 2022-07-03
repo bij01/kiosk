@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.security.auth.login.Configuration;
@@ -56,7 +57,7 @@ class OrderClient extends JFrame implements ActionListener {
 		setTopPanel();
 		setBottomPanel();
 		setMainPanel();
-		//testMode();
+		testMode();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -72,7 +73,7 @@ class OrderClient extends JFrame implements ActionListener {
 		firstPanel.setVisible(true);
 		firstPanel.setBackground(new Color(150, 70, 70));
 
-		String bgimagePath = "./src/originbackground.png";
+		String bgimagePath = "./src/background3.png";
 		BufferedImage bufferedImage = null;
 		try {
 			bufferedImage = ImageIO.read(new File(bgimagePath));
@@ -83,7 +84,25 @@ class OrderClient extends JFrame implements ActionListener {
 		ImageIcon bgimg = new ImageIcon(img);
 		JLabel bgimageLabel = new JLabel(bgimg);
 		bgimageLabel.setBounds(0, 0, 680, 960);
-
+		bgimageLabel.setOpaque(true);
+		
+		new Thread(() -> {
+			while(true) {
+				try {
+					Thread.sleep(800);
+					int min, max;
+					min = 10;
+					max = 255;
+					Random random = new Random();
+					int num = random.nextInt(max - min + 1) + min;
+					int num2 = random.nextInt(max - min + 1) + min;
+					int num3 = random.nextInt(max - min + 1) + min;
+					bgimageLabel.setBackground(new Color(num,num2,num3));
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 		// 버튼이미지입히기
 		String butimagePath = "./src/butbackground.png";
 		bufferedImage = null;
@@ -123,23 +142,6 @@ class OrderClient extends JFrame implements ActionListener {
 		firstPanel.add(bgimageLabel);
 		firstPanel.setBorder(new BevelBorder(BevelBorder.RAISED));
 		cp.add(firstPanel);
-
-		/*
-		 * JPanel butbtopPanel = new JPanel(); butbtopPanel.setBounds(0, 0, 682, 150);
-		 * butbtopPanel.setVisible(true); butbtopPanel.setBackground(new Color(0, 0,
-		 * 0));
-		 * 
-		 * 
-		 * 
-		 * JPanel butbottomPanel = new JPanel();
-		 * 
-		 * butbottomPanel.setBounds(0, 820, 682, 150); butbottomPanel.setVisible(true);
-		 * butbottomPanel.setBackground(new Color(0, 0, 0)); cp.add(butbtopPanel);
-		 * cp.add(butbottomPanel);
-		 */
-		// cp.add(firstPanel);
-
-		// butbottomPanel = new JPanel();
 
 	}
 
@@ -192,7 +194,6 @@ class OrderClient extends JFrame implements ActionListener {
 		bottomPanel.add(mainBtn2);
 		cp.add(bottomPanel);
 	}
-
 	
 	void moveToFirstView() {
 		firstPanel.setSize(0, 961);// 684, 961
@@ -203,7 +204,7 @@ class OrderClient extends JFrame implements ActionListener {
 						i+=8;
 					}
 					Thread.sleep(1);
-					firstPanel.setSize(i, i+277);
+					firstPanel.setSize(i, 961);
 					firstPanel.repaint();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
