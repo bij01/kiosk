@@ -71,7 +71,7 @@ class OrderClient extends JFrame implements ActionListener {
 	}
 
 	void addOptionMember() {
-		op = new OptionPanel();
+		op = new OptionPanel(this);
 	}
 
 	void setFirstPanel() {
@@ -149,10 +149,10 @@ class OrderClient extends JFrame implements ActionListener {
 		ImageIcon maintitleImage = new ImageIcon(returnImg(topimagePath, 684, 100));
 		JLabel mainTitleLabel = new JLabel(maintitleImage);
 		pageNameLabel = new JLabel("주문화면");
-		pageNameLabel.setBounds(0, 10, 684, 100);
+		pageNameLabel.setBounds(0, 5, 684, 100);
 		pageNameLabel.setForeground(Color.WHITE);
 		pageNameLabel.setHorizontalAlignment(JLabel.CENTER);
-		pageNameLabel.setFont(new Font("Black Han Sans", Font.PLAIN, 50));
+		pageNameLabel.setFont(new Font("배달의민족 주아", Font.PLAIN, 50));
 		mainTitleLabel.add(pageNameLabel);
 		topPanel.add(mainTitleLabel);
 
@@ -189,8 +189,8 @@ class OrderClient extends JFrame implements ActionListener {
 		mainBtn1.setBorderPainted(false);
 		mainBtn2.setBorderPainted(false);
 		
-		mainBtn1.setBounds(20, 5, 320, 70);
-		mainBtn2.setBounds(345, 5, 320, 70);
+		mainBtn1.setBounds(20, 2, 320, 70);
+		mainBtn2.setBounds(345, 2, 320, 70);
 		
 		mainBtn1.addActionListener(this);
 		mainBtn2.addActionListener(this);
@@ -295,6 +295,8 @@ class OrderClient extends JFrame implements ActionListener {
 		JButton Btn = (JButton) e.getSource();
 		String btnText = Btn.getText();
 		if (btnText.equals("먹고가기>") || btnText.equals("포장하기>")) {
+			mainBtn1.setFont(new Font("배달의민족 주아", Font.PLAIN, 30));
+			mainBtn2.setFont(new Font("배달의민족 주아", Font.PLAIN, 30));
 			mainPanel.cop1 = Btn.getText().trim();
 			firstPanel.setVisible(false);
 			topPanel.setVisible(true);
@@ -312,7 +314,17 @@ class OrderClient extends JFrame implements ActionListener {
 			System.out.print(mainPanel.cop5 + "\t");
 			mainPanel.offOptionPanel();
 			mainPanel.addProductOnCart(mainPanel.pname, mainPanel.cop2, mainPanel.cop3, mainPanel.cop4, mainPanel.cop5);
+			mainPanel.iceOnly = false;
+			op.optionBtn1.setVisible(true);
+			op.optionBtn2.setText("ICE");
+			op.optionBtn2.setBounds(325, 85, 200, 70);
+			op.optionimageLabel1.setText("#ICE");
+			op.optionimageLabel1.setText("#MEDIUM");
+			op.optionimageLabel1.setText("#추가안함");
+			op.optionimageLabel1.setText("#선택안함");
 		} else if (btnText.equals("<처음으로")) {
+			mainBtn1.setFont(new Font("Black Han Sans", Font.PLAIN, 30));
+			mainBtn2.setFont(new Font("Black Han Sans", Font.PLAIN, 30));
 			moveToFirstView();
 		} else if (btnText.equals("주문하기>")) {
 			if (mainPanel.cartCount == 0) {

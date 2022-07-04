@@ -29,6 +29,8 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 	int cartCount = 0;
 	int cartPrice = 0;
 	
+	Boolean iceOnly = false;
+	
 	Image imgUp;
 
 	MainPanel(OrderClient oc) {
@@ -125,7 +127,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		setVisible(true);
 		setLayout(null);
 		setBackground(new Color(250, 250, 250));
-		Font font = new Font("HYPOST", Font.BOLD, 15);
+		Font font = new Font("배달의민족 주아", Font.BOLD, 15);
 	}
 
 	int optionNum(String optionName) {
@@ -190,7 +192,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		JLabel nameLabel = new JLabel(name);
 		nameLabel.setBounds(130, 10, 230, 70);
 
-		nameLabel.setFont(new Font("HYPOST",Font.BOLD,13));
+		nameLabel.setFont(new Font("배달의민족 주아",Font.BOLD,13));
 		//nameLabel.setBorder(new EtchedBorder());
 		//nameLabel.setOpaque(true);
 
@@ -210,13 +212,13 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		//priceLabel.setHorizontalAlignment(JLabel.CENTER);
 		JLabel priceL = new JLabel(price);
 		priceL.setBounds(0, 0, 50, 70);
-		priceL.setFont(new Font("HYPOST",Font.BOLD,13));
+		priceL.setFont(new Font("배달의민족 주아",Font.BOLD,13));
 		//priceL.setForeground(Color.WHITE);
 		priceL.setHorizontalAlignment(JLabel.RIGHT);
 		
 		JLabel wonL = new JLabel("원");
 		wonL.setBounds(50, 0, 30, 70);
-		wonL.setFont(new Font("HYPOST",Font.BOLD,13));
+		wonL.setFont(new Font("배달의민족 주아",Font.BOLD,13));
 		//wonL.setForeground(Color.WHITE);
 		priceLabel.add(priceL);
 		priceLabel.add(wonL);
@@ -335,9 +337,9 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		cartTopPanel.setBackground(new Color(255, 255, 255));
 		cartTopPanel.setBorder(new BevelBorder(BevelBorder.RAISED));
 		cartLabel1 = new JLabel("장바구니");
-		cartLabel1.setFont(new Font("HYPOST", Font.PLAIN, 12));
+		cartLabel1.setFont(new Font("배달의민족 주아", Font.PLAIN, 15));
 		cartLabel2 = new JLabel("자세히보기");
-		cartLabel2.setFont(new Font("HYPOST", Font.PLAIN, 12));
+		cartLabel2.setFont(new Font("배달의민족 주아", Font.PLAIN, 15));
 		
 		Image imgDown = oc.returnImg("/src/down.png", 20, 20);
 		imgUp = oc.returnImg("/src/up.png", 20, 20);
@@ -389,7 +391,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		JLabel orderLabel3 = new JLabel("합계:");
 		orderLabel4 = new JLabel("0");
 		cartDropBtn = new JButton("장바구니 비우기");
-
+		cartDropBtn.setFont(new Font("배달의민족 주아", Font.PLAIN, 15));
 		cartDropBtn.addActionListener(e ->{
 			initCart(); // 카트초기화 및 원위치
 			cartBtn.setIcon(new ImageIcon(imgUp));
@@ -406,10 +408,10 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		orderLabel4.setBounds(330, 0, 100, 30);
 		cartDropBtn.setBounds(530, 1, 120, 28);
 
-		orderLabel1.setFont(font);
-		orderLabel2.setFont(font);
-		orderLabel3.setFont(font);
-		orderLabel4.setFont(font);
+		orderLabel1.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
+		orderLabel2.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
+		orderLabel3.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
+		orderLabel4.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
 
 		cartSubPanel2.add(orderLabel1);
 		cartSubPanel2.add(orderLabel2);
@@ -476,6 +478,12 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 					pno = selfLabel.getText();
 					if (pno.startsWith("3")) {
 						addProductOnCart(pname, "HOT", "MEDIUM", "추가안함", "추가안함");
+					} else if (pno.startsWith("2")){
+						iceOnly = true;
+						oc.op.optionBtn1.setVisible(false);
+						oc.op.optionBtn2.setText("ICE ONLY");
+						oc.op.optionBtn2.setBounds(240, 85, 200, 70);
+						onOptionPanel();
 					} else {
 						onOptionPanel();
 					}
@@ -512,30 +520,37 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		sidebgLabel.setBounds(0, 0, 120, 621);
 		
 		
-		ImageIcon sidemenuimg1 = new ImageIcon(oc.returnImg("/src/sidemenubut.png", 120, 60));
-		String text1 = " 커피";
+		ImageIcon sidemenuimg1 = new ImageIcon(oc.returnImg("/src/menu.png", 110, 40));
+		String text1 = "커피";
 		JButton menuBtn1 = new JButton(text1, sidemenuimg1);
 
-		String text2 = " 음료";
+		String text2 = "음료";
 		JButton menuBtn2 = new JButton(text2, sidemenuimg1);
 
-		String text3 = " 디저트";
+		String text3 = "디저트";
 		JButton menuBtn3 = new JButton(text3, sidemenuimg1);
 
 		String text4 =  "관리자";	
 		JButton menuBtn4 = new JButton(text4, sidemenuimg1);
 		menuBtn4.addActionListener(e -> { //관리자 버튼 액션
 			try {
-				String answer = JOptionPane.showInputDialog(null, "관리자 암호를 입력해주세요.", "관리자 확인", JOptionPane.QUESTION_MESSAGE);
+				JPanel panel = new JPanel(new BorderLayout());
+				JLabel label = new JLabel("관리자 암호를 입력해주세요.");
+				label.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+				JTextField tf = new JTextField();
+				tf.setSize(80, 30);
+				panel.add(label, BorderLayout.NORTH);
+				panel.add(label, BorderLayout.SOUTH);
+				String answer = JOptionPane.showInputDialog(null, panel, "관리자 확인", JOptionPane.QUESTION_MESSAGE);
 				if (answer.equals("java")) {
 					onStaffPanel();
 				}
 			} catch(NullPointerException npe) {}
 		});
-		menuBtn1.setBounds(-25, -5, 130, 50);
-		menuBtn2.setBounds(-25, 55, 130, 50);
-		menuBtn3.setBounds(-25, 115, 130, 50);
-		menuBtn4.setBounds(-25, 570, 130, 50);
+		menuBtn1.setBounds(5, 0, 110, 50);
+		menuBtn2.setBounds(5, 60, 110, 50);
+		menuBtn3.setBounds(5, 120, 110, 50);
+		menuBtn4.setBounds(5, 565, 110, 50);
 
 		menuBtn1.addMouseListener(this);
 		menuBtn2.addMouseListener(this);
@@ -546,25 +561,31 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		menuBtn2.addActionListener(new ChangeList());
 		menuBtn3.addActionListener(new ChangeList());
 		
-		menuBtn1.setFont(new Font("KBIZ한마음고딕 R", Font.PLAIN, 20));
-		menuBtn2.setFont(new Font("KBIZ한마음고딕 R", Font.PLAIN, 20));
-		menuBtn3.setFont(new Font("KBIZ한마음고딕 R", Font.PLAIN, 20));
-		menuBtn4.setFont(new Font("KBIZ한마음고딕 R", Font.PLAIN, 20));
+		menuBtn1.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
+		menuBtn2.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
+		menuBtn3.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
+		menuBtn4.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
 		
 		menuBtn1.setForeground(Color.WHITE);
 		menuBtn2.setForeground(Color.WHITE);
 		menuBtn3.setForeground(Color.WHITE);
 		menuBtn4.setForeground(Color.WHITE);
 		
-		menuBtn1.setBackground(new Color(0, 0, 0, 0));
-		menuBtn2.setBackground(new Color(0, 0, 0, 0));
-		menuBtn3.setBackground(new Color(0, 0, 0, 0));
-		menuBtn4.setBackground(new Color(0, 0, 0, 0));
+		menuBtn1.setBackground(new Color(30, 30, 30, 250));
+		menuBtn2.setBackground(new Color(30, 30, 30, 250));
+		menuBtn3.setBackground(new Color(30, 30, 30, 250));
+		menuBtn4.setBackground(new Color(30, 30, 30, 250));
+		
+		menuBtn1.setBorder(new BevelBorder(BevelBorder.RAISED, Color.white, Color.black, Color.white, Color.black));
+		menuBtn2.setBorder(new BevelBorder(BevelBorder.RAISED, Color.white, Color.black, Color.white, Color.black));
+		menuBtn3.setBorder(new BevelBorder(BevelBorder.RAISED, Color.white, Color.black, Color.white, Color.black));
+		menuBtn4.setBorder(new BevelBorder(BevelBorder.RAISED, Color.white, Color.black, Color.white, Color.black));
 		
 		menuBtn1.setBorderPainted(false);
 		menuBtn2.setBorderPainted(false);
 		menuBtn3.setBorderPainted(false);
 		menuBtn4.setBorderPainted(false);
+		
 		
 		menuBtn1.setVerticalTextPosition(JButton.CENTER);
 		menuBtn2.setVerticalTextPosition(JButton.CENTER);
@@ -607,17 +628,17 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		public void actionPerformed(ActionEvent e) {
 			JButton selfBtn = (JButton) e.getSource();
 			String text = selfBtn.getText();
-			if (text.equals(" 커피")) {
+			if (text.equals("커피")) {
 				listPanel.removeAll();
 				addlistButton(11);
 				listPanel.revalidate();
 				listPanel.repaint();
-			} else if (text.equals(" 음료")) {
+			} else if (text.equals("음료")) {
 				listPanel.removeAll();
 				addlistButton(22);
 				listPanel.revalidate();
 				listPanel.repaint();
-			} else if (text.equals(" 디저트")) {
+			} else if (text.equals("디저트")) {
 				// listScroll.removeAll();
 				// listScroll.repaint();
 				listPanel.removeAll();
@@ -645,15 +666,14 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 	public void mouseEntered(MouseEvent e) {
 		JButton btn = (JButton)e.getSource();
 		Point point = btn.getLocation();
-		btn.setLocation(-10, point.y);
-		btn.setForeground(new Color(255, 255, 255));
+		//btn.setBorderPainted(true);
+		btn.setFont(new Font("배달의민족 주아", Font.PLAIN, 25));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		JButton btn = (JButton)e.getSource();
-		Point point = btn.getLocation();
-		btn.setLocation(-25, point.y);
-		btn.setForeground(new Color(240, 240, 240));
+		//btn.setBorderPainted(false);
+		btn.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
 	}
 }

@@ -24,8 +24,10 @@ public class OptionPanel extends JPanel implements ActionListener {
 	JButton optionBtn1, optionBtn2, optionBtn3, optionBtn4, optionBtn5, optionBtn6, optionBtn7, optionBtn8, optionBtn9;
 
 	String basePath = new File("").getAbsolutePath();
+	OrderClient oc;
 
-	OptionPanel() {
+	OptionPanel(OrderClient oc) {
+		this.oc = oc;
 		setBounds(0, 0, 684, 785);
 		setVisible(false);
 		setLayout(null);
@@ -59,25 +61,25 @@ public class OptionPanel extends JPanel implements ActionListener {
 
 		JLabel optionLabel1 = new JLabel("-----------");// 11,세로길이128
 		optionLabel1.setBounds(244, 85, 240, 10);
-		optionLabel1.setFont(new Font("굴림", Font.BOLD, 25));
+		optionLabel1.setFont(new Font("배달의민족 주아", Font.BOLD, 25));
 		optionLabel1.setForeground(new Color(237, 229, 214));
 		// optionLabel1.setBorder(new MatteBorder(0, 0, 3, 0, new Color(145,110,74)));
 		add(optionLabel1);
 		JLabel optionLabel2 = new JLabel("-----------");
 		optionLabel2.setBounds(244, 213, 240, 10);
-		optionLabel2.setFont(new Font("굴림", Font.BOLD, 25));
+		optionLabel2.setFont(new Font("배달의민족 주아", Font.BOLD, 25));
 		optionLabel2.setForeground(new Color(237, 229, 214));
 		// optionLabel2.setBorder(new MatteBorder(0, 0, 5, 0, Color.BLACK));
 		add(optionLabel2);
 		JLabel optionLabel3 = new JLabel("-----------");
 		optionLabel3.setBounds(244, 341, 240, 10);
-		optionLabel3.setFont(new Font("굴림", Font.BOLD, 25));
+		optionLabel3.setFont(new Font("배달의민족 주아", Font.BOLD, 25));
 		optionLabel3.setForeground(new Color(237, 229, 214));
 		// optionLabel3.setBorder(new MatteBorder(0, 0, 5, 0, Color.BLACK));
 		add(optionLabel3);
 		JLabel optionLabel4 = new JLabel("-----------");
 		optionLabel4.setBounds(244, 469, 240, 10);
-		optionLabel4.setFont(new Font("굴림", Font.BOLD, 25));
+		optionLabel4.setFont(new Font("배달의민족 주아", Font.BOLD, 25));
 		optionLabel4.setForeground(new Color(237, 229, 214));
 		// optionLabel4.setBorder(new MatteBorder(0, 0, 5, 0, Color.BLACK));
 		add(optionLabel4);
@@ -195,7 +197,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 
 		// 간격175
 
-		optionBtn7 = new JButton("추가안함", optbutImage);
+		optionBtn7 = new JButton("얼음조금", optbutImage);
 		optionBtn7.setForeground(new Color(84, 84, 84));
 		optionBtn7.setBorder(BorderFactory.createRaisedBevelBorder());
 		optionBtn7.setBackground(new Color(0, 0, 0, 0));
@@ -204,7 +206,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		optionBtn7.setVerticalTextPosition(optionBtn7.CENTER);
 		optionBtn7.setHorizontalTextPosition(optionBtn7.CENTER);
 
-		optionBtn8 = new JButton("얼음조금", optbutImage);
+		optionBtn8 = new JButton("얼음많이", optbutImage);
 		optionBtn8.setForeground(new Color(84, 84, 84));
 		optionBtn8.setBorder(BorderFactory.createRaisedBevelBorder());
 		optionBtn8.setBackground(new Color(0, 0, 0, 0));
@@ -213,7 +215,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		optionBtn8.setVerticalTextPosition(optionBtn8.CENTER);
 		optionBtn8.setHorizontalTextPosition(optionBtn8.CENTER);
 
-		optionBtn9 = new JButton("얼음많이", optbutImage);
+		optionBtn9 = new JButton("선택안함", optbutImage);
 		optionBtn9.setForeground(new Color(84, 84, 84));
 		optionBtn9.setBorder(BorderFactory.createRaisedBevelBorder());
 		optionBtn9.setBackground(new Color(0, 0, 0, 0));
@@ -282,10 +284,12 @@ public class OptionPanel extends JPanel implements ActionListener {
 
 		if (text.equals("ICE"))
 			optionimageLabel1.setText("#ICE");
-		else if (text.equals("HOT")) {
+		else if (text.equals("ICE ONLY")) {
+			optionimageLabel1.setText("#ICE");	
+		}else if (text.equals("HOT")) {
 			optionimageLabel1.setText("#HOT");
 			optionimageLabel4.setText("#선택안함");
-		} else if (text.equals("MEDIUM"))
+		}else if (text.equals("MEDIUM"))
 			optionimageLabel2.setText("#MEDIUM");
 		else if (text.equals("LARGE"))
 			optionimageLabel2.setText("#LARGE");
@@ -297,6 +301,8 @@ public class OptionPanel extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(null, "뜨거운 음료에는 얼음을 추가할 수 없습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
 		} else if (optionimageLabel1.getText().equals("HOT") && text.equals("얼음많이")) {
 			JOptionPane.showMessageDialog(null, "뜨거운 음료에는 얼음을 추가할 수 없습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
+		} else if (optionimageLabel1.getText().equals("HOT") && oc.mainPanel.iceOnly==false) {
+			JOptionPane.showMessageDialog(null, "ICE ONLY", "안내메시지", JOptionPane.WARNING_MESSAGE);
 		} else {
 			if (text.equals("얼음조금"))
 				optionimageLabel4.setText("#얼음조금");
