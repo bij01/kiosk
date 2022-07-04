@@ -14,6 +14,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 	private static final long serialVersionUID = -239742803172507112L;
 	OrderClient oc;
 	OrderServerImpl os;
+	ordernumberPanel op; 
 
 	JPanel listPanel, sidePanel, cartPanel;
 	JPanel cartSubPanel1, cartSubPanel2;
@@ -42,8 +43,17 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		setStaffPanel();
 		//onStaffPanel();
 		os.deleteCart();
+		setordernumberPanel();
+		//onordernumberPanel();
 	}
-
+	
+	void setordernumberPanel() {
+		op = new ordernumberPanel();
+		add(op);
+		
+	}
+	
+	
 	void setOrderServer() {
 		os = new OrderServerImpl();
 		os.connectDB();
@@ -59,6 +69,68 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		add(staffPanel);
 	}
 
+	void onordernumberPanel() {
+		listPanel.setVisible(false);
+		sidePanel.setVisible(false);
+		cartPanel.setVisible(false);
+		cartSubPanel1.setVisible(false);
+		cartSubPanel2.setVisible(false);
+		listScroll.setVisible(false);
+		oc.mainBtn1.setVisible(false);
+		oc.mainBtn2.setVisible(false);
+		//oc.firstPanel.setVisible(false); // 테스트
+		oc.firstPanel.setVisible(false);
+		oc.topPanel.setVisible(true);
+		oc.bottomPanel.setVisible(false);
+		op.setVisible(true);
+		oc.setSize(700, 920);
+
+		
+		/*
+		//684, 860
+		listPanel.setVisible(false);
+		sidePanel.setVisible(false);
+		cartPanel.setVisible(false);
+		cartSubPanel1.setVisible(false);
+		cartSubPanel2.setVisible(false);
+		listScroll.setVisible(false);
+		
+		oc.mainBtn1.setVisible(false);
+		oc.mainBtn2.setVisible(false);
+		oc.topPanel.setSize(684,100);
+		oc.setSize(700, 880);
+		oc.topPanel.setVisible(false);
+		oc.firstPanel.setVisible(false);
+		oc.pageNameLabel.setText("");
+		//staffPanel.setVisible(false);
+		setVisible(true);
+		setLocation(0, 30);
+		setSize(684, 785);
+		op.setVisible(true);
+		op.setSize(684, 785);
+		*/
+			
+	}
+	
+	void offordernumberPanel() {
+		listPanel.setVisible(true);
+		sidePanel.setVisible(true);
+		cartPanel.setVisible(true);
+		cartSubPanel1.setVisible(true);
+		cartSubPanel2.setVisible(true);
+		listScroll.setVisible(true);
+		oc.mainBtn1.setVisible(true);
+		oc.mainBtn2.setVisible(true);
+		oc.topPanel.setSize(684, 100);
+		oc.setSize(700, 1000);
+		setLocation(0, 100);
+		setSize(684, 860);
+		oc.bottomPanel.setLocation(0, 881);
+		oc.pageNameLabel.setText("주문화면");
+		staffPanel.setVisible(true);
+		op.setVisible(false);
+	}
+	
 	void onStaffPanel() {
 		listPanel.setVisible(false);
 		sidePanel.setVisible(false);
@@ -546,10 +618,10 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		menuBtn2.addActionListener(new ChangeList());
 		menuBtn3.addActionListener(new ChangeList());
 		
-		menuBtn1.setFont(new Font("KBIZ한마음고딕 R", Font.PLAIN, 20));
-		menuBtn2.setFont(new Font("KBIZ한마음고딕 R", Font.PLAIN, 20));
-		menuBtn3.setFont(new Font("KBIZ한마음고딕 R", Font.PLAIN, 20));
-		menuBtn4.setFont(new Font("KBIZ한마음고딕 R", Font.PLAIN, 20));
+		menuBtn1.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
+		menuBtn2.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
+		menuBtn3.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
+		menuBtn4.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
 		
 		menuBtn1.setForeground(Color.WHITE);
 		menuBtn2.setForeground(Color.WHITE);
