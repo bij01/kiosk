@@ -63,7 +63,7 @@ class OrderClient extends JFrame implements ActionListener {
 		setTopPanel();
 		setBottomPanel();
 		setMainPanel();
-		
+
 		//testMode();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -172,6 +172,7 @@ class OrderClient extends JFrame implements ActionListener {
 		bottomPanel = new JPanel();
 		bottomPanel.setBounds(0, 881, 684, 80);
 		bottomPanel.setBackground(new Color(30, 30, 30));
+		bottomPanel.setVisible(false);
 		
 		ImageIcon bottomImage = new ImageIcon(returnImg(topimagePath, 684, 80));
 		JLabel bottomLabel = new JLabel(bottomImage);
@@ -300,10 +301,10 @@ class OrderClient extends JFrame implements ActionListener {
 			mainPanel.setVisible(true);
 			bottomPanel.setVisible(true);
 		} else if (btnText.equals("확인>")) {
-			mainPanel.cop2 = op.optionimageLabel1.getText();
-			mainPanel.cop3 = op.optionimageLabel2.getText();
-			mainPanel.cop4 = op.optionimageLabel3.getText();
-			mainPanel.cop5 = op.optionimageLabel4.getText();
+			mainPanel.cop2 = op.optionimageLabel1.getText().substring(1);
+			mainPanel.cop3 = op.optionimageLabel2.getText().substring(1);
+			mainPanel.cop4 = op.optionimageLabel3.getText().substring(1);
+			mainPanel.cop5 = op.optionimageLabel4.getText().substring(1);
 			System.out.print(mainPanel.cop1 + "\t");
 			System.out.print(mainPanel.cop2 + "\t");
 			System.out.print(mainPanel.cop3 + "\t");

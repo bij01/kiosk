@@ -134,23 +134,23 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 			num = 11;
 		else if (optionName.equals("포장하기>"))
 			num = 12;
-		else if (optionName.equals("ICE"))
+		else if (optionName.equals("#ICE"))
 			num = 21;
-		else if (optionName.equals("HOT"))
+		else if (optionName.equals("#HOT"))
 			num = 22;
-		else if (optionName.equals("MEDIUM"))
+		else if (optionName.equals("#MEDIUM"))
 			num = 31;
-		else if (optionName.equals("LARGE"))
+		else if (optionName.equals("#LARGE"))
 			num = 32;
-		else if (optionName.equals("샷추가"))
+		else if (optionName.equals("#샷추가"))
 			num = 43;
-		else if (optionName.equals("추가안함"))
+		else if (optionName.equals("#추가안함"))
 			num = 44;
-		else if (optionName.equals("얼음많이"))
+		else if (optionName.equals("#얼음많이"))
 			num = 51;
-		else if (optionName.equals("얼음조금"))
+		else if (optionName.equals("#얼음조금"))
 			num = 52;
-		else if (optionName.equals("선택안함"))
+		else if (optionName.equals("#선택안함"))
 			num = 53;
 		else if (optionName.equals(""))
 			num = 0;
@@ -513,16 +513,16 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		
 		
 		ImageIcon sidemenuimg1 = new ImageIcon(oc.returnImg("/src/sidemenubut.png", 120, 60));
-		String text1 = "   커피";
+		String text1 = " 커피";
 		JButton menuBtn1 = new JButton(text1, sidemenuimg1);
 
-		String text2 = "   음료";
+		String text2 = " 음료";
 		JButton menuBtn2 = new JButton(text2, sidemenuimg1);
 
-		String text3 = "   디저트";
+		String text3 = " 디저트";
 		JButton menuBtn3 = new JButton(text3, sidemenuimg1);
 
-		String text4 =  "   관리자";	
+		String text4 =  "관리자";	
 		JButton menuBtn4 = new JButton(text4, sidemenuimg1);
 		menuBtn4.addActionListener(e -> { //관리자 버튼 액션
 			try {
@@ -532,10 +532,10 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 				}
 			} catch(NullPointerException npe) {}
 		});
-		menuBtn1.setBounds(-20, -5, 130, 50);
-		menuBtn2.setBounds(-20, 55, 130, 50);
-		menuBtn3.setBounds(-20, 115, 130, 50);
-		menuBtn4.setBounds(-20, 570, 130, 50);
+		menuBtn1.setBounds(-25, -5, 130, 50);
+		menuBtn2.setBounds(-25, 55, 130, 50);
+		menuBtn3.setBounds(-25, 115, 130, 50);
+		menuBtn4.setBounds(-25, 570, 130, 50);
 
 		menuBtn1.addMouseListener(this);
 		menuBtn2.addMouseListener(this);
@@ -607,17 +607,17 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		public void actionPerformed(ActionEvent e) {
 			JButton selfBtn = (JButton) e.getSource();
 			String text = selfBtn.getText();
-			if (text.equals("   커피")) {
+			if (text.equals(" 커피")) {
 				listPanel.removeAll();
 				addlistButton(11);
 				listPanel.revalidate();
 				listPanel.repaint();
-			} else if (text.equals("   음료")) {
+			} else if (text.equals(" 음료")) {
 				listPanel.removeAll();
 				addlistButton(22);
 				listPanel.revalidate();
 				listPanel.repaint();
-			} else if (text.equals("   디저트")) {
+			} else if (text.equals(" 디저트")) {
 				// listScroll.removeAll();
 				// listScroll.repaint();
 				listPanel.removeAll();
@@ -645,7 +645,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 	public void mouseEntered(MouseEvent e) {
 		JButton btn = (JButton)e.getSource();
 		Point point = btn.getLocation();
-		btn.setLocation(-30, point.y);
+		btn.setLocation(-10, point.y);
 		btn.setForeground(new Color(255, 255, 255));
 	}
 
@@ -653,7 +653,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 	public void mouseExited(MouseEvent e) {
 		JButton btn = (JButton)e.getSource();
 		Point point = btn.getLocation();
-		btn.setLocation(-40, point.y);
+		btn.setLocation(-25, point.y);
 		btn.setForeground(new Color(240, 240, 240));
 	}
 }

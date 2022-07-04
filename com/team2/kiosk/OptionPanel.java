@@ -90,7 +90,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		ImageIcon optionimage1 = new ImageIcon(img);
 
 		optionimageLabel1 = new JLabel("#ICE");
-		optionimageLabel1.setBounds(80, 650, 110, 50);
+		optionimageLabel1.setBounds(70, 650, 110, 50);
 		// optionimageLabel1.setText("#ICE");
 		optionimageLabel1.setVisible(true);
 		optionimageLabel1.setForeground(new Color(84, 84, 84));
@@ -101,7 +101,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		
 		optionimageLabel2 = new JLabel("#MEDIUM");
 		//add(optionimageLabel2);
-		optionimageLabel2.setBounds(180, 650, 180, 50);
+		optionimageLabel2.setBounds(170, 650, 180, 50);
 		//optionimageLabel2.setText("MEDIUM");
 		optionimageLabel2.setVisible(true);
 		optionimageLabel2.setForeground(new Color(84, 84, 84));
@@ -110,7 +110,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		optionimageLabel2.setHorizontalAlignment(AbstractButton.LEFT);
 		optionimageLabel2.setHorizontalTextPosition(AbstractButton.RIGHT);
 		optionimageLabel3 = new JLabel("#샷추가");
-		optionimageLabel3.setBounds(335, 650, 145, 50);
+		optionimageLabel3.setBounds(340, 650, 145, 50);
 		//optionimageLabel3.setText("샷추가");
 		optionimageLabel3.setVisible(true);
 		optionimageLabel3.setForeground(new Color(84, 84, 84));
@@ -119,7 +119,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		optionimageLabel3.setHorizontalAlignment(AbstractButton.LEFT);
 		optionimageLabel3.setHorizontalTextPosition(AbstractButton.RIGHT);
 		optionimageLabel4 = new JLabel("#얼음많이");
-		optionimageLabel4.setBounds(480, 650, 165, 50);
+		optionimageLabel4.setBounds(495, 650, 165, 50);
 		//optionimageLabel4.setText("얼음많이");
 		optionimageLabel4.setVisible(true);
 		optionimageLabel4.setForeground(new Color(84, 84, 84));
@@ -278,32 +278,32 @@ public class OptionPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JButton selfBtn = (JButton) e.getSource();
 		String text = selfBtn.getText();
-		System.out.println(text);
+		//System.out.println(text);
 
 		if (text.equals("ICE"))
-			optionimageLabel1.setText("ICE");
+			optionimageLabel1.setText("#ICE");
 		else if (text.equals("HOT")) {
-			optionimageLabel1.setText("HOT");
-			optionimageLabel4.setText("선택안함");
+			optionimageLabel1.setText("#HOT");
+			optionimageLabel4.setText("#선택안함");
 		} else if (text.equals("MEDIUM"))
-			optionimageLabel2.setText("MEDIUM");
+			optionimageLabel2.setText("#MEDIUM");
 		else if (text.equals("LARGE"))
-			optionimageLabel2.setText("LARGE");
+			optionimageLabel2.setText("#LARGE");
 		else if (text.equals("샷추가"))
-			optionimageLabel3.setText("샷추가");
+			optionimageLabel3.setText("#샷추가");
 		else if (text.equals("추가안함"))
-			optionimageLabel3.setText("추가안함");
-		if (optionimageLabel1.getText().equals("HOT") && text.equals("얼음조금")) {
+			optionimageLabel3.setText("#추가안함");
+		if (optionimageLabel1.getText().equals("#HOT") && text.equals("얼음조금")) {
 			JOptionPane.showMessageDialog(null, "뜨거운 음료에는 얼음을 추가할 수 없습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
 		} else if (optionimageLabel1.getText().equals("HOT") && text.equals("얼음많이")) {
 			JOptionPane.showMessageDialog(null, "뜨거운 음료에는 얼음을 추가할 수 없습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
 		} else {
 			if (text.equals("얼음조금"))
-				optionimageLabel4.setText("얼음조금");
+				optionimageLabel4.setText("#얼음조금");
 			else if (text.equals("얼음많이"))
-				optionimageLabel4.setText("얼음많이");
+				optionimageLabel4.setText("#얼음많이");
 			else if (text.equals("선택안함"))
-				optionimageLabel4.setText("선택안함");
+				optionimageLabel4.setText("#선택안함");
 		}
 	}
 }

@@ -634,7 +634,6 @@ public class OrderServerImpl implements OrderServer {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	// 1 = 주문대기 2=결제완료 3= 결제 취소
 	void updateOSTATE(int ostate, String ono) {
