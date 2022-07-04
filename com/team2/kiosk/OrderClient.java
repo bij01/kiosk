@@ -335,7 +335,12 @@ class OrderClient extends JFrame implements ActionListener {
 				}
 				mainPanel.initCart();
 				mainPanel.os.deleteCart();
+				// 여기에 setText
+				System.out.println(mainPanel.os.receiptNo);
+				//주문완료 패널 띄우기
 				JOptionPane.showMessageDialog(null, "주문이 완료 되었습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
+				//
+				
 				if (mainPanel.cartPanel.getSize().equals(new Dimension(684, 785))) {
 					mainPanel.cartBtn.setIcon(new ImageIcon(mainPanel.imgUp));
 					mainPanel.cartPanel.setBounds(0, 621, 684, 160);
@@ -350,8 +355,7 @@ class OrderClient extends JFrame implements ActionListener {
 					moveToFirstView();
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
-				}
-				
+				}	
 			}
 		}
 	}
