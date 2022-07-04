@@ -333,6 +333,13 @@ class OrderClient extends JFrame implements ActionListener {
 					mainPanel.repaint();
 					repaint();
 				}
+				try {
+					Thread.sleep(3000);
+					moveToFirstView();
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				
 			}
 		}
 	}
