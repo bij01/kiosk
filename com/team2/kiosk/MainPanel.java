@@ -127,7 +127,6 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		setVisible(true);
 		setLayout(null);
 		setBackground(new Color(250, 250, 250));
-		Font font = new Font("배달의민족 주아", Font.BOLD, 15);
 	}
 
 	int optionNum(String optionName) {
@@ -136,26 +135,27 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 			num = 11;
 		else if (optionName.equals("포장하기>"))
 			num = 12;
-		else if (optionName.equals("#ICE"))
+		else if (optionName.equals("ICE"))
 			num = 21;
-		else if (optionName.equals("#HOT"))
+		else if (optionName.equals("HOT"))
 			num = 22;
-		else if (optionName.equals("#MEDIUM"))
+		else if (optionName.equals("MEDIUM"))
 			num = 31;
-		else if (optionName.equals("#LARGE"))
+		else if (optionName.equals("LARGE"))
 			num = 32;
-		else if (optionName.equals("#샷추가"))
-			num = 43;
-		else if (optionName.equals("#추가안함"))
-			num = 44;
-		else if (optionName.equals("#얼음많이"))
+		else if (optionName.equals("샷추가"))
+			num = 41;
+		else if (optionName.equals("추가안함"))
+			num = 42;
+		else if (optionName.equals("얼음많이"))
 			num = 51;
-		else if (optionName.equals("#얼음조금"))
+		else if (optionName.equals("얼음조금"))
 			num = 52;
-		else if (optionName.equals("#선택안함"))
+		else if (optionName.equals("선택안함"))
 			num = 53;
 		else if (optionName.equals(""))
 			num = 0;
+		System.out.println(num);
 		return num;
 	}
 
@@ -182,20 +182,23 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 
 		String labelNo = Integer.toString(cartCount);
 		JLabel numLabel = new JLabel(labelNo);
-		numLabel.setBounds(10, 30, 30, 30);
-		// numLabel.setBorder(BorderFactory.createEtchedBorder());
+		numLabel.setBounds(30, 15, 70, 70);
+		//numLabel.setBorder(new EtchedBorder());
+		//numLabel.setOpaque(true);
+		//numLabel.setBackground(new Color(250, 250, 250));
 		numLabel.setHorizontalAlignment(JLabel.CENTER);
 		imageLabel.setIcon(listimage);
-		imageLabel.setBounds(50, 10, 70, 70);
-		//imageLabel.setBorder(BorderFactory.createEtchedBorder());
+		imageLabel.setBounds(110, 15, 70, 70);
+		imageLabel.setBorder(new EtchedBorder());
+		imageLabel.setBackground(new Color(250, 250, 250));
+		imageLabel.setOpaque(true);
 		imageLabel.setHorizontalAlignment(JLabel.CENTER);
 		JLabel nameLabel = new JLabel(name);
-		nameLabel.setBounds(130, 10, 230, 70);
-
-		nameLabel.setFont(new Font("배달의민족 주아",Font.BOLD,13));
-		//nameLabel.setBorder(new EtchedBorder());
-		//nameLabel.setOpaque(true);
-
+		nameLabel.setBounds(150, 15, 230, 70);
+		nameLabel.setFont(new Font("HYPOST",Font.BOLD,13));
+		nameLabel.setBorder(new EtchedBorder());
+		nameLabel.setOpaque(true);
+		nameLabel.setHorizontalAlignment(JLabel.CENTER);
 		nameLabel.setBackground(new Color(250, 250, 250));
 
 		Object obj = os.productVector.get(2);
@@ -204,7 +207,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		cartPrice += priceInt;
 
 		JLabel priceLabel = new JLabel();
-		priceLabel.setBounds(550, 10, 90, 70);
+		priceLabel.setBounds(570, 15, 90, 70);
 		priceLabel.setBorder(new EtchedBorder());
 		
 		priceLabel.setBackground(new Color(255, 255, 255));
@@ -212,13 +215,13 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		//priceLabel.setHorizontalAlignment(JLabel.CENTER);
 		JLabel priceL = new JLabel(price);
 		priceL.setBounds(0, 0, 50, 70);
-		priceL.setFont(new Font("배달의민족 주아",Font.BOLD,13));
+		priceL.setFont(new Font("HYPOST",Font.BOLD,13));
 		//priceL.setForeground(Color.WHITE);
 		priceL.setHorizontalAlignment(JLabel.RIGHT);
 		
 		JLabel wonL = new JLabel("원");
 		wonL.setBounds(50, 0, 30, 70);
-		wonL.setFont(new Font("배달의민족 주아",Font.BOLD,13));
+		wonL.setFont(new Font("HYPOST",Font.BOLD,13));
 		//wonL.setForeground(Color.WHITE);
 		priceLabel.add(priceL);
 		priceLabel.add(wonL);
@@ -230,10 +233,10 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 			JLabel optionLabel3 = new JLabel(op3);
 			JLabel optionLabel4 = new JLabel(op4);
 
-			optionLabel1.setBounds(370, 10, 80, 30);
-			optionLabel2.setBounds(460, 10, 80, 30);
-			optionLabel3.setBounds(370, 50, 80, 30);
-			optionLabel4.setBounds(460, 50, 80, 30);
+			optionLabel1.setBounds(395, 15, 80, 35);
+			optionLabel2.setBounds(475, 15, 80, 35);
+			optionLabel3.setBounds(395, 50, 80, 35);
+			optionLabel4.setBounds(475, 50, 80, 35);
 
 			optionLabel1.setHorizontalAlignment(JLabel.CENTER);
 			optionLabel2.setHorizontalAlignment(JLabel.CENTER);
@@ -245,23 +248,25 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 			optionLabel3.setFont(new Font("HYPOST", Font.BOLD, 13));
 			optionLabel4.setFont(new Font("HYPOST", Font.BOLD, 13));
 
-			optionLabel1.setBorder(BorderFactory.createEtchedBorder());
-			optionLabel2.setBorder(BorderFactory.createEtchedBorder());
-			optionLabel3.setBorder(BorderFactory.createEtchedBorder());
-			optionLabel4.setBorder(BorderFactory.createEtchedBorder());
-
+			optionLabel1.setBorder(new EtchedBorder());
+			optionLabel2.setBorder(new EtchedBorder());
+			optionLabel3.setBorder(new EtchedBorder());
+			optionLabel4.setBorder(new EtchedBorder());
+			
+			optionLabel1.setOpaque(true);
+			optionLabel2.setOpaque(true);
+			optionLabel3.setOpaque(true);
+			optionLabel4.setOpaque(true);
+			
+			optionLabel1.setBackground(new Color(250, 250, 250));
 			optionLabel2.setBackground(new Color(250, 250, 250));
 			optionLabel3.setBackground(new Color(250, 250, 250));
 			optionLabel4.setBackground(new Color(250, 250, 250));
 			
 			if(op1.equals("ICE")) {
-				optionLabel1.setBackground(new Color(10, 10, 230));
-				optionLabel1.setForeground(new Color(250, 250, 250));
-				optionLabel1.setOpaque(true);
-			} else if (op1.equals("HOT")) {
-				optionLabel1.setBackground(new Color(230, 10, 10));
-				optionLabel1.setForeground(new Color(250, 250, 250));
-				optionLabel1.setOpaque(true);
+				optionLabel1.setForeground(new Color(50, 50, 230));
+			} else if (op1.equals("HOT")) {	
+				optionLabel1.setForeground(new Color(230, 50, 50));
 			}
 			subLabel.add(optionLabel1);
 			subLabel.add(optionLabel2);
@@ -367,8 +372,8 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 
 		cartBtn.setIcon(new ImageIcon(imgUp));
 		cartBtn.setHorizontalAlignment(SwingConstants.CENTER);
-		cartLabel1.setBounds(10, 0, 100, 35);
-		cartLabel2.setBounds(514, 0, 120, 35);
+		cartLabel1.setBounds(30, 0, 100, 35);
+		cartLabel2.setBounds(550, 0, 120, 35);
 		cartBtn.setBounds(634, 5, 25, 25);
 
 		cartTopPanel.add(cartLabel1);
@@ -402,11 +407,11 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 			repaint();
 			oc.repaint();
 		});
-		orderLabel1.setBounds(10, 0, 100, 30);
+		orderLabel1.setBounds(30, 0, 80, 30);
 		orderLabel2.setBounds(110, 0, 100, 30);
 		orderLabel3.setBounds(220, 0, 100, 30);
-		orderLabel4.setBounds(330, 0, 100, 30);
-		cartDropBtn.setBounds(530, 1, 120, 28);
+		orderLabel4.setBounds(320, 0, 100, 30);
+		cartDropBtn.setBounds(540, 1, 120, 28);
 
 		orderLabel1.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
 		orderLabel2.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
@@ -445,7 +450,11 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 
 	void addlistButton(int cno) {
 		os.productsVector.clear();
-		os.selectProduct(1, cno);
+		try {
+			os.selectProduct(1, cno);
+		} catch (NullPointerException npe) {
+			JOptionPane.showMessageDialog(null, "DB오류", "DB연결에 실패하였습니다.", JOptionPane.ERROR_MESSAGE);
+		}
 		for (int i = 0; i < os.productsVector.size(); i++) {
 			Vector productList = os.productsVector.get(i);
 			String path[] = os.returnFileInfo((Integer) productList.get(0));
@@ -483,6 +492,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 						oc.op.optionBtn1.setVisible(false);
 						oc.op.optionBtn2.setText("ICE ONLY");
 						oc.op.optionBtn2.setBounds(240, 85, 200, 70);
+						oc.op.optionimageLabel1.setText("#ICE");
 						onOptionPanel();
 					} else {
 						onOptionPanel();
@@ -538,7 +548,6 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 				JLabel label = new JLabel("관리자 암호를 입력해주세요.");
 				label.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 				JTextField tf = new JTextField();
-				tf.setSize(80, 30);
 				panel.add(label, BorderLayout.NORTH);
 				panel.add(label, BorderLayout.SOUTH);
 				String answer = JOptionPane.showInputDialog(null, panel, "관리자 확인", JOptionPane.QUESTION_MESSAGE);

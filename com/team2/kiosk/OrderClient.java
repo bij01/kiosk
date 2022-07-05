@@ -64,7 +64,7 @@ class OrderClient extends JFrame implements ActionListener {
 		setBottomPanel();
 		setMainPanel();
 
-		//testMode();
+		testMode();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainPanel.os.closeAll();
@@ -281,6 +281,17 @@ class OrderClient extends JFrame implements ActionListener {
 		mainPanel.initCart();
 		repaint();
 	}
+	
+	void resetOptionPanel() {
+		mainPanel.iceOnly = false;
+		op.optionBtn1.setVisible(true);
+		op.optionBtn2.setText("ICE");
+		op.optionBtn2.setBounds(325, 85, 200, 70);
+		op.optionimageLabel1.setText("#HOT");
+		op.optionimageLabel2.setText("#MEDIUM");
+		op.optionimageLabel3.setText("#추가안함");
+		op.optionimageLabel4.setText("#선택안함");
+	}
 
 	public static void main(String[] args) {
 		try {
@@ -307,25 +318,15 @@ class OrderClient extends JFrame implements ActionListener {
 			mainPanel.cop3 = op.optionimageLabel2.getText().substring(1);
 			mainPanel.cop4 = op.optionimageLabel3.getText().substring(1);
 			mainPanel.cop5 = op.optionimageLabel4.getText().substring(1);
-			System.out.print(mainPanel.cop1 + "\t");
-			System.out.print(mainPanel.cop2 + "\t");
-			System.out.print(mainPanel.cop3 + "\t");
-			System.out.print(mainPanel.cop4 + "\t");
-			System.out.print(mainPanel.cop5 + "\t");
 			mainPanel.offOptionPanel();
 			mainPanel.addProductOnCart(mainPanel.pname, mainPanel.cop2, mainPanel.cop3, mainPanel.cop4, mainPanel.cop5);
-			mainPanel.iceOnly = false;
-			op.optionBtn1.setVisible(true);
-			op.optionBtn2.setText("ICE");
-			op.optionBtn2.setBounds(325, 85, 200, 70);
-			op.optionimageLabel1.setText("#ICE");
-			op.optionimageLabel1.setText("#MEDIUM");
-			op.optionimageLabel1.setText("#추가안함");
-			op.optionimageLabel1.setText("#선택안함");
+			resetOptionPanel();
+			
 		} else if (btnText.equals("<처음으로")) {
 			mainBtn1.setFont(new Font("Black Han Sans", Font.PLAIN, 30));
 			mainBtn2.setFont(new Font("Black Han Sans", Font.PLAIN, 30));
 			moveToFirstView();
+			resetOptionPanel();
 		} else if (btnText.equals("주문하기>")) {
 			if (mainPanel.cartCount == 0) {
 				JOptionPane.showMessageDialog(null, "장바구니에 담긴 상품이 없습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);

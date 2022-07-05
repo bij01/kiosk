@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -17,9 +19,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
 
-public class OptionPanel extends JPanel implements ActionListener {
+public class OptionPanel extends JPanel implements ActionListener, MouseListener {
 	JLabel optionimageLabel1, optionimageLabel2, optionimageLabel3, optionimageLabel4;
 	JButton optionBtn1, optionBtn2, optionBtn3, optionBtn4, optionBtn5, optionBtn6, optionBtn7, optionBtn8, optionBtn9;
 
@@ -87,12 +90,15 @@ public class OptionPanel extends JPanel implements ActionListener {
 		// 옵션추가현황확인'옵션'
 
 		// 옵션추가현황확인체크박스 이미지+text
-		String optionimagePath = "/src/optcheckboximage.png";
-		Image img = returnImg(optionimagePath, 30, 30);
-		ImageIcon optionimage1 = new ImageIcon(img);
-
-		optionimageLabel1 = new JLabel("#ICE");
-		optionimageLabel1.setBounds(70, 650, 110, 50);
+		//String optionimagePath = "/src/optcheckboximage.png";
+		//Image img = returnImg(optionimagePath, 30, 30);
+		//ImageIcon optionimage1 = new ImageIcon(img);
+		ImageIcon img = new ImageIcon(returnImg("/src/optionbgImage.png", 684, 110));
+		JLabel optionBgLabel = new JLabel(img);
+		optionBgLabel.setBounds(0, 625, 684, 100);
+		
+		optionimageLabel1 = new JLabel("#HOT");
+		optionimageLabel1.setBounds(50, 25, 110, 50);
 		// optionimageLabel1.setText("#ICE");
 		optionimageLabel1.setVisible(true);
 		optionimageLabel1.setForeground(new Color(84, 84, 84));
@@ -103,7 +109,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		
 		optionimageLabel2 = new JLabel("#MEDIUM");
 		//add(optionimageLabel2);
-		optionimageLabel2.setBounds(170, 650, 180, 50);
+		optionimageLabel2.setBounds(175, 25, 180, 50);
 		//optionimageLabel2.setText("MEDIUM");
 		optionimageLabel2.setVisible(true);
 		optionimageLabel2.setForeground(new Color(84, 84, 84));
@@ -111,8 +117,8 @@ public class OptionPanel extends JPanel implements ActionListener {
 		// optionimageLabel2.setBorder(new MatteBorder(5,5,5,5, Color.WHITE));
 		optionimageLabel2.setHorizontalAlignment(AbstractButton.LEFT);
 		optionimageLabel2.setHorizontalTextPosition(AbstractButton.RIGHT);
-		optionimageLabel3 = new JLabel("#샷추가");
-		optionimageLabel3.setBounds(340, 650, 145, 50);
+		optionimageLabel3 = new JLabel("#추가안함");
+		optionimageLabel3.setBounds(340, 25, 145, 50);
 		//optionimageLabel3.setText("샷추가");
 		optionimageLabel3.setVisible(true);
 		optionimageLabel3.setForeground(new Color(84, 84, 84));
@@ -120,8 +126,8 @@ public class OptionPanel extends JPanel implements ActionListener {
 		// optionimageLabel3.setBorder(new MatteBorder(5,5,5,5, Color.WHITE));
 		optionimageLabel3.setHorizontalAlignment(AbstractButton.LEFT);
 		optionimageLabel3.setHorizontalTextPosition(AbstractButton.RIGHT);
-		optionimageLabel4 = new JLabel("#얼음많이");
-		optionimageLabel4.setBounds(495, 650, 165, 50);
+		optionimageLabel4 = new JLabel("#선택안함");
+		optionimageLabel4.setBounds(500, 25, 165, 50);
 		//optionimageLabel4.setText("얼음많이");
 		optionimageLabel4.setVisible(true);
 		optionimageLabel4.setForeground(new Color(84, 84, 84));
@@ -129,11 +135,13 @@ public class OptionPanel extends JPanel implements ActionListener {
 		// optionimageLabel4.setBorder(new MatteBorder(5,5,5,5, Color.WHITE));
 		optionimageLabel4.setHorizontalAlignment(AbstractButton.LEFT);
 		optionimageLabel4.setHorizontalTextPosition(AbstractButton.RIGHT);
-
-		add(optionimageLabel1);
-		add(optionimageLabel2);
-		add(optionimageLabel3);
-		add(optionimageLabel4);
+		
+		optionBgLabel.add(optionimageLabel1);
+		optionBgLabel.add(optionimageLabel2);
+		optionBgLabel.add(optionimageLabel3);
+		optionBgLabel.add(optionimageLabel4);
+		
+		add(optionBgLabel);
 
 		String btnimagePath = "/src/optionbut.png";
 		Image img2 = returnImg(btnimagePath, 200, 70);
@@ -196,7 +204,6 @@ public class OptionPanel extends JPanel implements ActionListener {
 		optionBtn6.setHorizontalTextPosition(optionBtn6.CENTER);
 
 		// 간격175
-
 		optionBtn7 = new JButton("얼음조금", optbutImage);
 		optionBtn7.setForeground(new Color(84, 84, 84));
 		optionBtn7.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -233,6 +240,16 @@ public class OptionPanel extends JPanel implements ActionListener {
 		optionBtn7.addActionListener(this);
 		optionBtn8.addActionListener(this);
 		optionBtn9.addActionListener(this);
+		
+		optionBtn1.addMouseListener(this);
+		optionBtn2.addMouseListener(this);
+		optionBtn3.addMouseListener(this);
+		optionBtn4.addMouseListener(this);
+		optionBtn5.addMouseListener(this);
+		optionBtn6.addMouseListener(this);
+		optionBtn7.addMouseListener(this);
+		optionBtn8.addMouseListener(this);
+		optionBtn9.addMouseListener(this);
 //위,아래줍바꿈
 		/*
 		 * JSeparator topSolidline = new JSeparator(); topSolidline.setBounds(60, 12,
@@ -301,8 +318,6 @@ public class OptionPanel extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(null, "뜨거운 음료에는 얼음을 추가할 수 없습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
 		} else if (optionimageLabel1.getText().equals("HOT") && text.equals("얼음많이")) {
 			JOptionPane.showMessageDialog(null, "뜨거운 음료에는 얼음을 추가할 수 없습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
-		} else if (optionimageLabel1.getText().equals("HOT") && oc.mainPanel.iceOnly==false) {
-			JOptionPane.showMessageDialog(null, "ICE ONLY", "안내메시지", JOptionPane.WARNING_MESSAGE);
 		} else {
 			if (text.equals("얼음조금"))
 				optionimageLabel4.setText("#얼음조금");
@@ -311,5 +326,24 @@ public class OptionPanel extends JPanel implements ActionListener {
 			else if (text.equals("선택안함"))
 				optionimageLabel4.setText("#선택안함");
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+	@Override
+	public void mousePressed(MouseEvent e) {}
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		JButton btn = (JButton)e.getSource();
+		btn.setForeground(new Color(0, 0, 0));
+		btn.setFont(new Font("배달의민족 주아", Font.PLAIN, 25));
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		JButton btn = (JButton)e.getSource();
+		btn.setForeground(new Color(84, 84, 84));
+		btn.setFont(new Font("배달의민족 주아", Font.PLAIN, 20));
 	}
 }
