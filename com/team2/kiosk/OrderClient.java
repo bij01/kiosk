@@ -64,7 +64,7 @@ class OrderClient extends JFrame implements ActionListener {
 		setBottomPanel();
 		setMainPanel();
 
-		testMode();
+		//testMode();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainPanel.os.closeAll();
@@ -339,7 +339,8 @@ class OrderClient extends JFrame implements ActionListener {
 				// 여기에 setText
 				System.out.println(mainPanel.os.receiptNo);
 				//주문완료 패널 띄우기
-				JOptionPane.showMessageDialog(null, "주문이 완료 되었습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"주문이 완료 되었습니다. \n주문번호: " + mainPanel.os.receiptNo + "번",
+					    "안내메시지",JOptionPane.INFORMATION_MESSAGE);
 				//
 				
 				if (mainPanel.cartPanel.getSize().equals(new Dimension(684, 785))) {

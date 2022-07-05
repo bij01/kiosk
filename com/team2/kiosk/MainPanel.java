@@ -155,7 +155,7 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 			num = 53;
 		else if (optionName.equals(""))
 			num = 0;
-		System.out.println(num);
+		//System.out.println(num);
 		return num;
 	}
 
@@ -209,10 +209,9 @@ class MainPanel extends JPanel implements Runnable, MouseListener {
 		JLabel priceLabel = new JLabel();
 		priceLabel.setBounds(570, 15, 90, 70);
 		priceLabel.setBorder(new EtchedBorder());
-		
 		priceLabel.setBackground(new Color(255, 255, 255));
 		priceLabel.setOpaque(true);
-		//priceLabel.setHorizontalAlignment(JLabel.CENTER);
+		priceLabel.setHorizontalAlignment(JLabel.CENTER);
 		JLabel priceL = new JLabel(price);
 		priceL.setBounds(0, 0, 50, 70);
 		priceL.setFont(new Font("HYPOST",Font.BOLD,13));

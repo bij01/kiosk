@@ -1,5 +1,10 @@
 package com.team2.kiosk;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,9 +17,9 @@ import java.util.Vector;
 
 
 public class OrderServerImpl implements OrderServer {
-	static final String URL="jdbc:oracle:thin:@localhost:1521:JAVA";
-	static final String USR="team2";
-	static final String PWD="java123";
+	String url;
+	String usr="team2";
+	String pwd="java123";
 	Connection con;
 	PreparedStatement pstmt1, pstmt2, pstmt3, pstmt4; //select=1 insert=2 update=3 delete=4
 	Statement stmt, stmt1;
@@ -28,7 +33,8 @@ public class OrderServerImpl implements OrderServer {
 	Vector<Object> memberVector2 = new Vector<Object>(); // 회원 핸드폰 번호로 조회
 	
 	LinkedHashSet<Vector> ordersSet = new LinkedHashSet<Vector>();
-	
+	BufferedReader br;
+	String basePath = new File("").getAbsolutePath();
 	
 	void init() {
 		connectDB();
@@ -47,19 +53,26 @@ public class OrderServerImpl implements OrderServer {
 	}
 	//DB와의 연결
 	void connectDB() {
-		String info1 = URL;
-		String info2 = USR;
-		String info3 = PWD;
+		String info1 = url;
+		String info2 = usr;
+		String info3 = pwd;
 		try {
+			br = new BufferedReader(new FileReader(basePath +"/src/setting.txt"));
+			String ip = br.readLine().trim();
+			url = "jdbc:oracle:thin:@"+ ip +":1521:JAVA";
+			info1 = url;
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			con = DriverManager.getConnection(info1, info2, info3);
 			con.setAutoCommit(false);
 			stmt = con.createStatement();
-			//System.out.println("연결 성공");
 		}catch(ClassNotFoundException cnfe) {
 			System.out.println("드라이버 로딩 실패:" + cnfe);
 		}catch(SQLException se) {
 			System.out.println("연결 실패: "+ se);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	int returnPriceSum(String ono) {
