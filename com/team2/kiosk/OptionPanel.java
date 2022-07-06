@@ -316,7 +316,7 @@ public class OptionPanel extends JPanel implements ActionListener, MouseListener
 			optionimageLabel3.setText("#추가안함");
 		if (optionimageLabel1.getText().equals("#HOT") && text.equals("얼음조금")) {
 			JOptionPane.showMessageDialog(null, "뜨거운 음료에는 얼음을 추가할 수 없습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
-		} else if (optionimageLabel1.getText().equals("HOT") && text.equals("얼음많이")) {
+		} else if (optionimageLabel1.getText().equals("#HOT") && text.equals("얼음많이")) {
 			JOptionPane.showMessageDialog(null, "뜨거운 음료에는 얼음을 추가할 수 없습니다.", "안내메시지", JOptionPane.WARNING_MESSAGE);
 		} else {
 			if (text.equals("얼음조금"))

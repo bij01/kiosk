@@ -5,4 +5,4 @@ grant connect, resource, unlimited tablespace to Team2;
 
 conn Team2 / java123;
 
-show user
+show user;

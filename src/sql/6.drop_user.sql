@@ -1,0 +1,1 @@
+drop user team2 cascade;

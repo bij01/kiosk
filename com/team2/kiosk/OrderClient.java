@@ -342,7 +342,6 @@ class OrderClient extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(null,"주문이 완료 되었습니다. \n주문번호: " + mainPanel.os.receiptNo + "번",
 					    "안내메시지",JOptionPane.INFORMATION_MESSAGE);
 				//
-				
 				if (mainPanel.cartPanel.getSize().equals(new Dimension(684, 785))) {
 					mainPanel.cartBtn.setIcon(new ImageIcon(mainPanel.imgUp));
 					mainPanel.cartPanel.setBounds(0, 621, 684, 160);

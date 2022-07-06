@@ -66,7 +66,7 @@ create table ORDERS(
 	ODNO number not null,
 	ODATE date not null,
 	OSTATE number(1) DEFAULT 1, --1은 주문대기 2는 주문확정
-	PPRICE number(5) not null,
+	PSAL number(5) not null,
 	COP1 number(2) not null,
 	COP2 number(2),
 	COP3 number(2),
@@ -79,7 +79,7 @@ create table ORDERS(
 
 create table LOGIN(
     MID varchar2(10), 
-    MPW varchar2(10) NOT NULL, 
+    MPWD varchar2(10) NOT NULL, 
     constraint LOGIN_PK primary key(MID), 
     constraint LOGIN_FK foreign key(MID) references MEMBER(MID) on delete cascade
 );
@@ -99,6 +99,5 @@ create sequence MEMBER_SEQ increment by 1 start with 1 nocache;
 create sequence ORDERS_SEQ increment by 1 start with 1 nocache;
 create sequence FILE_SEQ increment by 1 start with 1 nocache;
 
-commit;
 
 -- insert into file values(FILE_SEQ, 111, '.src\coffee1_americano','png'); <-파일이미지 불러오는 SQL문

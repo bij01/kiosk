@@ -76,7 +76,7 @@ public class OrderServerImpl implements OrderServer {
 		}
 	}
 	int returnPriceSum(String ono) {
-		sql = "select sum(psal) from product where pno in "
+		sql = "select sum(pprice) from product where pno in "
 				+ "(select pno from orders where ono like ?)";
 		ResultSet rs = null;
 		int sum = 0;
