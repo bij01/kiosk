@@ -1,5 +1,5 @@
-# project_kiosk
-Kosmo220427 team2 second project (백인준, 김보민, 권기민)
+# kiosk
+Kosmo220427 team2 2nd project (백인준, 김보민, 권기민)
 
 이디야 키오스크를 벤치마킹하여 개발한 프로젝트 입니다.
 
